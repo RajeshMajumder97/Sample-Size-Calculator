@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
-st.set_page_config(page_title="Two Sample Normal Mean Hypothesis Testing",
+st.set_page_config(page_title="Paired t test",
                    page_icon="🧊")
 
 hide_st_style="""<style>
@@ -22,14 +22,14 @@ st.markdown(hide_st_style,unsafe_allow_html=True)
 
 
 # Streamlit App
-st.title("Sample Size Calculation for Two sample Mean Test | H0: Mu1=Mu2")
+st.title("Sample Size Calculation for Paired sample Mean Test | H0: Mu_pre=Mu_post")
 
 ## Functuion
 def nSampleMean(sigma=0.01,Pw=0.8,delta=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= (2*(norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(sigma/delta)**2                               
+    n= ((norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(sigma/delta)**2                               
     return(abs(round((n/(1-dropOut))*designEf)))
 
-sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
+sigma = st.sidebar.number_input("Standard Deviation (SD)",value=13.229,min_value=0.01,help= "values in decimal.")
 delta = st.sidebar.number_input("Expected difference", value=10.0,min_value=0.0)
 power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
@@ -71,10 +71,10 @@ st.markdown("---")  # Adds a horizontal line for separation
 
 st.subheader("📌 Formula for Sample Size Calculation")
 
-st.markdown("### **Two-Sample Mean Hypothesis Test Sample Size Formula**")
+st.markdown("### **Paired sample Mean Hypothesis Test Sample Size Formula**")
 
 st.latex(r"""
-n = \frac{2 (Z_{1-(\alpha/2)} + Z_{1-\beta})^2 \cdot \sigma^2}{\delta^2} \times DE
+n = \frac{(Z_{1-(\alpha/2)} + Z_{1-\beta})^2 \cdot \sigma^2}{\delta^2} \times DE
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")

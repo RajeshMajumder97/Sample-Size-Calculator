@@ -3,8 +3,8 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
-
-st.set_page_config(page_title="Two Sample Normal Mean Hypothesis Testing",
+import math
+st.set_page_config(page_title="Paired proportion Mc Nemar test",
                    page_icon="🧊")
 
 hide_st_style="""<style>
@@ -22,15 +22,15 @@ st.markdown(hide_st_style,unsafe_allow_html=True)
 
 
 # Streamlit App
-st.title("Sample Size Calculation for Two sample Mean Test | H0: Mu1=Mu2")
+st.title("Sample Size Calculation for Paired Proportion test (Mc Nemar's test) | H0: p10=p01")
 
 ## Functuion
-def nSampleMean(sigma=0.01,Pw=0.8,delta=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= (2*(norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(sigma/delta)**2                               
+def nSampleProp(p10=0.5,p01=0.6,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
+    n= ((norm.ppf(1-(1-Conf)/2)*math.sqrt(p01+p10))+(norm.ppf(Pw)*math.sqrt(p10+p01-(p01-p10)**2)))**2/(p10-p01)**2
     return(abs(round((n/(1-dropOut))*designEf)))
 
-sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
-delta = st.sidebar.number_input("Expected difference", value=10.0,min_value=0.0)
+p10= st.sidebar.number_input("1st Discordant Pair (P10) (%)",value=50.0,min_value=0.0,max_value=100.0)
+p01= st.sidebar.number_input("2nd Discordant Pair (P01) (%)",value=40.0,min_value=0.0,max_value=100.0)
 power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
 
@@ -54,7 +54,7 @@ if go:
     out=[]
 
     for conf in confidenceIntervals:
-        sample_size= nSampleMean(sigma=sigma,delta=delta,Pw=(power/100),Conf=conf,designEf=designEffect,dropOut=(drpt/100))
+        sample_size= nSampleProp(p10=(p10/100),p01=(p01/100),Pw=(power/100),Conf=conf,designEf=designEffect,dropOut=(drpt/100))
         out.append(sample_size)
 
     df= pd.DataFrame({
@@ -71,10 +71,10 @@ st.markdown("---")  # Adds a horizontal line for separation
 
 st.subheader("📌 Formula for Sample Size Calculation")
 
-st.markdown("### **Two-Sample Mean Hypothesis Test Sample Size Formula**")
+st.markdown("### **Paired Proportion Test (McNemar's Test) Sample Size Formula**")
 
 st.latex(r"""
-n = \frac{2 (Z_{1-(\alpha/2)} + Z_{1-\beta})^2 \cdot \sigma^2}{\delta^2} \times DE
+n = \frac{\left( Z_{1-\alpha/2} \sqrt{p_{01} + p_{10}} + Z_{1-\beta} \sqrt{p_{10} + p_{01} - (p_{01} - p_{10})^2} \right)^2}{(p_{10} - p_{01})^2} \times DE
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -87,8 +87,7 @@ st.subheader("📌 Description of Parameters")
 st.markdown("""
 - **\( Z_{1-alpha/2} \)**: Critical value for the confidence level (e.g., 1.96 for 95% confidence).
 - **\( Z_{1-beta} \)**: Power.
-- **\( sigma \)**: Population standard deviation.
-- **\( delta \)**: Expected difference between two means.
+- **\( p_{10} \)** & **\( p_{01} \)**:  Discordant pairs respectively.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of individuals per cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
@@ -97,7 +96,7 @@ st.markdown("""
 st.subheader("📌 References")
 
 st.markdown("""
-1. **Naing, N. N. (2011).** A practical guide on determination of sample size in health sciences research. Kelantan: Pustaka Aman Press.
+1. **Machin, D., Campbell, M. J., Tan, S. B., & Tan, S. H. (2018).** Sample Size Tables for Clinical Studies (3rd ed.). Wiley-Blackwell.
 """)
 
 st.markdown("---")
