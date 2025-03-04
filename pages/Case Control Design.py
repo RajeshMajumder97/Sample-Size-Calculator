@@ -29,10 +29,16 @@ def nSampleOR(p2=0.5,OR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     n= ((norm.ppf(1-(1-Conf)/2)+ norm.ppf(Pw))**2/(np.log(OR)**2)) * (1/(p2-(1-p2)))       
     return(abs(round((n/(1-dropOut))*designEf)))
 
-p2 = st.sidebar.number_input("Proportion of Exposed among controls (P0)",value=0.4,min_value=0.0,max_value=1.0,help= "values in decimal.")
-R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.0,min_value=0.00001,help= "values in decimal.")
-power= st.sidebar.number_input("Power", value=0.8,min_value=0.0,max_value=1.0,help= "values in decimal.")
-drpt= st.sidebar.number_input("Drop-Out",value=0.0,max_value=1.0,help="value in decimal")
+#p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.0)
+#R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.0,min_value=0.00001,help= "values in decimal.")
+#power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
+#drpt= st.sidebar.number_input("Drop-Out",value=0.0,max_value=1.0,help="value in decimal")
+
+p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.00)
+R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.5,min_value=0.00001,help= "values in decimal.")
+power= st.sidebar.number_input("Power (%)", value=80.00,min_value=0.0,max_value=100.0)
+drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=100.0)
+
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
@@ -54,7 +60,7 @@ if go:
     out=[]
 
     for conf in confidenceIntervals:
-        sample_size= nSampleOR(p2=p2,OR=R,Pw=power,Conf=conf,designEf=designEffect,dropOut=drpt)
+        sample_size= nSampleOR(p2=(p2/100),OR=R,Pw=(power/100),Conf=conf,designEf=designEffect,dropOut=(drpt/100))
         out.append(sample_size)
 
     df= pd.DataFrame({

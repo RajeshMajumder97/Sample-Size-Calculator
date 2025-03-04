@@ -31,7 +31,7 @@ def nSampleRR(p1=0.5,RR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=100.00)
-R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.0,min_value=0.00001,help= "values in decimal.")
+R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.45,min_value=0.00001,help= "values in decimal.")
 power= st.sidebar.number_input("Power (%)", value=80.00,min_value=0.0,max_value=100.0)
 drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=100.0)
 
