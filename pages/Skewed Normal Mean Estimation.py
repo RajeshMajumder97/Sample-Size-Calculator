@@ -137,4 +137,6 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.markdown("**Developed by [Rajesh Majumder]** | Email: rajeshnbp9051@gmail.com | Website: [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
+st.markdown("**Developed by [Rajesh Majumder]**")
+st.markdown("**Email:** rajeshnbp9051@gmail.com")
+st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")

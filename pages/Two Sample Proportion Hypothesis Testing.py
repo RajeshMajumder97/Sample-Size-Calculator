@@ -118,4 +118,6 @@ st.markdown("""
 """)
 
 st.markdown("---")
-st.markdown("**Developed by [Your Name]** | Streamlit App for Sample Size Estimation")
+st.markdown("**Developed by [Rajesh Majumder]**")
+st.markdown("**Email:** rajeshnbp9051@gmail.com")
+st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
