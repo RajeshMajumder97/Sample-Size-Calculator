@@ -65,12 +65,11 @@ def nsampleSN(cv=0.45, prec=0.05, conf=0.95, nmin=25, nmax=1000, nby=5, nf=15,de
 st.title("Sample Size Calculation for Skew Normal Distribution: Mean Estimation")
 
 cv = st.sidebar.number_input("Coefficient of Variation (%)",max_value=100.0,value=5.00,min_value=1.00)
-prec = st.sidebar.number_input("Precision (%)",value=5.00,min_value=0.00,max_value=100.00)
+prec = st.sidebar.number_input("Precision (%)",value=10.00,min_value=0.00,max_value=100.00)
 #conf = st.sidebar.number_input("Confidence Level", max_value=0.99,value=0.95,help= "values in decimal")
-nmax = st.sidebar.number_input("Maximum Sample Size", value=5000)
-nmin = st.sidebar.number_input("Minumum Sample Size", value=25,min_value=25)
+#nmax = st.sidebar.number_input("Maximum Sample Size", value=5000)
+#nmin = st.sidebar.number_input("Minumum Sample Size", value=25,min_value=25)
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.00) 
-
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
 if(x== "Given"):
@@ -86,19 +85,36 @@ else:
     col3.metric("Design Effect",value= round(designEffect,2))
     go= st.button("Calculate Sample Size")
 
+
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
     for conf in confidenceIntervals:
-        sample_size= nsampleSN(cv=(cv/100), prec=(prec/100), conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect,dropOut=(drpt/100))
+        sample_size= nsampleSN(cv=(cv/100), prec=(prec/100), conf=conf, nmax=3000,nmin=25,designeffect=designEffect,dropOut=(drpt/100))
         out.append(sample_size)
     df= pd.DataFrame({
         "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
         "Sample Size": out
     })
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nsampleSN(cv=(cv/100), prec=(prec/100), conf=0.95, nmax=3000,nmin=25,designeffect=designEffect,dropOut=(drpt/100))
+    st.write(f"Asuming that with **{(cv)}%** coefficient of variation in a skewed normal distribution,the study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"for estimating mean with **{(prec)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
+    
 
 
 st.markdown("---")  # Adds a horizontal line for separation
@@ -109,5 +125,16 @@ st.markdown("""
 Click on the link to see the theory:[Click on the link](https://drive.google.com/file/d/1e2mCYEzSsg79o6538dExkW8AAuoSQkkf/view?usp=sharing))
 """)
 
+st.markdown("""
+    <div style="
+        background-color: #f9f871;
+        padding: 10px;
+        border-left: 5px solid orange;
+        border-radius: 5px;
+        font-size: 18px;">
+        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
+    </div>
+    """, unsafe_allow_html=True)
+
 st.markdown("---")
-st.markdown("**Developed by [Rajesh Majumder]** | Contact: [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
+st.markdown("**Developed by [Rajesh Majumder]** | Email: rajeshnbp9051@gmail.com | Website: [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")

@@ -26,7 +26,7 @@ st.title("Sample Size Calculation for Mean: Mean Estimation")
 
 ## Functuion
 def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= ((norm.ppf(1-((1-conf)/2))/d)**2)*(sigma**2)
+    n= ((norm.ppf(1-((1-Conf)/2))/d)**2)*(sigma**2)
     return(abs(round((n/(1-dropOut))*designEf)))
 
 sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
@@ -49,7 +49,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
@@ -61,10 +61,26 @@ if go:
         "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
         "Sample Size": out
     })
-
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nSampleMean(sigma=sigma,d=d,Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    
+    st.write(f"Asuming that from a normal distribution with standard deviation **{sigma}**,the study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"for estimating mean with a precision **{(d)}** and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
+
 
 
 st.markdown("---")  # Adds a horizontal line for separation

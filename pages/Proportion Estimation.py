@@ -26,11 +26,18 @@ st.title("Sample Size Calculation for Proportion: Proportion Estimation")
 
 ## Functuion
 def nSampleProp(p=0.5,d=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= ((norm.ppf(1-(1-conf)/2)/d)**2)*(p*(1-p))
+    n= ((norm.ppf(1-(1-Conf)/2)/d)**2)*(p*(1-p))
     return(abs(round((n/(1-dropOut))*designEf)))
 
 p = st.sidebar.number_input("Proportion (%)",value=50.0,min_value=0.0,max_value=100.0)
-d = st.sidebar.number_input("Precision (%)",min_value=0.0, value=5.0,max_value=100.0)
+d = st.sidebar.number_input("Precision (%)",min_value=0.0, value=10.0,max_value=100.0)
+ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative to the Proportion'])
+
+if(ads=='Absolute Precision'):
+    d1=d
+else:
+    d1= ((d/100)*(p/100))*100
+
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
@@ -49,20 +56,52 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
-        sample_size= nSampleProp(p=(p/100),d=(d/100),Conf=conf,designEf=designEffect,dropOut=(drpt/100))
+        sample_size= nSampleProp(p=(p/100),d=(d1/100),Conf=conf,designEf=designEffect,dropOut=(drpt/100))
         out.append(sample_size)
 
     df= pd.DataFrame({
         "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
         "Sample Size": out
     })
+    dds= nSampleProp(p=(p/100),d=(d1/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    if(ads=='Absolute Precision'):
+        st.write(f"Asuming that **{(p)}%** of the subjects in the population have the factor of intrest,the study would require a sample size of:")
+        st.markdown(f"""
+        <div style="display: flex; justify-content: center;">
+            <div style="
+                font-size: 36px;
+                font-weight: bold;
+                background-color: yellow;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;">
+                {dds}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write(f"for estimating the expected proportion with **{(d1)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    else:
+        st.write(f"Asuming that **{(p)}%** of the subjects in the population have the factor of intrest,the study would require a sample size of:")
+        st.markdown(f"""
+            <div style="display: flex; justify-content: center;">
+                <div style="
+                font-size: 36px;
+                font-weight: bold;
+                background-color: yellow;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;">
+                {dds}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write(f"for estimating the expected proportion with **({(p)}% * {(d)}%) = {round(d1,1)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
 
@@ -91,6 +130,18 @@ st.markdown("""
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 
+st.markdown("""
+    <div style="
+        background-color: #f9f871;
+        padding: 10px;
+        border-left: 5px solid orange;
+        border-radius: 5px;
+        font-size: 18px;">
+        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
+    </div>
+    """, unsafe_allow_html=True)
+
+
 st.subheader("📌 References")
 
 st.markdown("""
@@ -98,4 +149,6 @@ st.markdown("""
 """)
 
 st.markdown("---")
-st.markdown("**Developed by [Rajesh Majumder]** | Contact: [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
+st.markdown("**Developed by [Rajesh Majumder]**")
+st.markdown("**Email:** rajeshnbp9051@gmail.com")
+st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")

@@ -29,8 +29,8 @@ def nSampleProp(p10=0.5,p01=0.6,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     n= ((norm.ppf(1-(1-Conf)/2)*math.sqrt(p01+p10))+(norm.ppf(Pw)*math.sqrt(p10+p01-(p01-p10)**2)))**2/(p10-p01)**2
     return(abs(round((n/(1-dropOut))*designEf)))
 
-p10= st.sidebar.number_input("1st Discordant Pair (P10) (%)",value=50.0,min_value=0.0,max_value=100.0)
-p01= st.sidebar.number_input("2nd Discordant Pair (P01) (%)",value=40.0,min_value=0.0,max_value=100.0)
+p10= st.sidebar.number_input("1st Discordant Pair Proportion (P10 / + to -) (%)",value=50.0,min_value=0.0,max_value=100.0)
+p01= st.sidebar.number_input("2nd Discordant Pair Proportion (P01 / - to +) (%)",value=40.0,min_value=0.0,max_value=100.0)
 power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
 
@@ -50,7 +50,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
@@ -62,8 +62,24 @@ if go:
         "Sample Size": out
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nSampleProp(p10=(p10/100),p01=(p01/100),Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    
+    st.write(f"The study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"to achive a power of {(power)}% and **95%** confidence level, for detecting a difference of {p10-p01}% between the discordant proportions, by assuming that {p10}% of the pairs switch from positive to negative and {p01}% from negative to positive, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
 

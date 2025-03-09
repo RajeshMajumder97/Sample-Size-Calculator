@@ -50,7 +50,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
@@ -62,8 +62,24 @@ if go:
         "Sample Size": out
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nSampleMean(sigma=sigma,delta=delta,Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+
+    st.write(f"The study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"(number of pairs) to achive a power of {(power)}% and **95%** confidence level, for detecting a mean of differences of {delta} between pairs, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
 

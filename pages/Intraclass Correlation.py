@@ -26,8 +26,8 @@ st.title("Sample Size Calculation for Intraclass Correlation")
 
 ## Functuion
 def nSampleICC(n=5,rho0=2,rho1=0.8,Conf=0.95,Pw=0.8,designEf=1,dropOut=0):
-    Z_alpha = norm.ppf(1 - (1-Conf) / 2)  # NORMSINV(1 - D5/2)
-    Z_beta = norm.ppf(Pw)           # NORMSINV(D6)
+    Z_alpha = norm.ppf(1 - (1-Conf) / 2)  
+    Z_beta = norm.ppf(Pw)           
     numerator = 1 + (2 * (Z_alpha + Z_beta) ** 2 * n)
     denominator = (np.log((1 + (n * rho0 / (1 - rho0))) / (1 + (n * rho1 / (1 - rho1))))) ** 2 * (n - 1)
     
@@ -36,7 +36,7 @@ def nSampleICC(n=5,rho0=2,rho1=0.8,Conf=0.95,Pw=0.8,designEf=1,dropOut=0):
 
 Obj = st.sidebar.number_input("Observation/Subject (n)",value=5,min_value=0,help= "values in integer")
 st.sidebar.text("Number of repeted observatiuons\n by different judges\n per subject,replicates")
-Pw= st.sidebar.number_input("Power (%)",value=80.0,min_value=0.0,max_value=100.0)
+power= st.sidebar.number_input("Power (%)",value=80.0,min_value=0.0,max_value=100.0)
 minAR= st.sidebar.number_input("Minimum acceptable reliability (rho_0) (%)",value=60.0,min_value=0.0,max_value=100.0)
 st.sidebar.text("The lowest limit of reliability\n you would accept")
 ERR= st.sidebar.number_input("Expected reliability (rho_1) (%)",value=80.0,min_value=0.0,max_value=100.0)
@@ -59,11 +59,11 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
-        sample_size= nSampleICC(n=Obj,rho0=(minAR/100),rho1=(ERR/100),Conf=conf,Pw=(Pw/100),designEf=designEffect,dropOut=(drpt/100))
+        sample_size= nSampleICC(n=Obj,rho0=(minAR/100),rho1=(ERR/100),Conf=conf,Pw=(power/100),designEf=designEffect,dropOut=(drpt/100))
         out.append(sample_size)
 
     df= pd.DataFrame({
@@ -71,10 +71,25 @@ if go:
         "Sample Size": out
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
-    st.dataframe(df)
+    dds= nSampleICC(n=Obj,rho0=(minAR/100),rho1=(ERR/100),Conf=0.95,Pw=(power/100),designEf=designEffect,dropOut=(drpt/100))
 
+    st.write(f"The reliability study design would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f" for the estimation of Intraclass Correlation to achive a power of {(power)}% and **95%** confidence level, by assuming that {Obj} number of repeated observations per subject by different judges with {minAR}% minimum acceptable reliability while the expected reliability is {ERR}%, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
+    st.dataframe(df)
 
 st.markdown("---")  # Adds a horizontal line for separation
 

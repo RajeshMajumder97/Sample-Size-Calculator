@@ -29,9 +29,9 @@ def nSampleProp(p1=0.5,p2=0.5,delta=0.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     n= (((norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(p1*(1-p1)+p2*(1-p2)))/(delta**2)
     return(abs(round((n/(1-dropOut))*designEf)))
 
-p1 = st.sidebar.number_input("Proportion in 1st Group (%)",value=50.0,min_value=0.0,max_value=100.0)
-p2 = st.sidebar.number_input("Proportion in 2nd Group (%)",value=40.0,min_value=0.0,max_value=100.0)
-delta = st.sidebar.number_input("Expected difference (%)", value=10.0,min_value=0.0,max_value=100.0)
+p1 = st.sidebar.number_input("Proportion in 1st(Reference) Group (%)",value=50.0,min_value=0.0,max_value=100.0)
+p2 = st.sidebar.number_input("Proportion in 2nd(Test) Group (%)",value=40.0,min_value=0.0,max_value=100.0)
+delta = abs(p2-p1)
 power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
 drpt= st.sidebar.number_input("Drop-Out (%)",min_value=0.0,value=0.0,max_value=100.0)
 
@@ -51,7 +51,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
@@ -63,8 +63,24 @@ if go:
         "Sample Size": out
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nSampleProp(p1=(p1/100),p2=(p2/100),delta=(delta/100),Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    
+    st.write(f"The study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"for each group(i.e. a total sample size of {2*dds}) to achive a power of {(power)}% and **95%** confidence level, for detecting a difference in proportions of {delta} between the test and the reference group, by assuming that{p1}% of the subjects in the reference population have the factor of interest, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
 

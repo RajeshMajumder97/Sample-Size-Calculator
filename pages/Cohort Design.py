@@ -51,7 +51,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
     for conf in confidenceIntervals:
@@ -64,9 +64,26 @@ if go:
         "Sample Size": out
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds= nSampleRR(p1=(p1/100),RR=R,Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+
+    st.write(f"The study would require a sample size of:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"to achive a power of {(power)}% and **95%** confidence level, to expect relative risk or risk ratio as {R}, by assuming that the proportion of disease in unexposed(control) group is {p1}%, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
+
 
 st.markdown("---")  # Adds a horizontal line for separation
 

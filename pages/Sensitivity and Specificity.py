@@ -27,11 +27,11 @@ st.title("Sample Size Calculation for Sensitivity & Specificity: Estimation")
 
 ## Functuion
 def nSampleSen(p=0.5,Se=0.80,d=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= ((norm.ppf(1-(1-conf)/2)/(d*math.sqrt(p)))**2)*(Se*(1-Se))
+    n= ((norm.ppf(1-(1-Conf)/2)/(d*math.sqrt(p)))**2)*(Se*(1-Se))
     return(abs(round((n/(1-dropOut))*designEf)))
 
 def nSampleSpc(p=0.5,Sp=0.70,d=0.05,Conf=0.95,designEf=1,dropOut=0):
-    n= ((norm.ppf(1-(1-conf)/2)/(d*math.sqrt(1-p)))**2)*(Sp*(1-Sp))
+    n= ((norm.ppf(1-(1-Conf)/2)/(d*math.sqrt(1-p)))**2)*(Sp*(1-Sp))
     return(round((n/(1-dropOut))*designEf))
 
 p = st.sidebar.number_input("Prevalence of the Event (%)",value=50.0,min_value=0.0,max_value=100.0)
@@ -56,7 +56,7 @@ else:
     go= st.button("Calculate Sample Size")
 
 if go:
-    confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+    confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out1=[]
     out2=[]
 
@@ -72,8 +72,39 @@ if go:
         " Specificity Sample Size": out2
     })
 
-    #sample_size = nsampleSN(cv=cv, prec=prec, conf=conf, nmax=nmax,nmin=nmin,designeffect=designEffect)
-    #st.success(f"Required sample size: {sample_size}")
+    dds1= nSampleSen(p=(p/100),Se=(Se/100),d=(d/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    dds2= nSampleSpc(p=(p/100),Sp=(Sp/100),d=(d/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    
+    st.write(f"The required a sample size in terms of **Sensitivity** is:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds1}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"And the required a sample size in terms of **Specificity** is:")
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center;">
+        <div style="
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;">
+            {dds2}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.write(f"to achive {Se}% Sensitivity and {Sp}% Specificity with {d}% absolute precision **95%** confidence level, by assuming that {p}% prevalence of the event or factor, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
 st.markdown("---")  # Adds a horizontal line for separation
