@@ -70,7 +70,7 @@ if go:
         <div style="
             font-size: 36px;
             font-weight: bold;
-            background-color: yellow;
+            background-color: #48D1CC;
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
@@ -78,7 +78,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"to achive a power of {(power)}% and **95%** confidence level, for detecting a difference of {p10-p01}% between the discordant proportions, by assuming that {p10}% of the pairs switch from positive to negative and {p01}% from negative to positive, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"to achive a power of {(power)}% and **95%** confidence level, for detecting a difference of {p10-p01}% between the discordant proportions, by assuming that {p10}% of the pairs switch from positive to negative and {p01}% from negative to positive, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 

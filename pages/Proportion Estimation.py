@@ -69,13 +69,13 @@ if go:
     })
     dds= nSampleProp(p=(p/100),d=(d1/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
     if(ads=='Absolute Precision'):
-        st.write(f"Asuming that **{(p)}%** of the subjects in the population have the factor of intrest,the study would require a sample size of:")
+        st.write(f"Asuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
         st.markdown(f"""
         <div style="display: flex; justify-content: center;">
             <div style="
                 font-size: 36px;
                 font-weight: bold;
-                background-color: yellow;
+                background-color: #48D1CC;
                 padding: 10px;
                 border-radius: 10px;
                 text-align: center;">
@@ -83,15 +83,15 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"for estimating the expected proportion with **{(d1)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+        st.write(f"participants to estimate the expected proportion with an absolute precision of **{(d1)}%** and **95%** confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
     else:
-        st.write(f"Asuming that **{(p)}%** of the subjects in the population have the factor of intrest,the study would require a sample size of:")
+        st.write(f"Asuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
         st.markdown(f"""
             <div style="display: flex; justify-content: center;">
                 <div style="
                 font-size: 36px;
                 font-weight: bold;
-                background-color: yellow;
+                background-color: #48D1CC;
                 padding: 10px;
                 border-radius: 10px;
                 text-align: center;">
@@ -99,7 +99,7 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"for estimating the expected proportion with **({(p)}% * {(d)}%) = {round(d1,1)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+        st.write(f"participants to estimate the expected proportion with an absolute precision of **({(p)}% * {(d)}%) = {(d1)}%** and **95%** confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
 
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)

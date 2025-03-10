@@ -103,7 +103,7 @@ if go:
         <div style="
             font-size: 36px;
             font-weight: bold;
-            background-color: yellow;
+            background-color: #48D1CC;
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
@@ -111,7 +111,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"for estimating mean with **{(prec)}%** absolute precision and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"for estimating mean with **{(prec)}%** absolute precision and **95%** confidence level,where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
     

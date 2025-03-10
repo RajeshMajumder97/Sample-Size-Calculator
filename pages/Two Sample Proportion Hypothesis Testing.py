@@ -65,13 +65,13 @@ if go:
 
     dds= nSampleProp(p1=(p1/100),p2=(p2/100),delta=(delta/100),Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
     
-    st.write(f"The study would require a sample size of:")
+    st.write(f"The study would need a sample size of:")
     st.markdown(f"""
     <div style="display: flex; justify-content: center;">
         <div style="
             font-size: 36px;
             font-weight: bold;
-            background-color: yellow;
+            background-color: #48D1CC;
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
@@ -79,7 +79,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"for each group(i.e. a total sample size of {2*dds}) to achive a power of {(power)}% and **95%** confidence level, for detecting a difference in proportions of {delta} between the test and the reference group, by assuming that{p1}% of the subjects in the reference population have the factor of interest, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"participants for each group(i.e. a total sample size of {2*dds}) to achive a power of {(power)}% and **95%** confidence level, for detecting a difference in proportions of {delta} between the test and the reference group, by assuming that{p1}% of the subjects in the reference population have the factor of interest, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 

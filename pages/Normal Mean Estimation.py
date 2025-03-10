@@ -30,7 +30,21 @@ def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
-d = st.sidebar.number_input("Absolute Precision", value=5.0,min_value=0.00,max_value=100.0)
+ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative to the Proportion'])
+
+if(ads=='Absolute Precision'):
+    d = st.sidebar.number_input("Absoulte Precision", value=5.0,min_value=0.00,max_value=100.0)
+    d1=d
+else:
+    d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,max_value=100.0)
+    mu= st.sidebar.number_input("Anticipated Mean", value=35.0,min_value=0.00,max_value=100.0)
+    d1= (d/100)*mu
+    col1,col2,col3=st.columns(3)
+    col1.metric("Relative Precision(%)",value=d)
+    col2.metric("Anticipated Mean",value=mu)
+    col3.metric("Precision",value= round(d1,2))
+
+
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
@@ -53,7 +67,7 @@ if go:
     out=[]
 
     for conf in confidenceIntervals:
-        sample_size= nSampleMean(sigma=sigma,d=d,Conf=conf,designEf=designEffect,dropOut=(drpt/100))
+        sample_size= nSampleMean(sigma=sigma,d=1,Conf=conf,designEf=designEffect,dropOut=(drpt/100))
         
         out.append(sample_size)
 
@@ -61,23 +75,42 @@ if go:
         "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
         "Sample Size": out
     })
-    dds= nSampleMean(sigma=sigma,d=d,Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
+    dds= nSampleMean(sigma=sigma,d=d1,Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
     
-    st.write(f"Asuming that from a normal distribution with standard deviation **{sigma}**,the study would require a sample size of:")
-    st.markdown(f"""
-    <div style="display: flex; justify-content: center;">
-        <div style="
-            font-size: 36px;
-            font-weight: bold;
-            background-color: yellow;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;">
-            {dds}
+    if(ads=='Absolute Precision'):
+        st.write(f"Assuming a normal distribution with a standard deviation of **{sigma}**,the study would require a sample size of:")
+        st.markdown(f"""
+        <div style="display: flex; justify-content: center;">
+            <div style="
+                font-size: 36px;
+                font-weight: bold;
+                background-color: #48D1CC;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;">
+                {dds}
+            </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.write(f"for estimating mean with a precision **{(d)}** and **95%** confidence level,where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+        """, unsafe_allow_html=True)
+        st.write(f"for estimating mean with absolute precision **{(d)}** and **95%** confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
+    else:
+        st.write(f"Assuming a normal distribution with a standard deviation of **{sigma}**,the study would require a sample size of:")
+        st.markdown(f"""
+            <div style="display: flex; justify-content: center;">
+                <div style="
+                font-size: 36px;
+                font-weight: bold;
+                background-color: #48D1CC;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;">
+                {dds}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write(f"for estimating mean with relative precision **({mu}*{d}%= ) {round(d,1)}** and **95%** confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
+
+
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 

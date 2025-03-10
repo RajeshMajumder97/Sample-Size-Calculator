@@ -70,7 +70,7 @@ if go:
         <div style="
             font-size: 36px;
             font-weight: bold;
-            background-color: yellow;
+            background-color: #48D1CC;
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
@@ -78,7 +78,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"(number of pairs) to achive a power of {(power)}% and **95%** confidence level, for detecting a mean of differences of {delta} between pairs, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{designEffect}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f" number of paired indeviduals to achive a power of {(power)}% and **95%** confidence level, for detecting a mean of differences of {delta} between pairs, by assuming the standard deviation of the differences to be {sigma} units,  considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
