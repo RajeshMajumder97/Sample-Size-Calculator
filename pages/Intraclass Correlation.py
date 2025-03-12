@@ -87,7 +87,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f" for the estimation of Intraclass Correlation to achive a power of {(power)}% and **95%** confidence level, by assuming that {Obj} number of repeated observations per subject by different judges with {minAR}% minimum acceptable reliability while the expected reliability is {ERR}%, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"""for the estimation of Intraclass Correlation to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, by assuming that {Obj} number of repeated observations per subject by different judges with {minAR}% minimum acceptable reliability while the expected reliability is {ERR}%, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
@@ -115,7 +115,7 @@ st.markdown("""
 - **\( rho_0 \)**: Minimum acceptable reliability (null hypothesis ICC).
 - **\( rho_1 \)**: Expected reliability (alternative hypothesis ICC).
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 

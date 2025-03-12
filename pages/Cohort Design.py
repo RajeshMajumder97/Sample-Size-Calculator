@@ -80,7 +80,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"to achive a power of {(power)}% and **95%** confidence level, to expect relative risk or risk ratio as {R}, by assuming that the proportion of disease in unexposed(control) group is {p1}%, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"""to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, to expect relative risk or risk ratio as {R}, by assuming that the proportion of disease in unexposed(control) group is {p1}%, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
@@ -109,7 +109,7 @@ st.markdown("""
 - **\( p_2 \)**: Proportion of disease in the **exposed** group, calculated as: p2= RR*p1
 - **\( RR \)**: Anticipated Relative Risk.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 

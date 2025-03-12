@@ -78,7 +78,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f" number of individuals for each group(i.e. a total sample size of {2*dds}) to achive a power of {(power)}% and **95%** confidence level, for detecting a true difference in means between the test and the reference group {delta} units, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f""" number of individuals for each group(i.e. a total sample size of <span style="background-color: yellow; font-weight: bold; font-size: 26px;">{2*dds}</span>) to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a true difference in means between the test and the reference group {delta} units, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
@@ -106,7 +106,7 @@ st.markdown("""
 - **\( sigma \)**: Population standard deviation.
 - **\( delta \)**: Expected difference between two means.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 

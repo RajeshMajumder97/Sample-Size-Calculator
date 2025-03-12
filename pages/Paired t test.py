@@ -78,7 +78,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f" number of paired indeviduals to achive a power of {(power)}% and **95%** confidence level, for detecting a mean of differences of {delta} between pairs, by assuming the standard deviation of the differences to be {sigma} units,  considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
+    st.write(f""" number of paired indeviduals to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a mean of differences of {delta} between pairs, by assuming the standard deviation of the differences to be {sigma} units,  considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
@@ -106,7 +106,7 @@ st.markdown("""
 - **\( sigma \)**: Population standard deviation.
 - **\( delta \)**: Expected difference between two means.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 

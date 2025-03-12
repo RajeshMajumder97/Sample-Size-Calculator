@@ -111,7 +111,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"for estimating mean with **{(prec)}%** absolute precision and **95%** confidence level,where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"""for estimating mean with **{(prec)}%** absolute precision and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level,where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
     
@@ -125,16 +125,16 @@ st.markdown("""
 Click on the link to see the theory:[Click on the link](https://drive.google.com/file/d/1e2mCYEzSsg79o6538dExkW8AAuoSQkkf/view?usp=sharing))
 """)
 
-st.markdown("""
-    <div style="
-        background-color: #f9f871;
-        padding: 10px;
-        border-left: 5px solid orange;
-        border-radius: 5px;
-        font-size: 18px;">
-        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
-    </div>
-    """, unsafe_allow_html=True)
+#st.markdown("""
+#    <div style="
+#        background-color: #f9f871;
+#        padding: 10px;
+#        border-left: 5px solid orange;
+#        border-radius: 5px;
+#        font-size: 18px;">
+#        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
+#    </div>
+#    """, unsafe_allow_html=True)
 
 st.markdown("---")
 st.markdown("**Developed by [Rajesh Majumder]**")

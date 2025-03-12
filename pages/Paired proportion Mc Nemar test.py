@@ -78,7 +78,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"to achive a power of {(power)}% and **95%** confidence level, for detecting a difference of {p10-p01}% between the discordant proportions, by assuming that {p10}% of the pairs switch from positive to negative and {p01}% from negative to positive, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.")
+    st.write(f"""to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a difference of {p10-p01}% between the discordant proportions, by assuming that {p10}% of the pairs switch from positive to negative and {p01}% from negative to positive, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
@@ -105,7 +105,7 @@ st.markdown("""
 - **\( Z_{1-beta} \)**: Power.
 - **\( p_{10} \)** & **\( p_{01} \)**:  Discordant pairs respectively.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 

@@ -83,7 +83,7 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"participants to estimate the expected proportion with an absolute precision of **{(d1)}%** and **95%** confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
+        st.write(f"""participants to estimate the expected proportion with an absolute precision of **{(d1)}%** and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     else:
         st.write(f"Asuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
         st.markdown(f"""
@@ -99,7 +99,7 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"participants to estimate the expected proportion with an absolute precision of **({(p)}% * {(d)}%) = {(d1)}%** and **95%** confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.")
+        st.write(f"""participants to estimate the expected proportion with an absolute precision of **({(p)}% * {(d)}%) = {(d1)}%** and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
 
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
@@ -126,20 +126,20 @@ st.markdown("""
 - **\( d \)**: Precision (margin of error).
 - **\( p \)**: Expected proportion.
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-- **\( m \)**: Number of individuals per cluster.
+- **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
 """)
 
-st.markdown("""
-    <div style="
-        background-color: #f9f871;
-        padding: 10px;
-        border-left: 5px solid orange;
-        border-radius: 5px;
-        font-size: 18px;">
-        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
-    </div>
-    """, unsafe_allow_html=True)
+#st.markdown("""
+#    <div style="
+#        background-color: #f9f871;
+#        padding: 10px;
+#        border-left: 5px solid orange;
+#       border-radius: 5px;
+#        font-size: 18px;">
+#        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
+#    </div>
+#    """, unsafe_allow_html=True)
 
 
 st.subheader("📌 References")
