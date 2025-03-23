@@ -6,6 +6,7 @@ st.set_page_config(page_title="Home",
                    page_icon="🧊")
 
 st.title("StudySizer")
+
 st.write(f"""<span style="font-weight: bold; font-size: 36px;">A Sample Size Calculator</span>""",unsafe_allow_html=True)
 
 hide_st_style="""<style>
