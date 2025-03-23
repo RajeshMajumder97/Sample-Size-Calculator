@@ -113,7 +113,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"""participants(i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{int(dds[5])}</span> participants at each group) to achive a power of {(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, for comparing {KK} different groups mean, where the non-centrality parameter is {round(dds[0],4)}, F-test critical value is {round(dds[1],4)} with numarator and denominaor dfs are {int(dds[2])} and {int(dds[3])} respectively  where drop-out sample percentage is **{(drpt)}%**.""",unsafe_allow_html=True)
+    st.write(f"""participants(i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{int(dds[5])}</span> participants at each group) to achive a power of {(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, for comparing {KK} different group means, where the non-centrality parameter is {round(dds[0],4)}, F-test critical value is {round(dds[1],4)} with numerator and denominator dfs are {int(dds[2])} and {int(dds[3])} respectively  where drop-out sample percentage is **{(drpt)}%**.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
