@@ -84,7 +84,7 @@ if go:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"""to achive a power of {round(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, to expect odds ratio as {R}, by assuming that the proportion of exposed among controls is {p2}%, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+    st.write(f"""to achive a power of {round(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, to expect odds ratio as {R}, by assuming that the proportion of exposed among controls is {p2}%, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 

@@ -65,7 +65,7 @@ if go:
 
     dds= nSampleProp(p1=(p1/100),p2=(p2/100),delta=(delta/100),Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
     
-    st.write(f"The study would need a sample size of:")
+    st.write(f"The study would need a total sample size of:")
     st.markdown(f"""
     <div style="display: flex; justify-content: center;">
         <div style="
@@ -75,11 +75,11 @@ if go:
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
-            {dds}
+            {2*dds}
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f"""participants for each group(i.e. a total sample size of <span style="background-color: yellow; font-weight: bold; font-size: 26px;">{2*dds}</span>) to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a difference in proportions of {delta} between the test and the reference group, by assuming that{p1}% of the subjects in the reference population have the factor of interest, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+    st.write(f"""participants (i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{dds}</span> individuals in each group) to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a difference in proportions of {delta} between the test and the reference group, by assuming that{p1}% of the subjects in the reference population have the factor of interest, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 

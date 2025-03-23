@@ -92,7 +92,7 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"""for estimating mean with absolute precision **{(d)}** and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+        st.write(f"""for estimating mean with absolute precision **{(d)}** and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     else:
         st.write(f"Assuming a normal distribution with a standard deviation of **{sigma}**,the study would require a sample size of:")
         st.markdown(f"""
@@ -108,7 +108,7 @@ if go:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"""for estimating mean with relative precision **({mu}*{d}%= ) {round(d,1)}** and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+        st.write(f"""for estimating mean with relative precision **({mu}*{d}%= ) {round(d,1)}** and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
 
 
     st.subheader("List of Sample Sizes at other Confidence Levels")

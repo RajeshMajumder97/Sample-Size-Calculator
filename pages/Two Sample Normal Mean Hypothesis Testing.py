@@ -64,7 +64,7 @@ if go:
 
     dds= nSampleMean(sigma=sigma,delta=delta,Pw=(power/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
 
-    st.write(f"The study would require a sample size of:")
+    st.write(f"The study would require a total sample size of:")
     st.markdown(f"""
     <div style="display: flex; justify-content: center;">
         <div style="
@@ -74,11 +74,11 @@ if go:
             padding: 10px;
             border-radius: 10px;
             text-align: center;">
-            {dds}
+            {2*dds}
         </div>
     </div>
     """, unsafe_allow_html=True)
-    st.write(f""" number of individuals for each group(i.e. a total sample size of <span style="background-color: yellow; font-weight: bold; font-size: 26px;">{2*dds}</span>) to achive a power of {(power)}% and <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a true difference in means between the test and the reference group {delta} units, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+    st.write(f""" number of individuals (i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{dds}</span> individuals in each group) to achive a power of {(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, for detecting a true difference in means between the test and the reference group {delta} units, by assuming the standard deviation of the differences to be {sigma} units, where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
     st.subheader("List of Sample Sizes at other Confidence Levels")
     st.dataframe(df)
 
