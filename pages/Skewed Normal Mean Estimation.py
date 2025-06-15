@@ -7,18 +7,15 @@ from scipy.special import erf
 st.set_page_config(page_title="Skewed Normal Mean Estimation",
                    page_icon="🧊")
 
-hide_st_style="""<style>
-#MainMenu
-{visiblility:hidden;
-}
-footer
-{visibility: hidden;
-}
-header
-{visibility: hidden;
-}
-</style>"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
+# Hide default Streamlit styles
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 def psn(x, delta):
@@ -64,6 +61,10 @@ def nsampleSN(cv=0.45, prec=0.05, conf=0.95, nmin=25, nmax=1000, nby=5, nf=15,de
 # Streamlit App
 st.title("Sample Size Calculation for Skew Normal Distribution: Mean Estimation")
 
+# Initialize history store
+if "history" not in st.session_state:
+    st.session_state.history = []
+
 cv = st.sidebar.number_input("Coefficient of Variation (%)",max_value=100.0,value=5.00,min_value=1.00)
 prec = st.sidebar.number_input("Precision (%)",value=10.00,min_value=0.00,max_value=100.00)
 #conf = st.sidebar.number_input("Confidence Level", max_value=0.99,value=0.95,help= "values in decimal")
@@ -74,7 +75,8 @@ x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calcula
 
 if(x== "Given"):
     designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,max_value=2.0,help= "values in integer. Minimum is 1")
-    go= st.button("Calculate Sample Size")
+    m=None
+    ICC=None
 else:
     m= st.sidebar.number_input("Number of cluster",min_value=2)
     ICC= st.sidebar.number_input("ICC",min_value=0.0)
@@ -83,10 +85,57 @@ else:
     col1.metric("Cluster Size (m)",value=m)
     col2.metric("Intra Class Correlation (ICC)",value=ICC)
     col3.metric("Design Effect",value= round(designEffect,2))
-    go= st.button("Calculate Sample Size")
+
+# Calculate button
+go = st.button("Calculate Sample Size")
+
+# Helper to generate label for dropdown
+def make_history_label(cv, prec, drpt, designEffect, m=None, ICC=None, method="Given"):
+    if method == "Given":
+        return f"CV={cv}%, Precision={prec}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
+    else:
+        return (f"CV={cv}%, Precision={prec}%, DropOut={drpt}%, "
+                f"DE(Calc)={round(designEffect, 2)}, m={m}, ICC={ICC}")
+
+# Select from history
+selected_history = None
+selected_label = None
+
+if st.session_state.history:
+    st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
+    options = [make_history_label(**entry) for entry in st.session_state.history]
+    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+
+    if selected_label:
+        selected_history = next((item for item in st.session_state.history
+                                 if make_history_label(**item) == selected_label), None)
+        hist_submit = st.button("🔁 Recalculate from Selected History")
+    else:
+        hist_submit = False
+else:
+    hist_submit = False
 
 
-if go:
+if go or hist_submit:
+    if hist_submit and selected_history:
+        # Use selected history
+        cv= selected_history["cv"]
+        prec= selected_history["prec"]
+        drpt= selected_history["drpt"]
+        designEffect = selected_history["designEffect"]
+    else:
+        # Add current input to history
+        new_entry = {
+            "cv":cv,
+            "prec":prec,
+            "drpt":drpt,
+            "designEffect":designEffect,
+            "m":m,
+            "ICC":ICC,
+            "method":x
+        }
+        st.session_state.history.append(new_entry)
+
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
     for conf in confidenceIntervals:
@@ -135,6 +184,11 @@ Click on the link to see the theory:[Click on the link](https://drive.google.com
 #        <b>Note:</b> The design effect option is only applicable when doing cluster random sampling, other wise the default is 1 and it is recommended to be done in consultation with a statistician.   
 #    </div>
 #    """, unsafe_allow_html=True)
+
+st.markdown("---")
+st.subheader("Citation")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+
 
 st.markdown("---")
 st.markdown("**Developed by [Rajesh Majumder]**")

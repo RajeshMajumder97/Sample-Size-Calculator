@@ -7,18 +7,15 @@ from scipy.special import erf
 st.set_page_config(page_title="Intraclass Correlation",
                    page_icon="🧊")
 
-hide_st_style="""<style>
-#MainMenu
-{visiblility:hidden;
-}
-footer
-{visibility: hidden;
-}
-header
-{visibility: hidden;
-}
-</style>"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
+# Hide default Streamlit styles
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 # Streamlit App
@@ -30,9 +27,13 @@ def nSampleICC(n=5,rho0=2,rho1=0.8,Conf=0.95,Pw=0.8,designEf=1,dropOut=0):
     Z_beta = norm.ppf(Pw)           
     numerator = 1 + (2 * (Z_alpha + Z_beta) ** 2 * n)
     denominator = (np.log((1 + (n * rho0 / (1 - rho0))) / (1 + (n * rho1 / (1 - rho1))))) ** 2 * (n - 1)
-    
+
     N = numerator / denominator
     return(abs(round((N/(1-dropOut))*designEf)))
+
+# Initialize history store
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 Obj = st.sidebar.number_input("Observation/Subject (n)",value=5,min_value=0,help= "values in integer")
 st.sidebar.text("Number of repeted observatiuons\n by different judges\n per subject,replicates")
@@ -47,7 +48,8 @@ x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calcula
 
 if(x== "Given"):
     designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,help= "values in integer. Minimum is 1")
-    go= st.button("Calculate Sample Size")
+    m=None
+    ICC=None
 else:
     m= st.sidebar.number_input("Number of cluster",min_value=2)
     ICC= st.sidebar.number_input("ICC",min_value=0.0)
@@ -56,9 +58,63 @@ else:
     col1.metric("Cluster Size (m)",value=m)
     col2.metric("Intra Class Correlation (ICC)",value=ICC)
     col3.metric("Design Effect",value= round(designEffect,2))
-    go= st.button("Calculate Sample Size")
 
-if go:
+
+# Calculate button
+go = st.button("Calculate Sample Size")
+
+
+# Helper to generate label for dropdown
+def make_history_label(Obj, minAR, ERR, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+    if method == "Given":
+        return f"Subject={Obj}, Power={power}%, rho_0={minAR}%, rho_1={ERR}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
+    else:
+        return (f"Subject={Obj}%, Power={power}%, rho_0={minAR}%, rho_1={ERR}%, DropOut={drpt}%, "
+                f"DE(Calc)={round(designEffect, 2)}, m={m}, ICC={ICC}")
+
+# Select from history
+selected_history = None
+selected_label = None
+
+if st.session_state.history:
+    st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
+    options = [make_history_label(**entry) for entry in st.session_state.history]
+    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+
+    if selected_label:
+        selected_history = next((item for item in st.session_state.history
+                                 if make_history_label(**item) == selected_label), None)
+        hist_submit = st.button("🔁 Recalculate from Selected History")
+    else:
+        hist_submit = False
+else:
+    hist_submit = False
+
+
+if go or hist_submit:
+    if hist_submit and selected_history:
+        # Use selected history
+        Obj= selected_history["Obj"]
+        minAR= selected_history["minAR"]
+        ERR= selected_history["ERR"]
+        power = selected_history["power"]
+        drpt = selected_history["drpt"]
+        designEffect = selected_history["designEffect"]
+    else:
+        # Add current input to history
+        new_entry = {
+            "Obj":Obj,
+            "minAR":minAR,
+            "ERR":ERR,
+            "power":power,
+            "drpt":drpt,
+            "designEffect":designEffect,
+            "m":m,
+            "ICC":ICC,
+            "method":x
+        }
+        st.session_state.history.append(new_entry)
+
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
@@ -124,6 +180,11 @@ st.subheader("📌 References")
 st.markdown("""
 1. **Walter, S.D., Eliasziw, M., Donner, A. (1998).** Sample size and optimal designs for reliability studies. Statistics in medicine, 17, 101-110. Available at: [https://pubmed.ncbi.nlm.nih.gov/9463853/](https://pubmed.ncbi.nlm.nih.gov/9463853/)
 """)
+
+st.markdown("---")
+st.subheader("Citation")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+
 
 st.markdown("---")
 st.markdown("**Developed by [Rajesh Majumder]**")

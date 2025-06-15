@@ -7,17 +7,14 @@ from scipy.special import erf
 st.set_page_config(page_title="One way ANOVA",
                    page_icon="🧊")
 
-hide_st_style="""<style>
-#MainMenu
-{visiblility:hidden;
-}
-footer
-{visibility: hidden;
-}
-header
-{visibility: hidden;
-}
-</style>"""
+# Hide default Streamlit styles
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
 st.markdown(hide_st_style,unsafe_allow_html=True)
 
 
@@ -70,14 +67,62 @@ def calculate_anova_sample_size(effect_size, alpha, power, k,dpt):
     # Return per-group and total sample size
     return lambda_ncp**2,f_crit,df1,df2,power_calc,n, k * n,k
 
+# Initialize history store
+if "history" not in st.session_state:
+    st.session_state.history = []
+
+
+
+
 esize = st.sidebar.number_input("Effect size (Cohen's f)",value=0.25,min_value=0.0,max_value=1.0)
 st.sidebar.text("0.10 = Small effect size\n 0.25= Medium effect size\n 0.40= Large effect size")
 power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
-KK=st.sidebar.number_input("Number of groups",value=5,min_value=3)
+KK=st.sidebar.number_input("Number of groups (k)",value=5,min_value=3)
 drpt= st.sidebar.number_input("Drop-Out (%)",min_value=0.0,value=0.0,max_value=100.0)
 go= st.button("Calculate Sample Size")
 
-if go:
+
+# Helper to generate label for dropdown
+def make_history_label(esize, KK, power, drpt):
+        return f"Cohen's f={esize}, k={KK}, Power={power}%, DropOut={drpt}%"
+
+# Select from history
+selected_history = None
+selected_label = None
+
+if st.session_state.history:
+    st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
+    options = [make_history_label(**entry) for entry in st.session_state.history]
+    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+
+    if selected_label:
+        selected_history = next((item for item in st.session_state.history
+                                 if make_history_label(**item) == selected_label), None)
+        hist_submit = st.button("🔁 Recalculate from Selected History")
+    else:
+        hist_submit = False
+else:
+    hist_submit = False
+
+
+if go or hist_submit:
+
+    if hist_submit and selected_history:
+        # Use selected history
+        esize= selected_history["esize"]
+        KK= selected_history["KK"]
+        power = selected_history["power"]
+        drpt = selected_history["drpt"]
+    else:
+        # Add current input to history
+        new_entry = {
+            "esize":esize,
+            "KK":KK,
+            "power":power,
+            "drpt":drpt
+        }
+        st.session_state.history.append(new_entry)
+
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
@@ -171,6 +216,11 @@ st.latex(r"""
 \alpha_{\text{adjusted}}=\frac{\alpha}{\text{Number of Comparisons}}
 """)
 st.markdown("""to adjust the significance level. This adjustment helps to control family-wise errow rate (FWER). Others are **Sidak Correction**,**Holm-Bonferroni**,**Benjamini-Hochberg**.""")
+
+
+st.markdown("---")
+st.subheader("Citation")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
 
 
 st.markdown("---")

@@ -8,18 +8,15 @@ import math
 st.set_page_config(page_title="Case Control Design",
                    page_icon="🧊")
 
-hide_st_style="""<style>
-#MainMenu
-{visiblility:hidden;
-}
-footer
-{visibility: hidden;
-}
-header
-{visibility: hidden;
-}
-</style>"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
+# Hide default Streamlit styles
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # Streamlit App
 st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1")
@@ -28,6 +25,11 @@ st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1
 def nSampleOR(p2=0.5,OR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     n= ((norm.ppf(1-(1-Conf)/2)+ norm.ppf(Pw))**2/(np.log(OR)**2)) * (1/(p2-(1-p2)))       
     return(abs(round((n/(1-dropOut))*designEf)))
+
+# Initialize history store
+if "history" not in st.session_state:
+    st.session_state.history = []
+
 
 #p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.0)
 #R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.0,min_value=0.00001,help= "values in decimal.")
@@ -44,7 +46,8 @@ x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calcula
 
 if(x== "Given"):
     designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,help= "values in integer. Minimum is 1")
-    go= st.button("Calculate Sample Size")
+    m=None
+    ICC=None
 else:
     m= st.sidebar.number_input("Number of cluster",min_value=2)
     ICC= st.sidebar.number_input("ICC",min_value=0.0)
@@ -53,9 +56,65 @@ else:
     col1.metric("Cluster Size (m)",value=m)
     col2.metric("Intra Class Correlation (ICC)",value=ICC)
     col3.metric("Design Effect",value= round(designEffect,2))
-    go= st.button("Calculate Sample Size")
 
-if go:
+# Calculate button
+go = st.button("Calculate Sample Size")
+
+# Helper to generate label for dropdown
+def make_history_label(p2, R, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+    if method == "Given":
+        return f"P1={p2}, OR={R}, Power={power}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
+    else:
+        return (f"P1={p2}%, OR={R}, Power={power}%, DropOut={drpt}%, "
+                f"DE(Calc)={round(designEffect, 2)}, m={m}, ICC={ICC}")
+
+# Select from history
+selected_history = None
+selected_label = None
+
+if st.session_state.history:
+    st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
+    options = [make_history_label(**entry) for entry in st.session_state.history]
+    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+
+    if selected_label:
+        selected_history = next((item for item in st.session_state.history
+                                 if make_history_label(**item) == selected_label), None)
+        hist_submit = st.button("🔁 Recalculate from Selected History")
+    else:
+        hist_submit = False
+else:
+    hist_submit = False
+
+
+if go or hist_submit:
+    if hist_submit and selected_history:
+        # Use selected history
+        p2= selected_history["p2"]
+        R= selected_history["R"]
+        power = selected_history["power"]
+        drpt = selected_history["drpt"]
+        designEffect = selected_history["designEffect"]
+    else:
+        # Add current input to history
+        new_entry = {
+            "p2":p2,
+            "R":R,
+            "power":power,
+            "drpt":drpt,
+            "designEffect":designEffect,
+            "m":m,
+            "ICC":ICC,
+            "method":x
+        }
+        st.session_state.history.append(new_entry)
+
+
+
+
+
+
+
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
 
@@ -120,6 +179,11 @@ st.subheader("📌 References")
 st.markdown("""
 1. **Kelsey, J. L., Whittemore, A. S., Evans, A. S., & Thompson, W. D. (1996).** Methods in Observational Epidemiology (2nd ed.). Oxford University Press.
 """)
+
+st.markdown("---")
+st.subheader("Citation")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+
 
 st.markdown("---")
 st.markdown("**Developed by [Rajesh Majumder]**")

@@ -1,53 +1,55 @@
 import streamlit as st
 from PIL import Image
 import base64
+from io import BytesIO
 
-st.set_page_config(page_title="Home",
-                   page_icon="🧊")
+# Load logo image (your uploaded icon)
+logo = Image.open("image.png")
 
-st.title("StudySizer")
+# Helper function to convert image to base64
+def image_to_base64(img):
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode()
 
-st.write(f"""<span style="font-weight: bold; font-size: 36px;">A Sample Size Calculator</span>""",unsafe_allow_html=True)
+logo_base64 = image_to_base64(logo)
 
-hide_st_style="""<style>
-#MainMenu
-{visiblility:hidden;
-}
-footer
-{visibility: hidden;
-}
-header
-{visibility: hidden;
-}
-</style>"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
 
-#allow_output_mutation=True)
-#def set_bg_hack(main_bg):
-#    '''
-#    A function to unpack an image from root folder and set as bg.
-# 
-#    Returns
-#    -------
-#    The background.
-#    '''
-#    # set bg name
-#    main_bg_ext = "png"
-#        
-#    st.markdown(
-#         f"""
-#         <style>
-#         .stApp {{
-#             background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()});
-#             background-size: cover
-#         }}
-#         </style>
-#         """,
-#         unsafe_allow_html=True
-#     )
-#
-#set_bg_hack('')
-image = Image.open('image.png')
+# Centered title and subtitle
+st.markdown(
+    """
+    <div style='text-align: center;'>
+        <h1 style='font-size: 68px;'>StudySizer</h1>
+        <h3 style='font-size: 38px;'>A Sample Size Calculator</h3>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.image(image)
+st.write("This open-source and free web application allows researchers, students, and professionals to calculate"
+"the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"
+" methods for different study designs. The advantage of this tool is, it also gives the required sample sie calculation formulas along with the references.")
 
+st.markdown("Hi, I am Rajesh, a Ph.D. student in Biostatistics. If you find this tool useful, please cite it as:")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+
+st.markdown("**If you want to reach me :**")
+st.markdown("**Email:** rajeshnbp9051@gmail.com")
+st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
+
+
+# Inject CSS and image at the top of the sidebar
+st.markdown(
+    f"""
+    <style>
+    [data-testid="stSidebar"] > div:first-child {{
+        padding-top: 80px;
+        background-image: url("data:image/png;base64,{logo_base64}");
+        background-repeat: no-repeat;
+        background-position: 20px 20px;
+        background-size: 50px;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
