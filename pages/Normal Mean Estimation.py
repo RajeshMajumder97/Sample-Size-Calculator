@@ -39,7 +39,7 @@ if(ads=='Absolute Precision'):
     mu=None
 else:
     d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,max_value=100.0)
-    mu= st.sidebar.number_input("Anticipated Mean", value=35.0,min_value=0.00,max_value=100.0)
+    mu= st.sidebar.number_input("Anticipated Mean", value=35.0)
     d1= (d/100)*mu
     col1,col2,col3=st.columns(3)
     col1.metric("Relative Precision(%)",value=d)
@@ -169,7 +169,7 @@ if go or hist_submit:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"""for estimating mean with relative precision **({mu}*{d}%= ) {round(d,1)}** and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+        st.write(f"""for estimating mean with relative precision **({mu}*{d}%= ) {round(d1,1)}** and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
 
 
     st.subheader("List of Sample Sizes at other Confidence Levels")
