@@ -53,3 +53,5 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+st.image("Sample size Explained.png")
+st.image("Sample size Explained_2.png")
