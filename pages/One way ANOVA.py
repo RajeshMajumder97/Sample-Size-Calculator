@@ -68,8 +68,8 @@ def calculate_anova_sample_size(effect_size, alpha, power, k,dpt):
     return lambda_ncp**2,f_crit,df1,df2,power_calc,n, k * n,k
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "anova_history" not in st.session_state:
+    st.session_state.anova_history = []
 
 
 
@@ -83,21 +83,21 @@ go= st.button("Calculate Sample Size")
 
 
 # Helper to generate label for dropdown
-def make_history_label(esize, KK, power, drpt):
+def make_anova_history_label(esize, KK, power, drpt):
         return f"Cohen's f={esize}, k={KK}, Power={power}%, DropOut={drpt}%"
 
 # Select from history
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.anova_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    anova_options = [make_anova_history_label(**entry) for entry in st.session_state.anova_history]
+    selected_label = st.selectbox("Choose a past input set:", anova_options, key="anova_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.anova_history
+                                 if make_anova_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -121,7 +121,7 @@ if go or hist_submit:
             "power":power,
             "drpt":drpt
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.anova_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

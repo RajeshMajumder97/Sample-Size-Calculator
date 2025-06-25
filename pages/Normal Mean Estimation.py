@@ -27,8 +27,8 @@ def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "mean_history" not in st.session_state:
+    st.session_state.mean_history = []
 
 sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
 ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative to the Proportion'])
@@ -68,7 +68,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(sigma,d, d1, drpt, designEffect,mu=None, m=None, ICC=None, method="Given",absolute='Absolute Precision'):
+def make_mean_history_label(sigma,d, d1, drpt, designEffect,mu=None, m=None, ICC=None, method="Given",absolute='Absolute Precision'):
     if method == "Given":
         if absolute=='Absolute Precision':
             return f"Sigma={sigma}, Precision(abs)={round(d1,2)}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
@@ -86,14 +86,14 @@ def make_history_label(sigma,d, d1, drpt, designEffect,mu=None, m=None, ICC=None
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.mean_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    mean_options = [make_mean_history_label(**entry) for entry in st.session_state.mean_history]
+    selected_label = st.selectbox("Choose a past input set:", mean_options, key="mean_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.mean_history
+                                 if make_mean_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -122,7 +122,7 @@ if go or hist_submit:
             "mu":mu,
             "d":d
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.mean_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

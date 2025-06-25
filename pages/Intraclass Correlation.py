@@ -32,8 +32,8 @@ def nSampleICC(n=5,rho0=2,rho1=0.8,Conf=0.95,Pw=0.8,designEf=1,dropOut=0):
     return(abs(round((N/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "icc_history" not in st.session_state:
+    st.session_state.icc_history = []
 
 Obj = st.sidebar.number_input("Observation/Subject (n)",value=5,min_value=0,help= "values in integer")
 st.sidebar.text("Number of repeted observatiuons\n by different judges\n per subject,replicates")
@@ -65,7 +65,7 @@ go = st.button("Calculate Sample Size")
 
 
 # Helper to generate label for dropdown
-def make_history_label(Obj, minAR, ERR, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_icc_history_label(Obj, minAR, ERR, power, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"Subject={Obj}, Power={power}%, rho_0={minAR}%, rho_1={ERR}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -76,14 +76,14 @@ def make_history_label(Obj, minAR, ERR, power, drpt, designEffect, m=None, ICC=N
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.icc_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    icc_options = [make_icc_history_label(**entry) for entry in st.session_state.icc_history]
+    selected_label = st.selectbox("Choose a past input set:", icc_options, key="icc_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.icc_history
+                                 if make_icc_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -113,7 +113,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.icc_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

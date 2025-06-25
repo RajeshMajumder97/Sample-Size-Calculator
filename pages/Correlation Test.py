@@ -25,8 +25,8 @@ def nSampleCorrelation(rho0=0.0, rho1=0.3, Pw=0.8, Conf=0.95, designEf=1, dropOu
     n = ((norm.ppf(1 - (1 - Conf) / 2) + norm.ppf(Pw)) / delta_z) ** 2 + 3
     return int(np.ceil((n / (1 - dropOut)) * designEf))
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "corr_history" not in st.session_state:
+    st.session_state.corr_history = []
 
 # Sidebar inputs
 rho0 = st.sidebar.number_input("Null hypothesis correlation (ρ₀)", value=0.0, min_value=-0.99, max_value=0.99)
@@ -53,7 +53,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper for history label
-def make_label(rho0, rho1, power, drp, designEffect, m=None, ICC=None, method="Given"):
+def make_corr_label(rho0, rho1, power, drp, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"ρ₀={rho0}, ρ₁={rho1}, Power={power}%, DropOut={drp}%, DE={round(designEffect, 2)}"
     else:
@@ -61,12 +61,12 @@ def make_label(rho0, rho1, power, drp, designEffect, m=None, ICC=None, method="G
 
 # History selector
 selected_history = None
-if st.session_state.history:
+if st.session_state.corr_history:
     st.subheader("📜 Select from Past Inputs")
-    labels = [make_label(**item) for item in st.session_state.history]
-    selected = st.selectbox("Choose a past input set:", labels)
+    corr_labels = [make_corr_label(**item) for item in st.session_state.corr_history]
+    selected = st.selectbox("Choose a past input set:", corr_labels, key="corr_history_selector")
     if selected:
-        selected_history = next(item for item in st.session_state.history if make_label(**item) == selected)
+        selected_history = next(item for item in st.session_state.corr_history if make_corr_label(**item) == selected)
         recalc = st.button("🔁 Recalculate")
     else:
         recalc = False
@@ -81,7 +81,7 @@ if go or recalc:
         drp = selected_history["drp"]
         designEffect = selected_history["designEffect"]
     else:
-        st.session_state.history.append({
+        st.session_state.corr_history.append({
             "rho0": rho0,
             "rho1": rho1,
             "power": power,

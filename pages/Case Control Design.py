@@ -27,8 +27,8 @@ def nSampleOR(p2=0.5,OR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "case_control_history" not in st.session_state:
+    st.session_state.case_control_history = []
 
 
 #p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.0)
@@ -61,7 +61,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(p2, R, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_case_control_history_label(p2, R, power, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"P1={p2}, OR={R}, Power={power}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -72,14 +72,14 @@ def make_history_label(p2, R, power, drpt, designEffect, m=None, ICC=None, metho
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.case_control_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    case_control_options = [make_case_control_history_label(**entry) for entry in st.session_state.case_control_history]
+    selected_label = st.selectbox("Choose a past input set:", case_control_options, key="case_control_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.case_control_history
+                                 if make_case_control_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -107,7 +107,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.case_control_history.append(new_entry)
 
 
 

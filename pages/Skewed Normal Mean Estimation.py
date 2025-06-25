@@ -62,8 +62,8 @@ def nsampleSN(cv=0.45, prec=0.05, conf=0.95, nmin=25, nmax=1000, nby=5, nf=15,de
 st.title("Sample Size Calculation for Skew Normal Distribution: Mean Estimation")
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "Sknoormal_history" not in st.session_state:
+    st.session_state.Sknoormal_history = []
 
 cv = st.sidebar.number_input("Coefficient of Variation (%)",max_value=100.0,value=5.00,min_value=1.00)
 prec = st.sidebar.number_input("Precision (%)",value=10.00,min_value=0.00,max_value=100.00)
@@ -90,7 +90,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(cv, prec, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_Sknoormal_history_label(cv, prec, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"CV={cv}%, Precision={prec}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -101,14 +101,14 @@ def make_history_label(cv, prec, drpt, designEffect, m=None, ICC=None, method="G
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.Sknoormal_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    Sknoormal_options = [make_Sknoormal_history_label(**entry) for entry in st.session_state.Sknoormal_history]
+    selected_label = st.selectbox("Choose a past input set:", Sknoormal_options, key="Sknoormal_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.Sknoormal_history
+                                 if make_Sknoormal_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -134,7 +134,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.Sknoormal_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

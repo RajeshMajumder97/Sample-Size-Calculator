@@ -25,8 +25,8 @@ def nSampleSurvival(HR=0.7, Pw=0.8, Conf=0.95, p=0.5, eventRate=0.6, designEf=1.
     n_total = n_events / eventRate
     return int(np.ceil((n_total / (1 - dropOut)) * designEf))
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "survival_history" not in st.session_state:
+    st.session_state.survival_history = []
 
 # Sidebar inputs
 HR = st.sidebar.number_input("Hazard Ratio (HR)", value=0.7, min_value=0.01, max_value=10.0)
@@ -55,7 +55,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # History label
-def make_label(HR, power, conf, p, eventRate, drp, designEffect, m=None, ICC=None, method="Given"):
+def make_survival_label(HR, power, conf, p, eventRate, drp, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"HR={HR}, Power={power}%, Conf={conf}%, EventRate={eventRate}, DE={round(designEffect, 2)}"
     else:
@@ -63,12 +63,12 @@ def make_label(HR, power, conf, p, eventRate, drp, designEffect, m=None, ICC=Non
 
 # Select from history
 selected_history = None
-if st.session_state.history:
+if st.session_state.survival_history:
     st.subheader("📜 Select from Past Inputs")
-    labels = [make_label(**item) for item in st.session_state.history]
-    selected = st.selectbox("Choose a past input set:", labels)
+    survival_labels = [make_survival_label(**item) for item in st.session_state.survival_history]
+    selected = st.selectbox("Choose a past input set:", survival_labels, key="survival_history_selector")
     if selected:
-        selected_history = next(item for item in st.session_state.history if make_label(**item) == selected)
+        selected_history = next(item for item in st.session_state.history if make_survival_label(**item) == selected)
         recalc = st.button("🔁 Recalculate")
     else:
         recalc = False
@@ -85,7 +85,7 @@ if go or recalc:
         drp = selected_history["drp"]
         designEffect = selected_history["designEffect"]
     else:
-        st.session_state.history.append({
+        st.session_state.survival_history.append({
             "HR": HR,
             "power": power,
             "conf": conf,

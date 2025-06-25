@@ -24,8 +24,8 @@ def nSampleProp(p10=0.5,p01=0.6,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "pmean_history" not in st.session_state:
+    st.session_state.pmean_history = []
 
 p10= st.sidebar.number_input("1st Discordant Pair Proportion (P10 / + to -) (%)",value=50.0,min_value=0.0,max_value=100.0)
 p01= st.sidebar.number_input("2nd Discordant Pair Proportion (P01 / - to +) (%)",value=40.0,min_value=0.0,max_value=100.0)
@@ -51,7 +51,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(p10, p01, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_pmean_history_label(p10, p01, power, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"P10={p10}%, P01={p01}%, Power={power}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -62,14 +62,14 @@ def make_history_label(p10, p01, power, drpt, designEffect, m=None, ICC=None, me
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.pmean_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    pmean_options = [make_pmean_history_label(**entry) for entry in st.session_state.pmean_history]
+    selected_label = st.selectbox("Choose a past input set:", pmean_options, key="pmean_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.pmean_history
+                                 if make_pmean_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -96,7 +96,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.pmean_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

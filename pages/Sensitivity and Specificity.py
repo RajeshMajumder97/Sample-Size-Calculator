@@ -31,8 +31,8 @@ def nSampleSpc(p=0.5,Sp=0.70,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     return(round((n/(1-dropOut))*designEf))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "senspe_history" not in st.session_state:
+    st.session_state.senspe_history = []
 
 
 p = st.sidebar.number_input("Prevalence of the Event (%)",value=50.0,min_value=0.0,max_value=100.0)
@@ -60,7 +60,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(p, Se, Sp, d, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_senspe_history_label(p, Se, Sp, d, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"Preval={p}%, Senc={Se}%, Spec={Sp}%, Precision={d}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -71,14 +71,14 @@ def make_history_label(p, Se, Sp, d, drpt, designEffect, m=None, ICC=None, metho
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.senspe_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    senspe_options = [make_senspe_history_label(**entry) for entry in st.session_state.senspe_history]
+    selected_label = st.selectbox("Choose a past input set:", senspe_options, key="senspe_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.senspe_history
+                                 if make_senspe_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -109,7 +109,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.senspe_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out1=[]

@@ -29,8 +29,8 @@ def nSampleRR(p1=0.5,RR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "cohort_history" not in st.session_state:
+    st.session_state.cohort_history = []
 
 p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=100.00)
 R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.45,min_value=0.00001,help= "values in decimal.")
@@ -56,7 +56,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(p1, R, power, drpt, designEffect, m=None, ICC=None, method="Given"):
+def make_cohort_history_label(p1, R, power, drpt, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
         return f"P1={p1}, RR={R}, Power={power}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
     else:
@@ -67,14 +67,14 @@ def make_history_label(p1, R, power, drpt, designEffect, m=None, ICC=None, metho
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.cohort_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    cohort_options = [make_cohort_history_label(**entry) for entry in st.session_state.cohort_history]
+    selected_label = st.selectbox("Choose a past input set:", cohort_options, key="cohort_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.cohort_history
+                                 if make_cohort_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -102,7 +102,7 @@ if go or hist_submit:
             "ICC":ICC,
             "method":x
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.cohort_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]

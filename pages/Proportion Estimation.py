@@ -26,8 +26,8 @@ def nSampleProp(p=0.5,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "pp_history" not in st.session_state:
+    st.session_state.pp_history = []
 
 p = st.sidebar.number_input("Proportion (%)",value=50.0,min_value=0.0,max_value=100.0)
 d = st.sidebar.number_input("Precision (%)",min_value=0.0, value=10.0,max_value=100.0)
@@ -59,7 +59,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_history_label(p, d1, drpt, designEffect, m=None, ICC=None, method="Given",absolute='Absolute Precision'):
+def make_pp_history_label(p, d1, drpt, designEffect, m=None, ICC=None, method="Given",absolute='Absolute Precision'):
     if method == "Given":
         if absolute=='Absolute Precision':
             return f"Preval={p}%, Precision(abs)={round(d1,2)}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"
@@ -77,14 +77,14 @@ def make_history_label(p, d1, drpt, designEffect, m=None, ICC=None, method="Give
 selected_history = None
 selected_label = None
 
-if st.session_state.history:
+if st.session_state.pp_history:
     st.subheader("📜 Select from Past Inputs (Click & Recalculate)")
-    options = [make_history_label(**entry) for entry in st.session_state.history]
-    selected_label = st.selectbox("Choose a past input set:", options, key="history_selector")
+    pp_options = [make_pp_history_label(**entry) for entry in st.session_state.pp_history]
+    selected_label = st.selectbox("Choose a past input set:", pp_options, key="pp_history_selector")
 
     if selected_label:
-        selected_history = next((item for item in st.session_state.history
-                                 if make_history_label(**item) == selected_label), None)
+        selected_history = next((item for item in st.session_state.pp_history
+                                 if make_pp_history_label(**item) == selected_label), None)
         hist_submit = st.button("🔁 Recalculate from Selected History")
     else:
         hist_submit = False
@@ -111,7 +111,7 @@ if go or hist_submit:
             "absolute": ads,
             "d":d
         }
-        st.session_state.history.append(new_entry)
+        st.session_state.pp_history.append(new_entry)
 
     confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
     out=[]
