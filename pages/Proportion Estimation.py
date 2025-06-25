@@ -59,7 +59,7 @@ else:
 go = st.button("Calculate Sample Size")
 
 # Helper to generate label for dropdown
-def make_pp_history_label(p, d1, drpt, designEffect, m=None, ICC=None, method="Given",absolute='Absolute Precision'):
+def make_pp_history_label(p, d1, drpt, designEffect, m=None, ICC=None, method="Given",absolute='Absolute Precision',d=None):
     if method == "Given":
         if absolute=='Absolute Precision':
             return f"Preval={p}%, Precision(abs)={round(d1,2)}%, DropOut={drpt}%, DE(Given)={round(designEffect, 2)}"

@@ -68,7 +68,7 @@ if st.session_state.survival_history:
     survival_labels = [make_survival_label(**item) for item in st.session_state.survival_history]
     selected = st.selectbox("Choose a past input set:", survival_labels, key="survival_history_selector")
     if selected:
-        selected_history = next(item for item in st.session_state.history if make_survival_label(**item) == selected)
+        selected_history = next(item for item in st.session_state.survival_history if make_survival_label(**item) == selected)
         recalc = st.button("🔁 Recalculate")
     else:
         recalc = False
