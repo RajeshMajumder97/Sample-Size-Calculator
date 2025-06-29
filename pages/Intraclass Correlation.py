@@ -37,12 +37,12 @@ if "icc_history" not in st.session_state:
 
 Obj = st.sidebar.number_input("Observation/Subject (n)",value=5,min_value=0,help= "values in integer")
 st.sidebar.text("Number of repeted observatiuons\n by different judges\n per subject,replicates")
-power= st.sidebar.number_input("Power (%)",value=80.0,min_value=0.0,max_value=100.0)
+power= st.sidebar.number_input("Power (%)",value=80.0,min_value=50.0,max_value=99.9)
 minAR= st.sidebar.number_input("Minimum acceptable reliability (rho_0) (%)",value=60.0,min_value=0.0,max_value=100.0)
 st.sidebar.text("The lowest limit of reliability\n you would accept")
 ERR= st.sidebar.number_input("Expected reliability (rho_1) (%)",value=80.0,min_value=0.0,max_value=100.0)
 st.sidebar.text("The level of reliability\n you can expect from the study")
-drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
+drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0)
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
@@ -183,7 +183,7 @@ st.markdown("""
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 
 st.markdown("---")

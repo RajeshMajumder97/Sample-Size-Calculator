@@ -31,7 +31,7 @@ if "survival_history" not in st.session_state:
 # Sidebar inputs
 HR = st.sidebar.number_input("Hazard Ratio (HR)", value=0.7, min_value=0.01, max_value=10.0)
 power = st.sidebar.number_input("Power (%)", value=80.0, min_value=0.0, max_value=100.0)
-conf = st.sidebar.number_input("Confidence Level (%)", value=95.0, min_value=50.0, max_value=99.999)
+#conf = st.sidebar.number_input("Confidence Level (%)", value=95.0, min_value=50.0, max_value=99.999)
 p = st.sidebar.number_input("Allocation Ratio (Group 1) [Exposed Group]", value=0.5, min_value=0.01, max_value=0.99)
 eventRate = st.sidebar.number_input("Expected Event Rate", value=0.6, min_value=0.01, max_value=1.0)
 drp = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=100.0)
@@ -55,11 +55,11 @@ else:
 go = st.button("Calculate Sample Size")
 
 # History label
-def make_survival_label(HR, power, conf, p, eventRate, drp, designEffect, m=None, ICC=None, method="Given"):
+def make_survival_label(HR, power, p, eventRate, drp, designEffect, m=None, ICC=None, method="Given"):
     if method == "Given":
-        return f"HR={HR}, Power={power}%, Conf={conf}%, EventRate={eventRate}, DE={round(designEffect, 2)}"
+        return f"HR={HR}, Power={power}%, EventRate={eventRate}, DE={round(designEffect, 2)}"
     else:
-        return f"HR={HR}, Power={power}%, Conf={conf}%, EventRate={eventRate}, DE={round(designEffect, 2)}, m={m}, ICC={ICC}"
+        return f"HR={HR}, Power={power}%, EventRate={eventRate}, DE={round(designEffect, 2)}, m={m}, ICC={ICC}"
 
 # Select from history
 selected_history = None
@@ -79,7 +79,7 @@ if go or recalc:
     if recalc and selected_history:
         HR = selected_history["HR"]
         power = selected_history["power"]
-        conf = selected_history["conf"]
+        #conf = selected_history["conf"]
         p = selected_history["p"]
         eventRate = selected_history["eventRate"]
         drp = selected_history["drp"]
@@ -88,7 +88,7 @@ if go or recalc:
         st.session_state.survival_history.append({
             "HR": HR,
             "power": power,
-            "conf": conf,
+            #"conf": conf,
             "p": p,
             "eventRate": eventRate,
             "drp": drp,
@@ -98,7 +98,15 @@ if go or recalc:
             "method": method
         })
 
-    sample_size = nSampleSurvival(HR=HR, Pw=power / 100, Conf=conf / 100, p=p, eventRate=eventRate, designEf=designEffect, dropOut=drp / 100)
+    conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
+    results = []
+    for conf in conf_levels:
+        n = nSampleSurvival(HR=HR, Conf= conf, Pw=power / 100,p=p, eventRate=eventRate, designEf=designEffect, dropOut=drp / 100)
+        results.append(n)
+
+    df = pd.DataFrame({"Confidence Level (%)": [(c * 100) for c in conf_levels], "Sample Size": results})
+
+    sample_size = nSampleSurvival(HR=HR, Pw=power / 100, Conf=(0.95), p=p, eventRate=eventRate, designEf=designEffect, dropOut=drp / 100)
 
     st.write("The required total sample size is:")
     st.markdown(f"""
@@ -109,7 +117,10 @@ if go or recalc:
     </div>
     """, unsafe_allow_html=True)
 
-    st.write(f"To detect a hazard ratio of {HR} with {power}% power and {conf}% confidence level, assuming event rate of {eventRate}, allocation ratio {p}, design effect of {round(designEffect, 2)} and drop-out of {drp}%.", unsafe_allow_html=True)
+    st.write(f"""To detect a hazard ratio of {HR} with {power}% power and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, assuming event rate of {eventRate}, allocation ratio {p}, design effect of {round(designEffect, 2)} and drop-out of {drp}%.""", unsafe_allow_html=True)
+
+    st.subheader("Sample Sizes at Other Confidence Levels")
+    st.dataframe(df)
 
 st.markdown("---")
 st.subheader("📌 Formula Used")
@@ -155,7 +166,7 @@ st.markdown("""
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 st.markdown("---")
 st.markdown("**Developed by [Rajesh Majumder]**")

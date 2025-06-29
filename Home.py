@@ -31,7 +31,7 @@ st.write("This open-source and free web application allows researchers, students
 " methods for different study designs. The advantage of this tool is, it also gives the required sample sie calculation formulas along with the references.")
 
 st.markdown("Hi, I am Rajesh, a Ph.D. student in Biostatistics. If you find this tool useful, please cite it as:")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 st.markdown("**If you want to reach me :**")
 st.markdown("**Email:** rajeshnbp9051@gmail.com")

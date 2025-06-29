@@ -31,8 +31,13 @@ if "corr_history" not in st.session_state:
 # Sidebar inputs
 rho0 = st.sidebar.number_input("Null hypothesis correlation (ρ₀)", value=0.0, min_value=-0.99, max_value=0.99)
 rho1 = st.sidebar.number_input("Expected correlation (ρ₁)", value=0.3, min_value=-0.99, max_value=0.99)
-power = st.sidebar.number_input("Power (%)", value=80.0, min_value=0.0, max_value=100.0)
-drp = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=100.0)
+
+if rho0 == rho1:
+    st.sidebar.warning("ρ₀ and ρ₁ cannot be the same.")
+    st.stop()
+
+power = st.sidebar.number_input("Power (%)", value=80.0, min_value=50.0, max_value=99.0)
+drp = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=50.0)
 
 method = st.sidebar.radio("Choose Method for Design Effect:", options=['Given', 'Calculate'])
 
@@ -92,13 +97,13 @@ if go or recalc:
             "method": method
         })
 
-    conf_levels = [0.8, 0.9, 0.95, 0.99, 0.999]
+    conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
     results = []
     for conf in conf_levels:
         n = nSampleCorrelation(rho0=rho0, rho1=rho1, Pw=power / 100, Conf=conf, designEf=designEffect, dropOut=drp / 100)
         results.append(n)
 
-    df = pd.DataFrame({"Confidence Level (%)": [int(c * 100) for c in conf_levels], "Sample Size": results})
+    df = pd.DataFrame({"Confidence Level (%)": [(c * 100) for c in conf_levels], "Sample Size": results})
     n95 = nSampleCorrelation(rho0, rho1, Pw=power / 100, Conf=0.95, designEf=designEffect, dropOut=drp / 100)
 
     st.write("The required total sample size is:")
@@ -110,7 +115,7 @@ if go or recalc:
     </div>
     """, unsafe_allow_html=True)
 
-    st.write(f"To detect a difference between ρ₀ = {rho0} and ρ₁ = {rho1} with {power}% power and 95% confidence level, considering a design effect of {round(designEffect, 2)} and drop-out rate of {drp}%.", unsafe_allow_html=True)
+    st.write(f"""To detect a difference between ρ₀ = {rho0} and ρ₁ = {rho1} with {power}% power and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, considering a design effect of {round(designEffect, 2)} and drop-out rate of {drp}%.""", unsafe_allow_html=True)
     st.subheader("Sample Sizes at Other Confidence Levels")
     st.dataframe(df)
 
@@ -148,7 +153,7 @@ st.markdown("""
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 
 st.markdown("---")

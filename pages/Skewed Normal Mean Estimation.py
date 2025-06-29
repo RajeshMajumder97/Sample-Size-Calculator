@@ -187,7 +187,7 @@ Click on the link to see the theory:[Click on the link](https://drive.google.com
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 
 st.markdown("---")

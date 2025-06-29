@@ -30,16 +30,21 @@ def nSampleOR(p2=0.5,OR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
 if "case_control_history" not in st.session_state:
     st.session_state.case_control_history = []
 
-
+st.sidebar.header("🔧 Input Parameters")
 #p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.0)
 #R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.0,min_value=0.00001,help= "values in decimal.")
 #power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
 #drpt= st.sidebar.number_input("Drop-Out",value=0.0,max_value=1.0,help="value in decimal")
 
-p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=100.00)
+p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=99.9)
 R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.5,min_value=0.00001,help= "values in decimal.")
-power= st.sidebar.number_input("Power (%)", value=80.00,min_value=0.0,max_value=100.0)
-drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=100.0)
+
+if R == 1.0:
+    st.sidebar.warning("OR should not be 1.0 under H₁. Change it to reflect a real difference.")
+    st.stop()
+
+power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9)
+drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=50.0)
 
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
@@ -182,7 +187,7 @@ st.markdown("""
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 
 st.markdown("---")

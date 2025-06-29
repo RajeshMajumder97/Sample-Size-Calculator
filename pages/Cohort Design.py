@@ -32,10 +32,16 @@ def nSampleRR(p1=0.5,RR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
 if "cohort_history" not in st.session_state:
     st.session_state.cohort_history = []
 
-p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=100.00)
+st.sidebar.header("🔧 Input Parameters")
+p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=99.9)
 R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.45,min_value=0.00001,help= "values in decimal.")
-power= st.sidebar.number_input("Power (%)", value=80.00,min_value=0.0,max_value=100.0)
-drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=100.0)
+
+if R == 1.0:
+    st.sidebar.warning("RR = 1.0 means no difference. Please use RR ≠ 1 to detect an effect.")
+    st.stop()
+
+power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9)
+drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=50.0)
 
 x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
@@ -174,7 +180,7 @@ st.markdown("""
 
 st.markdown("---")
 st.subheader("Citation")
-st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.streamlit.app/](https://studysizer.streamlit.app/))*")
+st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
 
 
 st.markdown("---")
