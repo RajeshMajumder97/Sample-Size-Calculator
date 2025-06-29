@@ -11,7 +11,6 @@ st.set_page_config(page_title="Case Control Design",
 # Hide default Streamlit styles
 hide_st_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>

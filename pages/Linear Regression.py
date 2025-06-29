@@ -7,9 +7,9 @@ from scipy.stats import norm
 st.set_page_config(page_title="Linear Regression", page_icon="📈")
 
 # Hide Streamlit styles
+#MainMenu {visibility: hidden;}
 hide_st_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>

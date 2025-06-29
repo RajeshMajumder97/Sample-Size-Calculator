@@ -10,16 +10,11 @@ st.set_page_config(page_title="Normal Mean Estimation",
 # Hide default Streamlit styles
 hide_st_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
 """
-st.markdown(hide_st_style, unsafe_allow_html=True)
-
-
-# Streamlit App
-st.title("Sample Size Calculation for Mean: Mean Estimation")
+st.markdown(hide_st_style,unsafe_allow_html=True)
 
 ## Functuion
 def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):

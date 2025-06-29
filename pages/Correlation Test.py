@@ -8,7 +8,6 @@ st.set_page_config(page_title="Correlation Hypothesis Test | Sample Size", page_
 # Hide Streamlit styles
 hide_st_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>

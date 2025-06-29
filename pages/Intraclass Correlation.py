@@ -8,9 +8,9 @@ st.set_page_config(page_title="Intraclass Correlation",
                    page_icon="🧊")
 
 # Hide default Streamlit styles
+#MainMenu {visibility: hidden;}
 hide_st_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
