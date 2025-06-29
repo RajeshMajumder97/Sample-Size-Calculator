@@ -5,14 +5,6 @@ from scipy.stats import norm
 
 st.set_page_config(page_title="Correlation Hypothesis Test | Sample Size", page_icon="📈")
 
-# Hide Streamlit styles
-hide_st_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.title("Sample Size Calculation for Correlation Test | H₀: ρ = ρ₀ vs H₁: ρ ≠ ρ₀")
 

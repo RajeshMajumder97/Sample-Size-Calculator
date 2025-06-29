@@ -7,15 +7,6 @@ from scipy.special import erf
 st.set_page_config(page_title="Normal Mean Estimation",
                    page_icon="🧊")
 
-# Hide default Streamlit styles
-hide_st_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
-
 ## Functuion
 def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     n= ((norm.ppf(1-((1-Conf)/2))/d)**2)*(sigma**2)

@@ -6,16 +6,6 @@ from scipy.stats import norm
 # Streamlit App Setup
 st.set_page_config(page_title="Two Sample Proportion Hypothesis Testing", page_icon="🧊")
 
-# Hide default Streamlit styles
-#MainMenu {visibility: hidden;}
-hide_st_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
-
 # Title
 st.title("Sample Size Calculation for Proportion Test | H0: P1=P2")
 

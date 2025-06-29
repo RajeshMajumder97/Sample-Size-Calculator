@@ -5,16 +5,6 @@ from scipy.stats import norm
 
 st.set_page_config(page_title="Logistic Regression", page_icon="🧮")
 
-# Hide Streamlit styles
-#MainMenu {visibility: hidden;}
-hide_st_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
-
 st.title("Sample Size Calculation for Multiple Logistic Regression")
 
 # Formula function

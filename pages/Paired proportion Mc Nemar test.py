@@ -7,14 +7,6 @@ import math
 st.set_page_config(page_title="Paired proportion Mc Nemar test",
                    page_icon="🧊")
 
-# Hide default Streamlit styles
-#MainMenu {visibility: hidden;}
-hide_st_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
 # Streamlit App
 st.title("Sample Size Calculation for Paired Proportion test (Mc Nemar's test) | H0: p10=p01")
 
