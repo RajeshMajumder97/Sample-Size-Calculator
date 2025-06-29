@@ -9,27 +9,6 @@ st.set_page_config(page_title="Case Control Design",
                    page_icon="🧊")
 
 
-st.markdown("""
-    <style>
-    /* Hide top-right hamburger menu */
-    [data-testid="stToolbar"] {
-        display: none !important;
-    }
-
-    /* Hide footer */
-    footer {
-        visibility: hidden;
-    }
-
-    /* Hide top header (e.g., "Made with Streamlit") */
-    header {
-        visibility: hidden;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-
-
 # Streamlit App
 st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1")
 
