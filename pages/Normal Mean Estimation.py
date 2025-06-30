@@ -9,13 +9,11 @@ st.set_page_config(page_title="Normal Mean Estimation",
 
 st.markdown("""
     <style>
-    /* Hide the GitHub corner link */
-    a[href^="https://github.com"] {
-        visibility: hidden;
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
     }
     </style>
 """, unsafe_allow_html=True)
-
 
 st.title("Sample Size Calculation for Mean: Mean Estimation")
 ## Functuion
