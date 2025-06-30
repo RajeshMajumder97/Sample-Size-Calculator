@@ -8,6 +8,14 @@ import math
 st.set_page_config(page_title="Case Control Design",
                    page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Streamlit App
 st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1")

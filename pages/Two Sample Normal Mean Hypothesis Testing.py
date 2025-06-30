@@ -7,6 +7,14 @@ from scipy.special import erf
 st.set_page_config(page_title="Two Sample Normal Mean Hypothesis Testing",
                    page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Streamlit App
 st.title("Sample Size Calculation for Two sample Mean Test | H0: Mu1=Mu2")
 

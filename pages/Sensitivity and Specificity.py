@@ -8,6 +8,15 @@ import math
 st.set_page_config(page_title="Sensitivity and Specificity",
                    page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 # Streamlit App
 st.title("Sample Size Calculation for Sensitivity & Specificity: Estimation")
 

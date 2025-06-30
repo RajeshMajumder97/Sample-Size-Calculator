@@ -7,6 +7,16 @@ from scipy.special import erf
 st.set_page_config(page_title="Skewed Normal Mean Estimation",
                    page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+
 def psn(x, delta):
     """ CDF of the skew-normal distribution """
     return 0.5 * (1 + erf(x / np.sqrt(2)))

@@ -6,6 +6,14 @@ from scipy.stats import norm
 # Streamlit App Setup
 st.set_page_config(page_title="Two Sample Proportion Hypothesis Testing", page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Title
 st.title("Sample Size Calculation for Proportion Test | H0: P1=P2")
 

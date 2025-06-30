@@ -5,6 +5,13 @@ from scipy.stats import norm
 
 st.set_page_config(page_title="Correlation Hypothesis Test | Sample Size", page_icon="📈")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 st.title("Sample Size Calculation for Correlation Test | H₀: ρ = ρ₀ vs H₁: ρ ≠ ρ₀")
 

@@ -22,9 +22,16 @@ st.markdown(
         <h1 style='font-size: 68px;'>StudySizer</h1>
         <h3 style='font-size: 38px;'>A Sample Size Calculator</h3>
     </div>
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
+
+
 
 st.write("This open-source and free web application allows researchers, students, and professionals to calculate"
 "the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"

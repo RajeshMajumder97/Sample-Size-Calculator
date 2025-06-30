@@ -7,6 +7,15 @@ import math
 st.set_page_config(page_title="Paired proportion Mc Nemar test",
                    page_icon="🧊")
 
+st.markdown("""
+    <style>
+    button[data-testid="stBaseButton-header"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 # Streamlit App
 st.title("Sample Size Calculation for Paired Proportion test (Mc Nemar's test) | H0: p10=p01")
 
