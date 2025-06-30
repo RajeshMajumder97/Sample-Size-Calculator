@@ -7,6 +7,17 @@ from scipy.special import erf
 st.set_page_config(page_title="Normal Mean Estimation",
                    page_icon="🧊")
 
+#MainMenu {visibility: hidden;}
+hide_st_style = """
+<style>
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
+st.title("Sample Size Calculation for Mean: Mean Estimation")
 ## Functuion
 def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
     n= ((norm.ppf(1-((1-Conf)/2))/d)**2)*(sigma**2)
@@ -32,6 +43,9 @@ else:
     col2.metric("Anticipated Mean",value=mu)
     col3.metric("Precision",value= round(d1,2))
 
+if d1 == 0:
+    st.error("Precision cannot be zero.")
+    st.stop()
 
 drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
 
