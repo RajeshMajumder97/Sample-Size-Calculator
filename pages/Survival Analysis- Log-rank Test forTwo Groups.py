@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import norm
 
-st.set_page_config(page_title="Survival Analysis | Log-rank Test Sample Size (Two Groups)", page_icon="⚡")
+st.set_page_config(page_title="StydySizer | Survival Analysis | Log-rank Test Sample Size (Two Groups)", page_icon="⚡")
 
 st.markdown("""
     <style>

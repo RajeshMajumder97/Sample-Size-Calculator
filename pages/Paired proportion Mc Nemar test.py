@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 import math
-st.set_page_config(page_title="Paired proportion Mc Nemar test",
+st.set_page_config(page_title="StydySizer | Paired proportion Mc Nemar test",
                    page_icon="🧊")
 
 st.markdown("""

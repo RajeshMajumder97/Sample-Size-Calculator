@@ -5,7 +5,7 @@ from scipy.stats import norm
 from scipy.special import erf
 import math
 
-st.set_page_config(page_title="Case Control Design",
+st.set_page_config(page_title="StydySizer | Case Control Design",
                    page_icon="🧊")
 
 st.markdown("""

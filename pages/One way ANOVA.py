@@ -4,7 +4,7 @@ import streamlit as st
 import scipy.stats as stats
 from scipy.special import erf
 
-st.set_page_config(page_title="One way ANOVA",
+st.set_page_config(page_title="StydySizer | One way ANOVA",
                    page_icon="🧊")
 
 st.markdown("""

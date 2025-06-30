@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
-st.set_page_config(page_title="Intraclass Correlation",
+st.set_page_config(page_title="StydySizer | Intraclass Correlation",
                    page_icon="🧊")
 
 st.markdown("""

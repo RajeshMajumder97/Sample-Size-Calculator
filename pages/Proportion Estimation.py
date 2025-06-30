@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
-st.set_page_config(page_title="Proportion Estimation",
+st.set_page_config(page_title="StydySizer | Proportion Estimation",
                    page_icon="🧊")
 
 st.markdown("""

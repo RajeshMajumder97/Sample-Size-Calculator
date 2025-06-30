@@ -5,7 +5,7 @@ from scipy.stats import norm
 from scipy.special import erf
 import math
 
-st.set_page_config(page_title="Sensitivity and Specificity",
+st.set_page_config(page_title="StydySizer | Sensitivity and Specificity",
                    page_icon="🧊")
 
 st.markdown("""

@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 
 # Streamlit App Setup
-st.set_page_config(page_title="Two Sample Proportion Hypothesis Testing", page_icon="🧊")
+st.set_page_config(page_title="StydySizer | Two Sample Proportion Hypothesis Testing", page_icon="🧊")
 
 st.markdown("""
     <style>

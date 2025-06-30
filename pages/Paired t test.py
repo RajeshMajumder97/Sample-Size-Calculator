@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
-st.set_page_config(page_title="Paired t test",
+st.set_page_config(page_title="StydySizer | Paired t test",
                    page_icon="🧊")
 
 st.markdown("""

@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import norm
 
-st.set_page_config(page_title="Logistic Regression", page_icon="🧮")
+st.set_page_config(page_title="StydySizer | Logistic Regression", page_icon="🧮")
 
 st.markdown("""
     <style>

@@ -4,7 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
-st.set_page_config(page_title="Two Sample Normal Mean Hypothesis Testing",
+st.set_page_config(page_title="StydySizer | Two Sample Normal Mean Hypothesis Testing",
                    page_icon="🧊")
 
 st.markdown("""
