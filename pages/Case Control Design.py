@@ -22,7 +22,7 @@ st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1
 
 ## Functuion
 def nSampleOR(p2=0.5,OR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
-    n= ((norm.ppf(1-(1-Conf)/2)+ norm.ppf(Pw))**2/(np.log(OR)**2)) * (1/(p2-(1-p2)))       
+    n= ((norm.ppf(1-(1-Conf)/2)+ norm.ppf(Pw))**2/(np.log(OR)**2)) * (1/(p2*(1-p2)))       
     return(abs(round((n/(1-dropOut))*designEf)))
 
 # Initialize history store
