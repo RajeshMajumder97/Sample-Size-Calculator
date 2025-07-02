@@ -82,14 +82,18 @@ if chooseButton == "None":
     st.subheader("Power Formula")
     st.latex(r"\text{Power} = 1 - F^{-1}_{\text{crit}, df_1, df_2}(\alpha, \lambda)")
 
-    st.markdown("""
-    Where:
-    - \( F^{-1}_{\text{crit}, df_1, df_2} \): CDF of central F-distribution  
-    - \( df_1 = k - 1 \): Between-group degrees of freedom  
-    - \( df_2 = k(n - 1) \): Within-group degrees of freedom  
-    - \( \lambda = f^2 \cdot k \cdot n \): Non-centrality parameter  
-    - \( f \): Cohen’s *f* effect size  
-    """)
+    st.markdown("""Where: """)
+    st.latex(r"""F_{\text{crit}, df_1, df_2}^{-1}=\; \text{is the inverse cumulative distribution function (CDF) of the central F-distribution}""")
+    st.latex(r"""df_1 = k - 1=\; \text{degrees of freedom between groups}""")
+    st.latex(r"""df_2 = k(n - 1)=\; \text{degrees of freedom within groups}""")
+    st.latex(r"""\lambda = f \cdot k \cdot n=\; \text{is the noncentrality parameter}""")
+    st.latex(r"""n=\; \text{is the per-group sample size.}""")
+    st.latex(r"""k=\; \text{is the number of groups.}""")
+    st.latex(r"""f=\sqrt{\frac{\eta^2}{1-\eta^2}}=\; \text{is the Cohen's f : Effect size}""")
+    st.latex(r"""\eta=\frac{SS_{\text{Treatment}}}{SS_{\text{Total}}}""")
+
+
+
 
     st.subheader("Use When")
     st.markdown("""
