@@ -55,7 +55,7 @@ if chooseButton == "None":
     """)
 
     st.subheader("Formula")
-    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2}")
+    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2}")
 
     st.subheader("Design Effect (for clustered designs)")
     st.latex(r"DE = 1 + (m - 1) \cdot \rho")
@@ -149,7 +149,7 @@ elif chooseButton=="Direct Method":
         n_per_group_design = n_per_group * design_effect
         n_per_group_adjusted = n_per_group_design / (1 - dropout)
 
-        return np.ceil(n_per_group_adjusted), np.ceil(n_per_group_adjusted * k)
+        return round(n_per_group_adjusted), round(n_per_group_adjusted) * k
 
     # Initialize history store
     if "anova1_history" not in st.session_state:
@@ -236,17 +236,22 @@ elif chooseButton=="Direct Method":
                     st.session_state.anova1_history.append(new_entry)
 
             method_type = "equal" if approach == "Equal SDs" else "unequal"
-            power_z = round(stats.norm.ppf(power / 100), 4)
+            power_z = stats.norm.ppf(power / 100)
 
             confidence_levels = [0.8, 0.9, 0.95, 0.97, 0.99, 0.999, 0.9999]
             st.subheader("🧮 Sample Size at Different Confidence Levels")
             results = []
             for conf in confidence_levels:
-                z_alpha = round(stats.norm.ppf(conf), 4)
+                z_alpha = stats.norm.ppf(1-((1-conf)/2))
                 n_pg, total_n = direct_anova_sample_size(means, sds, z_alpha, power_z, method_type, dropout, design_effect)
-                results.append({"Confidence Level": round((conf*100),2), "Sample/Group": int(n_pg), "Total Sample": int(total_n)})  #"Z(alpha)": z_alpha, 
+                results.append({"Confidence Leves(%)": round((conf*100),2), "Sample/Group": int(n_pg), "Total Sample": int(total_n)})  #"Z(alpha)": z_alpha, 
+            results_df = pd.DataFrame(results)
+            results_df["Confidence Leves(%)"] = results_df["Confidence Leves(%)"].map(lambda x: f"{x:.2f}")
 
-            st.dataframe(pd.DataFrame(results))
+            def highlight_95(row):
+                return ['background-color: lightgreen' if row['Confidence Leves(%)'] == "95.00" else '' for _ in row]
+            st.dataframe(results_df.style.apply(highlight_95, axis=1))
+            #st.dataframe(pd.DataFrame(results))
 
             st.markdown("---")
             st.subheader("🧾 Calculation Details")
@@ -263,7 +268,7 @@ elif chooseButton=="Direct Method":
 
     st.markdown("---")
     st.subheader("📌 Formula (Direct Method)")
-    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times DE")
+    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times DE")
 
     st.markdown("### **Design Effect Calculation (if clusters are used):**")
     st.latex(r"""
@@ -275,7 +280,7 @@ elif chooseButton=="Direct Method":
     st.markdown("- mu_i: group means")
     st.markdown("- mu_bar: grand mean")
     st.markdown("- sigma^2: average of group variances (equal/unequal)")
-    st.markdown("- (Z_{1-alpha}, Z_{1-beta}\): critical values for significance level and power")
+    st.markdown("- (Z_{1-alpha/2}, Z_{1-beta}\): critical values for significance level and power")
     st.markdown("- DE = Design Effect")
 
     st.markdown("---")
