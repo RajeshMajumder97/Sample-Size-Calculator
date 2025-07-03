@@ -136,7 +136,7 @@ if go or hist_submit:
 
     st.write(f"""Participants (i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{dds}</span> individuals in each group) 
                 to achieve a power of {power}% and 
-                <span style="background-color: yellow; font-weight: bold; font-size: 26px;">95%</span> confidence level, 
+                <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, 
                 for detecting a difference in proportions of {delta}% 
                 between the test and reference group, assuming that {p1}% of the subjects in the reference population have the factor of interest. 
                 Design effect is **{round(designEffect, 1)}** with **{drpt}%** drop-out.""",
