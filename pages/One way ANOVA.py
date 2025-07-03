@@ -6,7 +6,7 @@ from scipy.special import erf
 
 
 st.set_page_config(page_title="StudySizer | One-way ANOVA",
-                   page_icon="🧊")
+                   page_icon="🧮")
 
 st.markdown("""
     <style>

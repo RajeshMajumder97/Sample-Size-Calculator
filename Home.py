@@ -3,6 +3,7 @@ from PIL import Image
 import base64
 from io import BytesIO
 
+st.set_page_config(page_title="StydySizer | Home Page", page_icon="🧮")
 # Load logo image (your uploaded icon)
 logo = Image.open("image.png")
 

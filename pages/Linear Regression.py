@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import norm
 
-st.set_page_config(page_title="StydySizer | Linear Regression", page_icon="📈")
+st.set_page_config(page_title="StydySizer | Linear Regression", page_icon="🧮")
 
 st.markdown("""
     <style>

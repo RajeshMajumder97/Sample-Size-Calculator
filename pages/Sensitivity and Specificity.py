@@ -6,7 +6,7 @@ from scipy.special import erf
 import math
 
 st.set_page_config(page_title="StydySizer | Sensitivity and Specificity",
-                   page_icon="🧊")
+                   page_icon="🧮")
 
 st.markdown("""
     <style>

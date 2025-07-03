@@ -5,7 +5,7 @@ from scipy.stats import norm
 from scipy.special import erf
 
 st.set_page_config(page_title="StydySizer | Two Sample Normal Mean Hypothesis Testing",
-                   page_icon="🧊")
+                   page_icon="🧮")
 
 st.markdown("""
     <style>
