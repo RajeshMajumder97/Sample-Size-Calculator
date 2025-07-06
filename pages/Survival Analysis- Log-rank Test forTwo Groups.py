@@ -124,7 +124,7 @@ if go or recalc:
 st.markdown("---")
 st.subheader("📌 Formula Used")
 st.latex(r"""
-n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2}{[\log(HR)]^2 \cdot p(1-p)} \times \frac{1}{\text{event rate}} \times DE
+n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2}{[\log(HR)]^2 \cdot p(1-p)} \times \frac{1}{\text{event rate}} \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### Design Effect (if clusters are used):")
@@ -140,7 +140,8 @@ st.markdown("""
 - **\( Z_{1-\beta} \)**: Z-score for power
 - **\( event\ rate \)**: Proportion of individuals expected to experience the event
 - **\( DE \)**: Design effect
-- **\( ICC \)**: Intra-cluster correlation
+- **\( ICC \)**: Intra-cluster correlation.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.markdown("---")

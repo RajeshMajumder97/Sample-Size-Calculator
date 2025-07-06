@@ -151,7 +151,7 @@ st.subheader("📌 Mathematical Formula for Sample Size Calculation")
 st.markdown("### **Sample Size Formula for Intraclass Correlation (ICC) Estimation**")
 
 st.latex(r"""
-N = \frac{1 + 2(Z_{\alpha} + Z_{\beta})^2 \cdot n}{\left(\ln\left(\frac{1 + \frac{n \rho_0}{1 - \rho_0}}{1 + \frac{n \rho_1}{1 - \rho_1}}\right)\right)^2 (n - 1)} \times DE
+N = \frac{1 + 2(Z_{\alpha} + Z_{\beta})^2 \cdot n}{\left(\ln\left(\frac{1 + \frac{n \rho_0}{1 - \rho_0}}{1 + \frac{n \rho_1}{1 - \rho_1}}\right)\right)^2 (n - 1)} \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -170,6 +170,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("📌 References")

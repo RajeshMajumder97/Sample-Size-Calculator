@@ -120,7 +120,7 @@ if go or recalc:
 st.markdown("---")
 st.subheader("📌 Formula Used")
 st.latex(r"""
-n = \left(\left( \frac{Z_{1-\alpha/2} + Z_{1-\beta}}{\frac{1}{2} \ln\left(\frac{1 + \rho_1}{1 - \rho_1}\right) - \frac{1}{2} \ln\left(\frac{1 + \rho_0}{1 - \rho_0}\right)} \right)^2 + 3\right) \times DE
+n = \left(\left( \frac{Z_{1-\alpha/2} + Z_{1-\beta}}{\frac{1}{2} \ln\left(\frac{1 + \rho_1}{1 - \rho_1}\right) - \frac{1}{2} \ln\left(\frac{1 + \rho_0}{1 - \rho_0}\right)} \right)^2 + 3\right) \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### Design Effect (if clusters are used):")
@@ -139,6 +139,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 

@@ -139,7 +139,7 @@ st.subheader("📌 Formula for Sample Size Calculation")
 st.markdown("### **Two-Sample Mean Hypothesis Test Sample Size Formula**")
 
 st.latex(r"""
-n = \frac{2 (Z_{1-(\alpha/2)} + Z_{1-\beta})^2 \cdot \sigma^2}{\delta^2} \times DE
+n = \frac{2 (Z_{1-(\alpha/2)} + Z_{1-\beta})^2 \cdot \sigma^2}{\delta^2} \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -157,6 +157,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("📌 References")

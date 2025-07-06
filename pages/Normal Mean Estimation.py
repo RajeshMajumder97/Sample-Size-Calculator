@@ -181,7 +181,7 @@ st.subheader("📌 Formula for Sample Size Calculation")
 
 st.markdown("### **Sample Size Formula for Mean Estimation**")
 st.latex(r"""
-n = \left( \frac{Z_{1-\alpha/2} \cdot \sigma}{d} \right)^2 \times DE
+n = \left( \frac{Z_{1-\alpha/2} \cdot \sigma}{d} \right)^2 \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -198,6 +198,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("📌 References")

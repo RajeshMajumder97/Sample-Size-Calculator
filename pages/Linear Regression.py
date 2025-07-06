@@ -119,7 +119,7 @@ if go or recalc:
 st.markdown("---")
 st.subheader("📌 Formula Used")
 st.latex(r"""
-n = \left( \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot (1 - R^2)}{R^2 / k} \right) + k + 1
+n = \left(\left(\frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot (1 - R^2)}{R^2 / k} \right) + k + 1 \right)\times \frac{DE}{1 - \text{Dropout\%}}
 """)
 st.markdown("### Design Effect (if clusters are used):")
 st.latex(r"""
@@ -135,6 +135,7 @@ st.markdown("""
 - **\( DE \)**: Design Effect.  
 - **\( m \)**: Number of clusters.  
 - **\( ICC \)**: Intra-cluster correlation coefficient.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.markdown("---")

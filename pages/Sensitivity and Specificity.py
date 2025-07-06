@@ -167,12 +167,12 @@ st.subheader("📌 Formula for Sample Size Calculation")
 
 st.markdown("### **Sensitivity Sample Size Formula**")
 st.latex(r"""
-n_{Se} = \left( \frac{Z_{1-\alpha/2}}{d \times p} \right)^2 \times Se (1 - Se) \times DE
+n_{Se} = \left( \frac{Z_{1-\alpha/2}}{d \times p} \right)^2 \times Se (1 - Se) \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Specificity Sample Size Formula**")
 st.latex(r"""
-n_{Sp} = \left( \frac{Z_{1-\alpha/2}}{d \times (1-p)} \right)^2 \times Sp (1 - Sp) \times DE
+n_{Sp} = \left( \frac{Z_{1-\alpha/2}}{d \times (1-p)} \right)^2 \times Sp (1 - Sp) \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -190,6 +190,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("References")

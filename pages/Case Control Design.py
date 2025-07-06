@@ -158,7 +158,7 @@ st.subheader("📌 Formula for Sample Size Calculation")
 st.markdown("### **Case-Control Study Sample Size Formula for Odds Ratio**")
 
 st.latex(r"""
-n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2}{\ln(OR)^2} \times \left( \frac{1}{p_0 (1 - p_0)} \right) \times DF
+n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2}{\ln(OR)^2} \times \left( \frac{1}{p_0 (1 - p_0)} \right) \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### **Design Effect Calculation (if clusters are used):**")
@@ -176,6 +176,7 @@ st.markdown("""
 - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
 - **\( m \)**: Number of cluster.
 - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("📌 References")

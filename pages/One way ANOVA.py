@@ -268,7 +268,7 @@ elif chooseButton=="Direct Method":
 
     st.markdown("---")
     st.subheader("📌 Formula (Direct Method)")
-    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times DE")
+    st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times \frac{DE}{1 - \text{Dropout\%}}")
 
     st.markdown("### **Design Effect Calculation (if clusters are used):**")
     st.latex(r"""
@@ -282,6 +282,7 @@ elif chooseButton=="Direct Method":
     st.markdown("- sigma^2: average of group variances (equal/unequal)")
     st.markdown("- (Z_{1-alpha/2}, Z_{1-beta}\): critical values for significance level and power")
     st.markdown("- DE = Design Effect")
+    st.markdown("- Dropout%: Anticipated percentage of dropout in the study.")
 
     st.markdown("---")
     st.subheader("📌 Notes")

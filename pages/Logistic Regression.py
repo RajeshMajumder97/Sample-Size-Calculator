@@ -123,7 +123,7 @@ st.markdown("---")
 st.subheader("📌 Formula Used")
 
 st.latex(r"""
-n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot (1 + (1 - R^2)(k - 1))}{P(1 - P)(\ln(OR))^2(1 - R^2)} \times DE
+n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot (1 + (1 - R^2)(k - 1))}{P(1 - P)(\ln(OR))^2(1 - R^2)} \times \frac{DE}{1 - \text{Dropout\%}}
 """)
 
 st.markdown("### Design Effect (if clusters are used):")
@@ -141,6 +141,7 @@ st.markdown("""
 - **\( \beta \)**: Type II error = 1 - Power.
 - **\( k \)**: Number of predictors in the model.
 - **\( DE \)**: Design effect (for cluster sampling).
+- **Dropout%**: Anticipated percentage of dropout in the study.
 """)
 
 st.subheader("📌 References")
