@@ -154,12 +154,12 @@ render_section("Two Sample Normal Mean Hypothesis Testing",
                "Mean difference",
                "RCTs, group comparison.")
 
-render_section("Two Sample Proportion Hypothesis Testing",
-               "Comparing the proportion of events between two independent groups.",
-               "Proportion difference",
-               "Treatment effectiveness, intervention studies.")
-
 render_section("Two Samples Poisson Rate Comparison",
                "Comparing the event rates (e.g., counts per person-time) between two independent groups.",
                "Rate Ratio (RR) or Difference in Event Rates",
                "Incidence rate comparison in cohort studies, adverse event rate comparison, infection rates, hospital visit rates, etc.")
+
+render_section("Two Sample Proportion Hypothesis Testing",
+               "Comparing the proportion of events between two independent groups.",
+               "Proportion difference",
+               "Treatment effectiveness, intervention studies.")
