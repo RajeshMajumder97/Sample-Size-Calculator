@@ -8,19 +8,21 @@ def main():
 #    st.set_page_config(page_title="StudySizer | One-way ANOVA",
 #                    page_icon="🧮")
 #
-#    st.markdown("""
-#        <style>
-#        button[data-testid="stBaseButton-header"] {
-#           display: none !important;
-#        }
-#        </style>
-#    """, unsafe_allow_html=True)
-
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Options")
 
     chooseButton= st.sidebar.radio("Choose Method", options=["None", "Direct Method", "Non-central F-Distribution Method"],index=0)
     if chooseButton == "None":
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         st.title("One-way ANOVA Sample Size Calculation Methods")
         st.markdown("---")
         st.header("Approach 1: Using Cohen’s *f* (Effect Size)")
@@ -132,7 +134,16 @@ def main():
     elif chooseButton=="Direct Method":
 
         st.title("Sample Size Calculation for One-way ANOVA (Direct Formula Method)")
-
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         # Function to compute sample size using Direct Method (Approach 2)
         def direct_anova_sample_size(means, sds, z_alpha, z_beta, method="equal", dropout=0, design_effect=1):
             k = len(means)
@@ -321,7 +332,16 @@ def main():
     else:
         # Streamlit App
         st.title("Sample Size Calculation for One way ANOVA (Non central F-didtribution Method)")
-
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         ## Functuion
         def calculate_anova_sample_size(effect_size, alpha, power, k,dpt):
             """

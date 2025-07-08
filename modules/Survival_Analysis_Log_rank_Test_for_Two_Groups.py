@@ -8,17 +8,18 @@ def main():
 
     #    st.set_page_config(page_title="StydySizer | Survival Analysis | Log-rank Test Sample Size (Two Groups)", page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
 
     st.title("Sample Size Calculation for Survival Analysis | Log-rank Test (Two Sample)")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     # Sample size calculation function for log-rank test
     def nSampleSurvival(HR=0.7, Pw=0.8, Conf=0.95, p=0.5, eventRate=0.6, designEf=1.0, dropOut=0.0):
         z_alpha = norm.ppf(1 - (1 - Conf) / 2)

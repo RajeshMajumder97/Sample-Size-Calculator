@@ -18,7 +18,16 @@ def main():
 
     # Streamlit App
     st.title("Sample Size Calculation for Intraclass Correlation")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     ## Functuion
     def nSampleICC(n=5,rho0=2,rho1=0.8,Conf=0.95,Pw=0.8,designEf=1,dropOut=0):
         Z_alpha = norm.ppf(1 - (1-Conf) / 2)  

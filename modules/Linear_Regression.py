@@ -16,7 +16,16 @@ def main():
     #    """, unsafe_allow_html=True)
 
     st.title("Sample Size Calculator for Multiple Linear Regression")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     # Sample size calculation function
     def sample_size_linear_regression(R_squared, k, alpha=0.05, power=0.8, designEf=1.0, dropOut=0.0):
         Z_alpha = norm.ppf(1 - alpha / 2)

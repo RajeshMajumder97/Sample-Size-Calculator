@@ -7,17 +7,18 @@ def main():
     # Streamlit App Setup
 #    st.set_page_config(page_title="StydySizer | Two Sample Proportion Hypothesis Testing", page_icon="🧮")
 #
-#    st.markdown("""
-#        <style>
-#        button[data-testid="stBaseButton-header"] {
-#            display: none !important;
-#        }
-#        </style>
-#    """, unsafe_allow_html=True)
-
     # Title
     st.title("Sample Size Calculation for Proportion Test | H0: P1=P2")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     # Function to calculate sample size
     def nSampleProp(p1=0.5, p2=0.5, delta=0.0, Pw=0.8, Conf=0.95, designEf=1, dropOut=0):
         n = (((norm.ppf(1 - (1 - Conf) / 2) + norm.ppf(Pw)) ** 2) * (p1 * (1 - p1) + p2 * (1 - p2))) / (delta ** 2)

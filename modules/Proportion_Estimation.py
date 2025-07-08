@@ -9,17 +9,18 @@ def main():
     #    st.set_page_config(page_title="StydySizer | Proportion Estimation",
     #                    page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
     # Streamlit App
     st.title("Sample Size Calculation for Proportion: Proportion Estimation")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     ## Functuion
     def nSampleProp(p=0.5,d=0.05,Conf=0.95,designEf=1,dropOut=0):
         n= ((norm.ppf(1-(1-Conf)/2)/d)**2)*(p*(1-p))

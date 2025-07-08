@@ -8,14 +8,6 @@ def main():
     #    st.set_page_config(page_title="StydySizer | Skewed Normal Mean Estimation",
     #                    page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
     def psn(x, delta):
         """ CDF of the skew-normal distribution """
         return 0.5 * (1 + erf(x / np.sqrt(2)))
@@ -58,7 +50,16 @@ def main():
 
     # Streamlit App
     st.title("Sample Size Calculation for Skew Normal Distribution: Mean Estimation")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     # Initialize history store
     if "Sknoormal_history" not in st.session_state:
         st.session_state.Sknoormal_history = []

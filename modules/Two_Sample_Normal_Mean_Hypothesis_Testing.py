@@ -8,17 +8,20 @@ def main():
     #    st.set_page_config(page_title="StydySizer | Two Sample Normal Mean Hypothesis Testing",
     #                    page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
     # Streamlit App
     st.title("Sample Size Calculation for Two sample Mean Test | H0: Mu1=Mu2")
 
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
     ## Functuion
     def nSampleMean(sigma=0.01,Pw=0.8,delta=0.05,Conf=0.95,designEf=1,dropOut=0):
         n= (2*(norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(sigma/delta)**2                               

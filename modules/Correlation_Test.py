@@ -16,7 +16,16 @@ def main():
     #    """, unsafe_allow_html=True)
 
     st.title("Sample Size Calculation for Correlation Test | H₀: ρ = ρ₀ vs H₁: ρ ≠ ρ₀")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     # Fisher's Z-transformation sample size function
     def nSampleCorrelation(rho0=0.0, rho1=0.3, Pw=0.8, Conf=0.95, designEf=1, dropOut=0):
         z0 = 0.5 * np.log((1 + rho0) / (1 - rho0))

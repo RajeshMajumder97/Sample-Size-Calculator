@@ -19,7 +19,16 @@ def main():
     chooseButton= st.sidebar.radio("Choose Method", options=["Help","Poisson Distribution (No over dispersion)", "Negative Binomial Distribution (Overdisperdion in Poisson varianve)"],index=0)
     if chooseButton=="Help":
         st.title("Approaches to Sample Size Calculation for Comparing Two Event Rates")
-
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         st.markdown("""
         ## **Introduction**
 
@@ -138,6 +147,17 @@ def main():
 
     elif chooseButton=="Poisson Distribution (No over dispersion)":
         st.title("Sample Size Calculation for Comparing Two Poisson Rates (Person-Time) | H0: Both the group rates are same")
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        
         # Function: Sample size for Poisson rate comparison (GLM approach with person-time, design effect, dropout)
         def nSamplePoissonGLM(mu0, mu1, T0=1.0, T1=1.0, Q0=0.5, Q1=0.5, alpha=0.05, power=0.8, designEffect=1.0, dropout=0.0):
             z_alpha = norm.ppf(1 - alpha / 2)
@@ -336,6 +356,17 @@ def main():
         st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
     else:
         st.title("Sample Size Calculation for Comparing Two Negative Binomial Rates (Person-Time) | H0: Both the group rates are same")
+        st.markdown(
+            """
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        
         # Function: Sample size for Negative Binomial rate comparison (GLM approach with person-time, design effect, dropout)
         def nSampleNegBinGLM(mu0, mu1, k0, k1, T0=1.0, T1=1.0, Q0=0.5, Q1=0.5, alpha=0.05, power=0.8, designEffect=1.0, dropout=0.0):
             z_alpha = norm.ppf(1 - alpha / 2)
@@ -358,7 +389,7 @@ def main():
             st.session_state.poisson_rate_overdisp_history = []
 
         st.sidebar.markdown("---")
-        
+
         st.sidebar.header("🔧 Input Parameters")
 
         # Sidebar inputs

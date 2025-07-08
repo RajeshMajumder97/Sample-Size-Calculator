@@ -9,17 +9,19 @@ def main():
     #    st.set_page_config(page_title="StydySizer | Sensitivity and Specificity",
     #                    page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
-
     # Streamlit App
     st.title("Sample Size Calculation for Sensitivity & Specificity: Estimation")
+
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
     ## Functuion
     def nSampleSen(p=0.5,Se=0.80,d=0.05,Conf=0.95,designEf=1,dropOut=0):
@@ -35,7 +37,7 @@ def main():
         st.session_state.senspe_history = []
 
     st.sidebar.markdown("---")
-    
+
     st.sidebar.header("🔧 Input Parameters")
 
     p = st.sidebar.number_input("Prevalence of the Event (%)",value=50.0,min_value=0.0,max_value=100.0)

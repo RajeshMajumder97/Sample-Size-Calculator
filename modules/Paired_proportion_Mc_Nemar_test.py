@@ -8,18 +8,20 @@ import math
 def main():
 #    st.set_page_config(page_title="StydySizer | Paired proportion Mc Nemar test",
 #                    page_icon="🧮")
-#
-#    st.markdown("""
-#        <style>
-#        button[data-testid="stBaseButton-header"] {
-#            display: none !important;
-#        }
-#        </style>
-#    """, unsafe_allow_html=True) 
-
 
     # Streamlit App
     st.title("Sample Size Calculation for Paired Proportion test (Mc Nemar's test) | H0: p10=p01")
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
 
     ## Functuion
     def nSampleProp(p10=0.5,p01=0.6,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):

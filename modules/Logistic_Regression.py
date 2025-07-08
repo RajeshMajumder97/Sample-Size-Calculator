@@ -6,17 +6,17 @@ from scipy.stats import norm
 def main():
     #    st.set_page_config(page_title="StydySizer | Logistic Regression", page_icon="🧮")
     #
-    #    st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
-
-
     st.title("Sample Size Calculation for Multiple Logistic Regression")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
     # Formula function
     def nSampleLogisticRegression(P=0.1, OR=1.5, R2=0.2, alpha=0.05, power=0.8, k=1, designEf=1, dropOut=0.0):

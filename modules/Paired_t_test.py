@@ -8,7 +8,16 @@ def main():
 
     # Streamlit App
     st.title("Sample Size Calculation for Paired sample Mean Test | H0: Mu_pre=Mu_post")
-
+    st.markdown(
+        """
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     ## Functuion
     def nSampleMean(sigma=0.01,Pw=0.8,delta=0.05,Conf=0.95,designEf=1,dropOut=0):
         n= ((norm.ppf(1-(1-Conf)/2)+norm.ppf(Pw))**2)*(sigma/delta)**2                               
