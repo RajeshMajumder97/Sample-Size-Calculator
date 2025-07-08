@@ -6,7 +6,8 @@ from scipy.special import erf
 import math
 def main():
 
-    st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1")
+    # Streamlit App
+    st.title("Sample Size Calculation for Cohort Design: Relative Risk | H0: RR=1")
     st.markdown(
         """
         <style>
@@ -17,6 +18,7 @@ def main():
         """,
         unsafe_allow_html=True
     )
+
     ## Functuion
     def nSampleRR(p1=0.5,RR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
         p2= p1*RR
