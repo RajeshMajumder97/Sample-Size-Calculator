@@ -7,17 +7,17 @@ import math
 def main():
 
     # Streamlit App
-    st.title("Sample Size Calculation for Cohort Design: Relative Risk | H0: RR=1")
     st.markdown(
         """
-            <style>
-            button[data-testid="stBaseButton-header"] {
-                display: none !important;
-            }
-            </style>
+        <style>
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
+        }
+        </style>
         """,
         unsafe_allow_html=True
     )
+    st.title("Sample Size Calculation for Cohort Design: Relative Risk | H0: RR=1")
     ## Functuion
     def nSampleRR(p1=0.5,RR=1.0,Pw=0.8,Conf=0.95,designEf=1,dropOut=0):
         p2= p1*RR
