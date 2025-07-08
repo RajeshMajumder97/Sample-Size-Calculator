@@ -213,7 +213,8 @@ else:
         ])
     elif category == "Reliability":
         method = st.sidebar.selectbox("Choose Method", [
-            "Intraclass Correlation",
+            "Intraclass Correlation Estimation",
+            "Intraclass Correlation Hypothesis Testing",
             "Sensitivity and Specificity"
         ])
     elif category == "Regression":

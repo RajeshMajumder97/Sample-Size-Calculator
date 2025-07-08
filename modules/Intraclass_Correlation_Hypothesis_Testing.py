@@ -8,16 +8,9 @@ def main():
     #    st.set_page_config(page_title="StydySizer | Intraclass Correlation",
     #                    page_icon="🧮")
     #
-    #   st.markdown("""
-    #        <style>
-    #        button[data-testid="stBaseButton-header"] {
-    #            display: none !important;
-    #        }
-    #        </style>
-    #    """, unsafe_allow_html=True)
 
     # Streamlit App
-    st.title("Sample Size Calculation for Intraclass Correlation")
+    st.title("Sample Size Calculation for Intraclass Correlation Hypothesis Testing")
     st.markdown(
         """
         <style>
