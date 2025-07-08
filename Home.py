@@ -16,16 +16,16 @@ category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Est
 # 🌟 Show Home Page if nothing is selected
 if category == "-- Select --":
     # Hide sidebar and header menu buttons
-    st.markdown("""
+    st.markdown(
+        """
         <style>
-        #MainMenu, header, footer {
-            visibility: hidden;
-        }
-        .block-container {
-            padding-top: 4rem;
+        button[data-testid="stBaseButton-header"] {
+            display: none !important;
         }
         </style>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
     # Welcome Message
     st.markdown("""
@@ -62,7 +62,7 @@ elif category == "About":
         <div style='text-align: center;'>
             <h1 style='font-size: 68px;'>StudySizer</h1>
             <h3 style='font-size: 38px;'>A Sample Size Calculator</h3>
-        </div>        
+        </div>
         <style>
         button[data-testid="stBaseButton-header"] {
             display: none !important;
@@ -71,6 +71,7 @@ elif category == "About":
         """,
         unsafe_allow_html=True
     )
+
     st.write("This open-source and free web application allows researchers, students, and professionals to calculate"
     "the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"
     " methods for different study designs. The advantage of this tool is, it also gives the required sample sie calculation formulas along with the references.")
