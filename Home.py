@@ -4,7 +4,7 @@ from PIL import Image
 import base64
 from io import BytesIO
 
-st.set_page_config(page_title="Home | StudySizer", page_icon="🧮", layout="wide")
+st.set_page_config(page_title="Home | StudySizer", page_icon="🧮")
 st.sidebar.image("image.png", width=200)
 from utils import inject_logo
 #inject_logo()
