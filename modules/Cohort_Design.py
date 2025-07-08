@@ -10,11 +10,11 @@ def main():
     st.title("Sample Size Calculation for Cohort Design: Relative Risk | H0: RR=1")
     st.markdown(
         """
-        <style>
+            <style>
             button[data-testid="stBaseButton-header"] {
                 display: none !important;
             }
-        </style>
+            </style>
         """,
         unsafe_allow_html=True
     )
