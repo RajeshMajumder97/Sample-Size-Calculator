@@ -11,11 +11,11 @@ def main():
     st.title("Sample Size Calculation for Case Control Design: Odds Ratio | H0: OR=1")
     st.markdown(
         """
-        <style>
-        button[data-testid="stBaseButton-header"] {
-            display: none !important;
-        }
-        </style>
+            <style>
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
+            </style>
         """,
         unsafe_allow_html=True
     )

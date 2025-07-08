@@ -11,9 +11,9 @@ def main():
     st.markdown(
         """
         <style>
-        button[data-testid="stBaseButton-header"] {
-            display: none !important;
-        }
+            button[data-testid="stBaseButton-header"] {
+                display: none !important;
+            }
         </style>
         """,
         unsafe_allow_html=True
