@@ -112,7 +112,7 @@ def main():
                 new_entry['d_percent'] = d_percent
             st.session_state.icc_estimation_history.append(new_entry)
 
-        confidenceIntervals = [0.8, 0.9, 0.95, 0.99, 0.999, 0.9999]
+        confidenceIntervals = [0.8,0.9,0.97,0.99,0.999,0.9999]
         out = []
 
         for conf in confidenceIntervals:
@@ -121,7 +121,7 @@ def main():
             out.append(sample_size)
 
         df = pd.DataFrame({
-            "Confidence Levels (%)": [int(cl * 100) for cl in confidenceIntervals],
+            "Confidence Levels (%)": [cl * 100 for cl in confidenceIntervals],
             "Sample Size": out
         })
 
