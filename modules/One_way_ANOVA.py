@@ -174,23 +174,26 @@ def main():
 
         # Sidebar Inputs
         approach = st.sidebar.selectbox("Select Method", ["Equal SDs", "Unequal SDs"])
-        k = st.sidebar.number_input("Number of Groups", min_value=2, value=3)
+        k = st.sidebar.number_input("Number of Groups", min_value=2, value=3,help="Enter an integer value (e.g., 3)")
         means_input = st.sidebar.text_input(f"Enter {k} Group Means (comma-separated)", value="10,12,15")
         sds_input = st.sidebar.text_input(f"Enter {k} SDs (comma-separated)", value="3,3,3")
-        power = st.sidebar.number_input("Power(%)", min_value=1.0, max_value=99.9, value=80.0)
-        dropout = st.sidebar.number_input("Drop-out Rate (%)", min_value=0.0, max_value=100.0, value=0.0) / 100
+        power = st.sidebar.number_input("Power(%)", min_value=1.0, max_value=99.9, value=80.0,help="Enter a percentage value (e.g., 80%)")
+        dropout = st.sidebar.number_input("Drop-out Rate (%)", min_value=0.0, max_value=100.0, value=0.0,help="Enter a percentage value (e.g., 1%)") / 100
 
         # Design effect options
         st.sidebar.markdown("### Design Effect")
         de_mode = st.sidebar.radio("Choose Method for Design Effect:", options=['Given','Calculate'])
         if de_mode == "Given":
-            design_effect = st.sidebar.number_input("Design Effect (DE)", min_value=1.0, value=1.0)
+            design_effect = st.sidebar.number_input("Design Effect (Given)", min_value=1.0, value=1.0,help="Enter an decimal value (e.g., 1.5)")
             m, rho = None, None
         else:
-            m = st.sidebar.number_input("Average Cluster Size (m)", min_value=1, value=10)
-            rho = st.sidebar.number_input("Intraclass Correlation (ICC, ρ)", min_value=0.0, max_value=1.0, value=0.05)
+            m = st.sidebar.number_input("Number of Clusters (m)", min_value=2, value=4,help="Enter an integer value (e.g., 4)")
+            rho = st.sidebar.number_input("Intraclass Correlation (ICC) for clustering", min_value=0.0, max_value=1.0, value=0.05,help="Enter a decimal value (e.g., 0.05)")
             design_effect = 1 + (m - 1) * rho
-            st.sidebar.markdown(f"**Calculated DE:** {design_effect:.3f}")
+            col1,col2,col3=st.columns(3)
+            col1.metric("Cluster Size (m)",value=m)
+            col2.metric("Intra Class Correlation (ICC)",value=rho)
+            col3.metric("Design Effect",value= round(design_effect,2))
 
         calculate = st.button("Calculate Sample Size")
 
@@ -395,11 +398,11 @@ def main():
         st.sidebar.markdown("---")
         st.sidebar.header("🔧 Input Parameters")
 
-        esize = st.sidebar.number_input("Effect size (Cohen's f)",value=0.25,min_value=0.0,max_value=1.0)
+        esize = st.sidebar.number_input("Effect size (Cohen's f)",value=0.25,min_value=0.0,max_value=1.0,help="Enter a decimal value (e.g., 0.25)")
         st.sidebar.text("0.10 = Small effect size\n 0.25= Medium effect size\n 0.40= Large effect size")
-        power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
-        KK=st.sidebar.number_input("Number of groups (k)",value=5,min_value=3)
-        drpt= st.sidebar.number_input("Drop-Out (%)",min_value=0.0,value=0.0,max_value=100.0)
+        power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 5%)")
+        KK=st.sidebar.number_input("Number of groups (k)",value=5,min_value=3,help="Enter an integer value (e.g., 3)")
+        drpt= st.sidebar.number_input("Drop-Out (%)",min_value=0.0,value=0.0,max_value=50.0,help="Enter an integer value (e.g., 1%)")
         go= st.button("Calculate Sample Size")
 
 

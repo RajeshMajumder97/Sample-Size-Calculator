@@ -33,16 +33,16 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Parameters")
 
-    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "values in decimal.")
+    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "Enter a value >0")
     ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative to the Proportion'])
 
     if(ads=='Absolute Precision'):
-        d = st.sidebar.number_input("Absoulte Precision", value=5.0,min_value=0.00,max_value=100.0)
+        d = st.sidebar.number_input("Absoulte Precision (d)", value=5.0,min_value=0.00,max_value=100.0,help="Enter an integer value (e.g., 5)")
         d1=d
         mu=None
     else:
-        d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,max_value=100.0)
-        mu= st.sidebar.number_input("Anticipated Mean", value=35.0)
+        d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,max_value=99.99,help="Enter a percentage value (e.g., 5%)")
+        mu= st.sidebar.number_input("Anticipated Mean", value=35.0,min_value=0.01,max_value=1e6,help="Enter the expected mean value of the outcome. Must be positive (e.g., average blood pressure, weight, score, etc.).")
         d1= (d/100)*mu
         col1,col2,col3=st.columns(3)
         col1.metric("Relative Precision(%)",value=d)
@@ -53,17 +53,17 @@ def main():
         st.error("Precision cannot be zero.")
         st.stop()
 
-    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=100.0)
+    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,help= "values in integer. Minimum is 1")
+        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter an decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
-        m= st.sidebar.number_input("Number of cluster",min_value=2)
-        ICC= st.sidebar.number_input("ICC",min_value=0.0)
+        m= st.sidebar.number_input("Number of cClusters (m)",min_value=2,value=2,help="Enter an integer value (e.g., 4)")
+        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for Cstering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         designEffect= 1+(m-1)*ICC
         col1,col2,col3=st.columns(3)
         col1.metric("Cluster Size (m)",value=m)

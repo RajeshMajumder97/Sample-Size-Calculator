@@ -35,19 +35,19 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Parameters")
     # Sidebar inputs
-    R_squared = st.sidebar.number_input("Expected R²", min_value=0.01, max_value=0.99, value=0.13, step=0.01)
-    k = st.sidebar.number_input("Number of Predictors", min_value=1, value=5)
-    power = st.sidebar.number_input("Power (%)", min_value=50.0, max_value=99.0, value=80.0)
-    drp = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=50.0)
+    R_squared = st.sidebar.number_input("Expected R²", min_value=0.0001, max_value=0.99, value=0.13,help="Enter a decimal value (e.g., 0.05)")
+    k = st.sidebar.number_input("Number of Predictors (k)", min_value=1, value=5,help="Enter an integer value (e.g., 5)")
+    power = st.sidebar.number_input("Power (%)", min_value=50.0, max_value=99.0, value=80.0,help="Enter a percentage value (e.g., 80%)")
+    drp = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=50.0,help="Enter a percentage value (e.g., 1%)")
     method = st.sidebar.radio("Choose Method for Design Effect:", options=['Given', 'Calculate'])
 
     if method == "Given":
-        designEffect = st.sidebar.number_input("Design Effect", value=1.0, min_value=1.0)
+        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter an decimal value (e.g., 1.5)")
         m = None
         ICC = None
     else:
-        m = st.sidebar.number_input("Number of Clusters (m)", min_value=2)
-        ICC = st.sidebar.number_input("Intra-class Correlation (ICC)", min_value=0.0)
+        m = st.sidebar.number_input("Number of Clusters (m)", min_value=2,value=4,help="Enter an integer value (e.g., 4)")
+        ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering", min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         designEffect = 1 + (m - 1) * ICC
         col1, col2, col3 = st.columns(3)
         col1.metric("Cluster Size (m)", value=m)
@@ -132,8 +132,8 @@ def main():
 
     st.subheader("📌 Description of Parameters")
     st.markdown("""
-    - **\( Z_{1-\alpha/2} \)**: Z-value for the confidence level (e.g., 1.96 for 95% confidence).  
-    - **\( Z_{1-\beta} \)**: Z-value for power (e.g., 0.84 for 80% power).  
+    - **\( Z_{1-alpha/2} \)**: Z-value for the confidence level (e.g., 1.96 for 95% confidence).  
+    - **\( Z_{1-beta} \)**: Z-value for power (e.g., 0.84 for 80% power).  
     - **\( R^2 \)**: Anticipated coefficient of determination.  
     - **\( k \)**: Number of predictor variables.  
     - **\( DE \)**: Design Effect.  

@@ -31,25 +31,25 @@ def main():
 
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Parameters")
-    p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=99.9)
-    R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.45,min_value=0.00001,help= "values in decimal.")
+    p1 = st.sidebar.number_input("Proportion of disease in unexposed group (control) (%)",value=40.0,min_value=0.0,max_value=99.9,help="Enter a percentage value (e.g., 40%)")
+    R = st.sidebar.number_input("Anticipated Relative Risk (RR)", value=1.45,min_value=0.00001,help= "plausible range > or < 1.")
 
     if R == 1.0:
         st.sidebar.warning("RR = 1.0 means no difference. Please use RR ≠ 1 to detect an effect.")
         st.stop()
 
-    power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9)
-    drpt= st.sidebar.number_input("Drop-Out",value=0.0,min_value=0.0,max_value=50.0)
+    power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9,help="Enter a percentage value (e.g., 80%)")
+    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,max_value=2.0,help= "values in integer. Minimum is 1")
+        designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,max_value=2.0,help= "Enter an decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
-        m= st.sidebar.number_input("Number of cluster",min_value=2)
-        ICC= st.sidebar.number_input("ICC",min_value=0.0)
+        m= st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=4,help="Enter an integer value (e.g., 4)")
+        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         designEffect= 1+(m-1)*ICC
         col1,col2,col3=st.columns(3)
         col1.metric("Cluster Size (m)",value=m)
