@@ -11,7 +11,7 @@ from utils import inject_logo
 #st.sidebar.title("StudySizer")
 
 # Top-level dropdown
-category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Testing", "Reliability", "Regression"])
+category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Testing", "Reliability", "Regression","FAQ"])
 
 # 🌟 Show Home Page if nothing is selected
 if category == "-- Select --":
@@ -73,7 +73,7 @@ elif category == "About":
     )
 
     st.write("This open-source and free web application allows researchers, students, and professionals to calculate"
-    "the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"
+    " the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"
     " methods for different study designs. The advantage of this tool is, it also gives the required sample sie calculation formulas along with the references.")
 
     st.markdown("Hi, I am Rajesh, a Ph.D. student in Biostatistics. If you find this tool useful, please cite it as:")
@@ -102,16 +102,6 @@ elif category == "About":
                 st.markdown(f"**Assumption:** {assumption}")
             st.markdown(f"**Measure:** {measure}")
             st.markdown(f"**Application:** {application}")
-
-    render_section("Case Control Design",
-                "You're planning a retrospective study comparing exposure history between cases (with outcome) and controls (without outcome).",
-                "Odds Ratio",
-                "Epidemiology, identifying risk factors.")
-
-    render_section("Cohort Design",
-                "You are conducting a longitudinal/prospective study to compare outcomes in exposed and non-exposed groups.",
-                "Relative Risk (RR)",
-                "Risk estimation, public health impact assessment.")
 
     render_section("Correlation Test",
                 "Studying the strength and direction of relationship between two continuous variables.",
@@ -214,7 +204,7 @@ else:
     elif category == "Reliability":
         method = st.sidebar.selectbox("Choose Method", [
             "Intraclass Correlation Estimation",
-            "Intraclass Correlation Hypothesis Testing",
+            "Intraclass Correlation Hypothesis Testing",            # "Kappa Estimation",
             "Sensitivity and Specificity"
         ])
     elif category == "Regression":
@@ -222,6 +212,9 @@ else:
             "Linear Regression",
             "Logistic Regression"
         ])
+    elif category == "FAQ":
+        from modules import FAQ
+        FAQ.main()
 
     # 🔁 Module Loader
     if method:
