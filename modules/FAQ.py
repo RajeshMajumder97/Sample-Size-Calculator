@@ -113,4 +113,4 @@ def main():
 
     # ------------------------
     st.markdown("---")
-    st.success("We'll continue updating this page over time — feel free to share your thoughts or suggestions.")
+    st.success("I'll continue updating this page over time — feel free to share your thoughts or suggestions.")
