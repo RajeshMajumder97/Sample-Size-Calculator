@@ -53,7 +53,6 @@ if category == "-- Select --":
         </div>
     """, unsafe_allow_html=True)
 
-    
 elif category == "About":
     # Load logo image (your uploaded icon)
     # Centered title and subtitle
