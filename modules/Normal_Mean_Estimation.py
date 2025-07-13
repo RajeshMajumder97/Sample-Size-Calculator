@@ -182,28 +182,6 @@ def main():
         st.dataframe(df)
 
 
-
-        from utils1 import download_report
-        summary_text = f"""
-        -----------------------------------------
-        Sample Size Estimation for  Normal Mean
-        -----------------------------------------
-        Confidence Level: 95%
-        Expected Mean: {mu}
-        Standard Deviation: {sigma}
-        precicion: {round(d1,1)}
-        Precision type: {ads}
-        Required Sample Size: {dds}
-        -----------------------------------------
-        Sample size at other confidence levels
-        """
-        col1, col2 = st.columns(2)
-        with col1:
-            download_report(summary_text, df, filename="mean_sample_size", filetype="docx")
-        with col2:
-            download_report(summary_text, df, filename="mean_sample_size", filetype="pdf")
-
-
     st.markdown("---")  # Adds a horizontal line for separation
 
     st.subheader("📌 Formula for Sample Size Calculation")

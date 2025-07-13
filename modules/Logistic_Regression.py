@@ -49,7 +49,7 @@ def main():
     method = st.sidebar.radio("Choose Method for Design Effect:", options=["Given", "Calculate"])
 
     if method == "Given":
-        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter an decimal value (e.g., 1.5)")
+        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter a decimal value (e.g., 1.5)")
         m = None
         ICC = None
     else:
