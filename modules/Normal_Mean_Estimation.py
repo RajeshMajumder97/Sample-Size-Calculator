@@ -58,7 +58,7 @@ def main():
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter an decimal value (e.g., 1.5)")
+        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter a decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
@@ -130,7 +130,7 @@ def main():
             }
             st.session_state.mean_history.append(new_entry)
 
-        confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+        confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         out=[]
 
         for conf in confidenceIntervals:
@@ -183,6 +183,27 @@ def main():
 
 
 
+        from utils1 import download_report
+        summary_text = f"""
+        -----------------------------------------
+        Sample Size Estimation for  Normal Mean
+        -----------------------------------------
+        Confidence Level: 95%
+        Expected Mean: {mu}
+        Standard Deviation: {sigma}
+        precicion: {round(d1,1)}
+        Precision type: {ads}
+        Required Sample Size: {dds}
+        -----------------------------------------
+        Sample size at other confidence levels
+        """
+        col1, col2 = st.columns(2)
+        with col1:
+            download_report(summary_text, df, filename="mean_sample_size", filetype="docx")
+        with col2:
+            download_report(summary_text, df, filename="mean_sample_size", filetype="pdf")
+
+
     st.markdown("---")  # Adds a horizontal line for separation
 
     st.subheader("📌 Formula for Sample Size Calculation")
@@ -200,7 +221,7 @@ def main():
     st.subheader("📌 Description of Parameters")
 
     st.markdown("""
-    - **\( Z_{1-\alpha/2} \)**: Critical value for the confidence level (e.g., 1.96 for 95% confidence).
+    - **\( Z_{1-alpha/2} \)**: Critical value for the confidence level (e.g., 1.96 for 95% confidence).
     - **\( \sigma \)**: Population standard deviation.
     - **\( d \)**: Absolute Precision (margin of error).
     - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.

@@ -42,7 +42,7 @@ def main():
     method = st.sidebar.radio("Choose Method for Design Effect:", options=['Given', 'Calculate'])
 
     if method == "Given":
-        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter an decimal value (e.g., 1.5)")
+        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter a decimal value (e.g., 1.5)")
         m = None
         ICC = None
     else:
@@ -96,7 +96,7 @@ def main():
                 "method": method
             })
 
-        conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
+        conf_levels = [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         results = []
         for conf in conf_levels:
             n = sample_size_linear_regression(R_squared=R_squared, k=k, alpha=1 - conf, power=power / 100,
@@ -143,7 +143,7 @@ def main():
     """)
 
     st.markdown("---")
-    st.subheader("References")
+    st.subheader("📌 References")
     st.markdown("""
     1. **Dupont WD, Plummer WD.** Power and sample size calculations for studies involving linear regression. Controlled Clinical Trials 1998; 19:589-601.  
     2. **Green, S. B. (1991).** How many subjects does it take to do a regression analysis? *Multivariate Behavioral Research*, 26(3), 499–510.

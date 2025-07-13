@@ -105,7 +105,7 @@ def main():
                 "method": method
             })
 
-        conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
+        conf_levels = [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         results = []
         for conf in conf_levels:
             n = nSampleSurvival(HR=HR, Conf= conf, Pw=power / 100,p=p, eventRate=eventRate, designEf=designEffect, dropOut=drp / 100)

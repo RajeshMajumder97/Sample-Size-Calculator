@@ -139,10 +139,10 @@ def main():
             }
             st.session_state.Sknoormal_history.append(new_entry)
 
-        confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+        confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         out=[]
         for conf in confidenceIntervals:
-            sample_size= nsampleSN(cv=(cv/100), prec=(prec/100), conf=conf, nmax=3000,nmin=25,designeffect=designEffect,dropOut=(drpt/100))
+            sample_size= nsampleSN(cv=(cv/100), prec=(prec/100), conf=conf, nmax=10000,nmin=25,designeffect=designEffect,dropOut=(drpt/100))
             out.append(sample_size)
         df= pd.DataFrame({
             "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
@@ -163,7 +163,7 @@ def main():
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.write(f"""for estimating mean with **{(prec)}%** absolute precision and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level,where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
+        st.write(f"""for estimating mean with **{(prec)}%** relative precision and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level,where the design effect is **{round(designEffect,1)}** with **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
         st.subheader("List of Sample Sizes at other Confidence Levels")
         st.dataframe(df)
         
@@ -172,10 +172,32 @@ def main():
     st.markdown("---")  # Adds a horizontal line for separation
 
     st.subheader("📌 Formula for Sample Size Calculation")
+    st.markdown("""
+    The **minimum required sample size** for estimating a mean is given by:
+    """)
+
+    st.latex(r"""
+    n = \left( \frac{Z_{1-\alpha/2}}{f} \right)^2 
+    """)
+    st.markdown("Where:")
+    st.latex(r"""
+     f= \frac{ d \bar{x} }{s} =\frac{d}{CV}
+             """)
 
     st.markdown("""
-    Click on the link to see the theory:[Click on the link](https://drive.google.com/file/d/1e2mCYEzSsg79o6538dExkW8AAuoSQkkf/view?usp=sharing))
+    Where:
+    - $d$ isrelative precision of the estimate.
+    - $CV$ is the coefficient of variation
     """)
+
+    st.markdown("---")
+
+    st.subheader("References")
+
+    st.markdown("""
+    **Trafimow D, Wang T, Wang C.** From a Sampling Precision Perspective, Skewness Is a Friend and Not an Enemy! Educ Psychol Meas. 2019 Feb;79(1):129-150. doi: 10.1177/0013164418764801. Epub 2018 Apr 3. PMID: 30636785; PMCID: PMC6318746.
+    """)
+
 
     #st.markdown("""
     #    <div style="

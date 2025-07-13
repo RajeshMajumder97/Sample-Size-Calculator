@@ -496,7 +496,7 @@ def main():
                 st.session_state.poisson_rate_overdisp_history.append(new_entry)
 
 
-            confidenceIntervals = [0.8,0.9,0.97,0.99,0.999,0.9999]
+            confidenceIntervals = [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
             out = []
             for conf in confidenceIntervals:
                 sample_size = nSampleNegBinGLM(mu0=mu0, mu1=mu1,k0=K0, k1=K1, T0=T0, T1=T1, Q0=Q0, Q1=Q1, alpha=1 - conf, power=power, designEffect=designEffect, dropout=drpt)

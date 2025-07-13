@@ -99,7 +99,7 @@ def main():
                 "designEffect": designEffect, "m": m, "ICC": ICC, "method": method
             })
 
-        conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
+        conf_levels = [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         results = [nSampleLogisticRegression(P/100  , OR, R2, 1 - cl, power / 100, k, designEffect, drp / 100) for cl in conf_levels]
 
         df = pd.DataFrame({"Confidence Level (%)": [(c * 100) for c in conf_levels], "Sample Size": results})

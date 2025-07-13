@@ -116,7 +116,7 @@ def main():
             }
             st.session_state.senspe_history.append(new_entry)
 
-        confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+        confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         out1=[]
         out2=[]
 

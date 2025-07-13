@@ -184,7 +184,7 @@ def main():
         st.sidebar.markdown("### Design Effect")
         de_mode = st.sidebar.radio("Choose Method for Design Effect:", options=['Given','Calculate'])
         if de_mode == "Given":
-            design_effect = st.sidebar.number_input("Design Effect (Given)", min_value=1.0, value=1.0,help="Enter an decimal value (e.g., 1.5)")
+            design_effect = st.sidebar.number_input("Design Effect (Given)", min_value=1.0, value=1.0,help="Enter a decimal value (e.g., 1.5)")
             m, rho = None, None
         else:
             m = st.sidebar.number_input("Number of Clusters (m)", min_value=2, value=4,help="Enter an integer value (e.g., 4)")
@@ -258,7 +258,7 @@ def main():
                 method_type = "equal" if approach == "Equal SDs" else "unequal"
                 power_z = stats.norm.ppf(power / 100)
 
-                confidence_levels = [0.8, 0.9, 0.95, 0.97, 0.99, 0.999, 0.9999]
+                confidence_levels = [0.95, 0.8, 0.9, 0.95, 0.97, 0.99, 0.999, 0.9999]
                 st.subheader("🧮 Sample Size at Different Confidence Levels")
                 results = []
                 for conf in confidence_levels:
@@ -447,7 +447,7 @@ def main():
                 }
                 st.session_state.anova_history.append(new_entry)
 
-            confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+            confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
             out=[]
 
             for conf in confidenceIntervals:

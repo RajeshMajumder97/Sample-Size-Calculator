@@ -106,7 +106,7 @@ def main():
             }
             st.session_state.mean_test_history.append(new_entry)
 
-        confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+        confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         out=[]
 
         for conf in confidenceIntervals:

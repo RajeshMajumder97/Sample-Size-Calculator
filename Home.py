@@ -6,7 +6,7 @@ from io import BytesIO
 
 st.set_page_config(page_title="Home | StudySizer", page_icon="🧮")
 st.sidebar.image("image.png", width=200)
-from utils import inject_logo
+from modules.utils import inject_logo
 #inject_logo()
 #st.sidebar.title("StudySizer")
 
@@ -204,7 +204,8 @@ else:
     elif category == "Reliability":
         method = st.sidebar.selectbox("Choose Method", [
             "Intraclass Correlation Estimation",
-            "Intraclass Correlation Hypothesis Testing",            # "Kappa Estimation",
+            "Intraclass Correlation Hypothesis Testing",
+            "Cohen's Kappa Estimation",
             "Sensitivity and Specificity"
         ])
     elif category == "Regression":
@@ -226,7 +227,6 @@ else:
             st.error(f"⚠️ Module for `{module_name}` not found.")
         except AttributeError:
             st.error(f"⚠️ `{module_name}` is missing a `main()` function.")
-
 
 
 

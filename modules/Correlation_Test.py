@@ -53,7 +53,7 @@ def main():
     method = st.sidebar.radio("Choose Method for Design Effect:", options=['Given', 'Calculate'])
 
     if method == "Given":
-        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter an decimal value (e.g., 1.5)")
+        designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter a decimal value (e.g., 1.5)")
         m = None
         ICC = None
     else:
@@ -108,7 +108,7 @@ def main():
                 "method": method
             })
 
-        conf_levels = [0.8,0.9,0.97,0.99,0.999,0.9999]
+        conf_levels = [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         results = []
         for conf in conf_levels:
             n = nSampleCorrelation(rho0=rho0, rho1=rho1, Pw=power / 100, Conf=conf, designEf=designEffect, dropOut=drp / 100)

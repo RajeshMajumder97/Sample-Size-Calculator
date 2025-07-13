@@ -44,7 +44,7 @@ def main():
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,max_value=2.0,help= "Enter an decimal value (e.g., 1.5)")
+        designEffect= st.sidebar.number_input("Design Effect", value=1.0,min_value=1.0,max_value=2.0,help= "Enter a decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
@@ -108,7 +108,7 @@ def main():
             }
             st.session_state.cohort_history.append(new_entry)
 
-        confidenceIntervals= [0.8,0.9,0.97,0.99,0.999,0.9999]
+        confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
         out=[]
 
         for conf in confidenceIntervals:
