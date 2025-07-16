@@ -12,7 +12,7 @@ from modules.utils import inject_logo
 #st.sidebar.title("StudySizer")
 
 # Top-level dropdown
-category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Testing", "Reliability", "Regression","FAQ"])
+category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Testing", "Diagnostic measures (Evaluation)", "Reliability", "Regression","FAQ"])
 
 # 🌟 Show Home Page if nothing is selected
 if category == "-- Select --":
@@ -201,12 +201,15 @@ else:
             "Cohort Design",
             "Survival Analysis Log rank Test for Two Groups"
         ])
+    elif category == "Diagnostic measures (Evaluation)":
+        method = st.sidebar.selectbox("Choose Test", [
+            "Sensitivity and Specificity"
+        ])
     elif category == "Reliability":
         method = st.sidebar.selectbox("Choose Method", [
             "Intraclass Correlation Estimation",
             "Intraclass Correlation Hypothesis Testing",
-            "Cohen's Kappa Estimation",
-            "Sensitivity and Specificity"
+            "Cohen's Kappa Estimation"
         ])
     elif category == "Regression":
         method = st.sidebar.selectbox("Choose Model", [
