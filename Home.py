@@ -231,8 +231,7 @@ else:
         except AttributeError:
             st.error(f"⚠️ `{module_name}` is missing a `main()` function.")
 
-components.html(
-    """
+injection_code =  """
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -246,7 +245,8 @@ components.html(
     })();
     </script>
     <!--End of Tawk.to Script-->
-    """,
-    height=0,  # Set to 0 so the widget doesn't take up visible space
-)
+    """
+
+st.components.v1.html(injection_code,height=0)
+
 

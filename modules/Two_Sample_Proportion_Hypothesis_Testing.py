@@ -149,6 +149,37 @@ def main():
 
         st.subheader("📊 Sample Sizes at Other Confidence Levels")
         st.dataframe(df)
+        st.markdown("---")
+        # Define power and confidence levels
+        powers = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97]
+        conf_levels = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99]
+
+        st.subheader("📈 Sample Size Cross Table for Different Powers and Confidence Levels")
+
+        power_labels = [f"{int(p * 100)}%" for p in powers]
+        conf_labels = [f"{int(c * 100)}%" for c in conf_levels]
+        cross_table = pd.DataFrame(index=conf_labels, columns=power_labels)
+
+        # Fill the cross table
+        for i, conf in enumerate(conf_levels):
+            for j, power_val in enumerate(powers):
+                ss = nSampleProp(
+                    p1=(p1 / 100),
+                    p2=(p2 / 100),
+                    delta=(delta / 100),
+                    Pw=power_val,
+                    Conf=conf,
+                    designEf=designEffect,
+                    dropOut=(drpt / 100)
+                )
+                cross_table.iloc[i, j] = ss
+
+        # Label table
+        cross_table.index.name = "Confidence Level (%)"
+        cross_table.columns.name = "Power (%)"
+
+        st.dataframe(cross_table)
+        st.write("**Rows are Confidence Levels; Columns are Powers**")
 
     # Footer and references
     st.markdown("---")
