@@ -22,11 +22,8 @@ def main():
         unsafe_allow_html=True
     )
     #st.subheader("🗣️ Know how to calculate sample size.")
-<<<<<<< HEAD
     #audio_file = open("D:/Sample-Size-Calculator/Audio/Mean Estimation.mp3", "rb")
-=======
     #audio_file = open("Audio/Mean Estimation.mp3", "rb")
->>>>>>> d4f55379f6209713624d92921494262599a1bc23
     #audio_bytes = audio_file.read()
     #st.audio(audio_bytes, format="audio/mp3")
 
