@@ -27,6 +27,7 @@ def main():
     #st.audio(audio_bytes, format="audio/mp3")
 
     try:
+        st.markdown("### Know how to use this tool to calculate sample size:")
         with open("Audio/Mean Estimation.mp3", "rb") as audio_file:
             audio_bytes = audio_file.read()
         st.audio(audio_bytes, format="audio/mp3")
