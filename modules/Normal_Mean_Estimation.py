@@ -21,10 +21,10 @@ def main():
         """,
         unsafe_allow_html=True
     )
-    st.subheader("🗣️ Know how to calculate sample size.")
-    audio_file = open("Audio/Mean Estimation.mp3", "rb")
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes, format="audio/mp3")
+    #st.subheader("🗣️ Know how to calculate sample size.")
+    #audio_file = open("Audio/Mean Estimation.mp3", "rb")
+    #audio_bytes = audio_file.read()
+    #st.audio(audio_bytes, format="audio/mp3")
 
     ## Functuion
     def nSampleMean(sigma=0.01,d=0.05,Conf=0.95,designEf=1,dropOut=0):
