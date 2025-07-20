@@ -156,32 +156,38 @@ def main():
         st.dataframe(df)
 
     st.markdown("---")
-    st.subheader("📌 Formula for ICC Estimation Sample Size")
-    st.latex(r"""
-    N = 1 + \frac{8Z_{1-\alpha/2}^2 (1 - \rho)^2 (1 + (k - 1)\rho)^2}{k(k - 1)d^2} \times \frac{DE}{1 - \text{Dropout\%}}
-    """)
+    with st.expander("Show the formula and the references"):
+        st.subheader("📌 Formula for ICC Estimation Sample Size")
+        st.latex(r"""
+        N = 1 + \frac{8Z_{1-\alpha/2}^2 (1 - \rho)^2 (1 + (k - 1)\rho)^2}{k(k - 1)d^2} \times \frac{DE}{1 - \text{Dropout\%}}
+        """)
 
-    st.markdown("### **Design Effect Calculation (if clusters are used):**")
-    st.latex(r"""
-    DE = 1 + (m - 1) \times ICC
-    """)
+        st.markdown("### **Design Effect Calculation (if clusters are used):**")
+        st.latex(r"""
+        DE = 1 + (m - 1) \times ICC
+        """)
 
 
-    st.subheader("📌 Description of Parameters")
-    st.markdown("""
-    - **\( rho \)**: Expected ICC
-    - **\( d \)**: Absolute precision (or derived from relative % of ICC)
-    - **\( Z_{1-alpha/2} \)**: Z-score for confidence level
-    - **\( k \)**: Number of raters (replicates per subject)
-    - **Design Effect**: Accounts for clustering
-    - **Dropout%**: Expected loss of data
-    """)
+        st.subheader("📌 Description of Parameters")
+        st.markdown("""
+        - **\( rho \)**: Expected ICC
+        - **\( d \)**: Absolute precision (or derived from relative % of ICC)
+        - **\( Z_{1-alpha/2} \)**: Z-score for confidence level
+        - **\( k \)**: Number of raters (replicates per subject)
+        - **Design Effect**: Accounts for clustering
+        - **Dropout%**: Expected loss of data
+        """)
+
+        st.markdown("---")
+        st.subheader("📌 Reference")
+        st.markdown("""
+        Bonett, D. G. (2002). Sample size requirements for estimating intraclass correlations with desired precision. *Statistics in Medicine*, 21(9), 1331–1335.
+        """)
 
     st.markdown("---")
-    st.subheader("📌 Reference")
-    st.markdown("""
-    Bonett, D. G. (2002). Sample size requirements for estimating intraclass correlations with desired precision. *Statistics in Medicine*, 21(9), 1331–1335.
-    """)
+    st.subheader("Citation")
+    st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
+
 
     st.markdown("---")
     st.markdown("**Developed by [Rajesh Majumder]**")
