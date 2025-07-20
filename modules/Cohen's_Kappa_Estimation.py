@@ -232,54 +232,55 @@ def main():
 
     # Display formula
     st.markdown("---")
-    st.subheader("📌 Formula for Sample Size Calculation")
+    with st.expander("Show the formula and the references"):
+        st.subheader("📌 Formula for Sample Size Calculation")
 
-    st.markdown("### 📌 **Case 1: Two Raters (m = 2)**")
-    st.latex(r"""
-    n = \frac{(1 - \kappa) \left[ 4p_1p_2(1 - p_1)(1 - p_2)(1 + \kappa) + (1 - 2p_1)(1 - 2p_2)(p_1(1 - p_2) + p_2(1 - p_1))\kappa(2 - \kappa) \right]}{\left[ SE \cdot (p_1(1 - p_2) + p_2(1 - p_1)) \right]^2}
-    """)
+        st.markdown("### 📌 **Case 1: Two Raters (m = 2)**")
+        st.latex(r"""
+        n = \frac{(1 - \kappa) \left[ 4p_1p_2(1 - p_1)(1 - p_2)(1 + \kappa) + (1 - 2p_1)(1 - 2p_2)(p_1(1 - p_2) + p_2(1 - p_1))\kappa(2 - \kappa) \right]}{\left[ SE \cdot (p_1(1 - p_2) + p_2(1 - p_1)) \right]^2}
+        """)
 
-    st.markdown("Where:")
-    st.markdown("""
-    - \( \kappa \): Anticipated Kappa agreement  
-    - \( SE \): Desired standard error of Kappa  
-    - \( p_1, p_2 \): Proportion of positive ratings by Rater 1 and Rater 2  
-    - This formula is derived from the asymptotic variance of Kappa under independent ratings.
-    """)
+        st.markdown("Where:")
+        st.markdown("""
+        - \( \kappa \): Anticipated Kappa agreement  
+        - \( SE \): Desired standard error of Kappa  
+        - \( p_1, p_2 \): Proportion of positive ratings by Rater 1 and Rater 2  
+        - This formula is derived from the asymptotic variance of Kappa under independent ratings.
+        """)
 
-    st.markdown("### 📌 **Case 2: Multiple Raters (m > 2)**")
-    st.latex(r"""
-    n = \frac{(1 - \kappa) \left[ \frac{2}{m(m - 1)} - \left( 3 - \frac{1}{p(1 - p)} \right)\kappa + \frac{(m - 1)}{m} \left( 4 - \frac{1}{p(1 - p)} \right)\kappa^2 \right]}{SE^2}
-    """)
+        st.markdown("### 📌 **Case 2: Multiple Raters (m > 2)**")
+        st.latex(r"""
+        n = \frac{(1 - \kappa) \left[ \frac{2}{m(m - 1)} - \left( 3 - \frac{1}{p(1 - p)} \right)\kappa + \frac{(m - 1)}{m} \left( 4 - \frac{1}{p(1 - p)} \right)\kappa^2 \right]}{SE^2}
+        """)
 
-    st.markdown("Where:")
-    st.markdown("""
-    - \( m \): Number of raters  
-    - \( p \): Overall prevalence of the positive outcome  
-    - \( SE \): Desired standard error of Kappa  
-    - This generalizes Cohen’s Kappa to multiple raters using Fleiss’ method.
-    """)
+        st.markdown("Where:")
+        st.markdown("""
+        - \( m \): Number of raters  
+        - \( p \): Overall prevalence of the positive outcome  
+        - \( SE \): Desired standard error of Kappa  
+        - This generalizes Cohen’s Kappa to multiple raters using Fleiss’ method.
+        """)
 
-    st.markdown("### 📌 **Adjustment for Design Effect and Dropout**")
-    st.latex(r"""
-    n_{\text{adjusted}} = \frac{n \times DE}{1 - \text{dropout rate}}
-    """)
+        st.markdown("### 📌 **Adjustment for Design Effect and Dropout**")
+        st.latex(r"""
+        n_{\text{adjusted}} = \frac{n \times DE}{1 - \text{dropout rate}}
+        """)
 
 
-    # Notes and developer info (always visible)
-    st.markdown("---")
-    st.subheader("📌 Notes")
-    st.markdown("- This calculator uses the **normal approximation** to estimate required sample size.")
-    st.markdown("- If insted of SE, confidence interval is given, it can be calculated as:")
-    st.latex(r"""
-            SE= \frac{(UCL-LCL)}{2 \times Z_{1-\frac{\alpha}{2}}}
-            """)
+        # Notes and developer info (always visible)
+        st.markdown("---")
+        st.subheader("📌 Notes")
+        st.markdown("- This calculator uses the **normal approximation** to estimate required sample size.")
+        st.markdown("- If insted of SE, confidence interval is given, it can be calculated as:")
+        st.latex(r"""
+                SE= \frac{(UCL-LCL)}{2 \times Z_{1-\frac{\alpha}{2}}}
+                """)
 
-    st.markdown("---")
-    st.subheader("📌 References")
-    st.markdown("""
-    **Shoukri, M. M., Asyali, M. H., Donner, A. (2004).** Sample size requirements for the design of reliability study: review and new results. Statistical Methods in Medical Research, 13, 1-21.
-     """)
+        st.markdown("---")
+        st.subheader("📌 References")
+        st.markdown("""
+        **Shoukri, M. M., Asyali, M. H., Donner, A. (2004).** Sample size requirements for the design of reliability study: review and new results. Statistical Methods in Medical Research, 13, 1-21.
+        """)
 
     st.markdown("---")
     st.subheader("Citation")

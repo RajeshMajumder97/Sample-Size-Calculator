@@ -41,9 +41,9 @@ def main():
     st.sidebar.header("🔧 Input Parameters")
 
     p = st.sidebar.number_input("Prevalence of the Event (%)",value=50.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 50%)")
-    Se = st.sidebar.number_input("Anticipated Sensitivity (%)",value=70.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 70%)")
-    Sp = st.sidebar.number_input("Anticipated Specificity (%)",value=60.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 60%)")
-    d = st.sidebar.number_input("Precision (%)", value=5.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 5%)")
+    Se = st.sidebar.number_input("Expected Sensitivity (%)",value=70.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 70%)")
+    Sp = st.sidebar.number_input("Expected Specificity (%)",value=60.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 60%)")
+    d = st.sidebar.number_input("Relative Precision (%)", value=5.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 5%)")
     drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
@@ -168,42 +168,42 @@ def main():
         st.dataframe(df)
 
     st.markdown("---")  # Adds a horizontal line for separation
+    with st.expander("Show the formula and the references"):
+        st.subheader("📌 Formula for Sample Size Calculation")
 
-    st.subheader("📌 Formula for Sample Size Calculation")
+        st.markdown("### **Sensitivity Sample Size Formula**")
+        st.latex(r"""
+        n_{Se} = \left( \frac{Z_{1-\alpha/2}}{d \times p} \right)^2 \times Se (1 - Se) \times \frac{DE}{1 - \text{Dropout\%}}
+        """)
 
-    st.markdown("### **Sensitivity Sample Size Formula**")
-    st.latex(r"""
-    n_{Se} = \left( \frac{Z_{1-\alpha/2}}{d \times p} \right)^2 \times Se (1 - Se) \times \frac{DE}{1 - \text{Dropout\%}}
-    """)
+        st.markdown("### **Specificity Sample Size Formula**")
+        st.latex(r"""
+        n_{Sp} = \left( \frac{Z_{1-\alpha/2}}{d \times (1-p)} \right)^2 \times Sp (1 - Sp) \times \frac{DE}{1 - \text{Dropout\%}}
+        """)
 
-    st.markdown("### **Specificity Sample Size Formula**")
-    st.latex(r"""
-    n_{Sp} = \left( \frac{Z_{1-\alpha/2}}{d \times (1-p)} \right)^2 \times Sp (1 - Sp) \times \frac{DE}{1 - \text{Dropout\%}}
-    """)
+        st.markdown("### **Design Effect Calculation (if clusters are used):**")
+        st.latex(r"""
+        DE = 1 + (m - 1) \times ICC
+        """)
+        st.subheader("📌 Description of Parameters")
 
-    st.markdown("### **Design Effect Calculation (if clusters are used):**")
-    st.latex(r"""
-    DE = 1 + (m - 1) \times ICC
-    """)
-    st.subheader("📌 Description of Parameters")
+        st.markdown("""
+        - **\( Z_{1-alpha /2} \)**: Critical value for the confidence level (e.g., 1.96 for 95% confidence).
+        - **\( d \)**: Precision (margin of error).
+        - **\( p \)**: Prevalence of the condition.
+        - **\( Se \) (Sensitivity)**: Anticipated Sensitivity.
+        - **\( Sp \) (Specificity)**: Anticipated SPecificity.
+        - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
+        - **\( m \)**: Number of cluster.
+        - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
+        - **Dropout%**: Anticipated percentage of dropout in the study.
+        """)
 
-    st.markdown("""
-    - **\( Z_{1-alpha /2} \)**: Critical value for the confidence level (e.g., 1.96 for 95% confidence).
-    - **\( d \)**: Precision (margin of error).
-    - **\( p \)**: Prevalence of the condition.
-    - **\( Se \) (Sensitivity)**: Anticipated Sensitivity.
-    - **\( Sp \) (Specificity)**: Anticipated SPecificity.
-    - **\( DE \) (Design Effect)**: Adjusts for clustering in sample selection.
-    - **\( m \)**: Number of cluster.
-    - **\( ICC \) (Intra-cluster correlation coefficient)**: Measures similarity within clusters.
-    - **Dropout%**: Anticipated percentage of dropout in the study.
-    """)
+        st.subheader("References")
 
-    st.subheader("References")
-
-    st.markdown("""
-    1. **Buderer, N. M. F. (1996).** Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. Acadademic Emergency Medicine, 3(9), 895-900. Available at: [https://pubmed.ncbi.nlm.nih.gov/8870764/](https://pubmed.ncbi.nlm.nih.gov/8870764/)
-    """)
+        st.markdown("""
+        1. **Buderer, N. M. F. (1996).** Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. Acadademic Emergency Medicine, 3(9), 895-900. Available at: [https://pubmed.ncbi.nlm.nih.gov/8870764/](https://pubmed.ncbi.nlm.nih.gov/8870764/)
+        """)
 
     st.markdown("---")
     st.subheader("Citation")

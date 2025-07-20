@@ -23,7 +23,7 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        st.title("One-way ANOVA Sample Size Calculation Methods")
+        st.title("Approaches to Sample Size Calculation for Nean Comparison Across more than Two Groups (One-way ANOVA)")
         st.markdown("---")
         st.header("Approach 1: Using Cohen’s *f* (Effect Size)")
 
@@ -121,7 +121,7 @@ def main():
         | **Suitable for Pilot Data**    | No                             | Yes                                 | Yes                                             |
         | **Simplicity**                 | Simple                         | Simple (once inputs are known)      | Complex (needs F inverse calc)                  |
         | **Accuracy**                   | Approximate                    | Direct                              | Accurate for ANOVA                              |
-        | **Tools/Software**             | G*Power, SAS, STATA            | Manual, Excel, Python, R            | G*Power, R (`power.anova.test`), Python (`ncf`) |
+        | **Tools/Software**             |  SAS, STATA                    | Manual, Excel, Python, R            | G*Power, R (`power.anova.test`), Python (`ncf`) |
         """, unsafe_allow_html=True)
 
         st.write("In this App, Approach 2 and 3 are covered.")
@@ -227,101 +227,194 @@ def main():
 
         if calculate or hist_submit:
             try:
-                if selected_history and hist_submit:
-                    approach= selected_history["modes"]
-                    means = selected_history["means"]
-                    sds = selected_history["sds"]
-                    k = selected_history["k"]
-                    design_effect = selected_history["design_effect"]
-                    dropout = selected_history["dropout"]
-                    de_mode = selected_history["method"]
-                else:
-                    means = [float(x.strip()) for x in means_input.split(",")]
-                    sds = [float(x.strip()) for x in sds_input.split(",")]
-                    assert len(means) == k and len(sds) == k
-                    method = "Given" if de_mode == "Given" else "Calculated"
-                    new_entry = {
-                        "modes": approach,
-                        "means": means,
-                        "sds": sds,
-                        "k": k,
-                        "design_effect": design_effect,
-                        "m": m,
-                        "rho": rho,
-                        "method": de_mode,
-                        "power": power,
-                        "dropout": dropout
-                    }
-                    if new_entry not in st.session_state.anova1_history:
-                        st.session_state.anova1_history.append(new_entry)
+                tabs = st.tabs(["Tabulate", "Power V/s Confidelce Table" ,"Visualisation"])
+                with tabs[0]:
+                    if selected_history and hist_submit:
+                        approach= selected_history["modes"]
+                        means = selected_history["means"]
+                        sds = selected_history["sds"]
+                        k = selected_history["k"]
+                        design_effect = selected_history["design_effect"]
+                        dropout = selected_history["dropout"]
+                        de_mode = selected_history["method"]
+                    else:
+                        means = [float(x.strip()) for x in means_input.split(",")]
+                        sds = [float(x.strip()) for x in sds_input.split(",")]
+                        assert len(means) == k and len(sds) == k
+                        method = "Given" if de_mode == "Given" else "Calculated"
+                        new_entry = {
+                            "modes": approach,
+                            "means": means,
+                            "sds": sds,
+                            "k": k,
+                            "design_effect": design_effect,
+                            "m": m,
+                            "rho": rho,
+                            "method": de_mode,
+                            "power": power,
+                            "dropout": dropout
+                        }
+                        if new_entry not in st.session_state.anova1_history:
+                            st.session_state.anova1_history.append(new_entry)
 
-                method_type = "equal" if approach == "Equal SDs" else "unequal"
-                power_z = stats.norm.ppf(power / 100)
+                    method_type = "equal" if approach == "Equal SDs" else "unequal"
+                    power_z = stats.norm.ppf(power / 100)
 
-                confidence_levels = [0.95, 0.8, 0.9, 0.95, 0.97, 0.99, 0.999, 0.9999]
-                st.subheader("🧮 Sample Size at Different Confidence Levels")
-                results = []
-                for conf in confidence_levels:
-                    z_alpha = stats.norm.ppf(1-((1-conf)/2))
-                    n_pg, total_n = direct_anova_sample_size(means, sds, z_alpha, power_z, method_type, dropout, design_effect)
-                    results.append({"Confidence Leves(%)": round((conf*100),2), "Sample/Group": int(n_pg), "Total Sample": int(total_n)})  #"Z(alpha)": z_alpha, 
-                results_df = pd.DataFrame(results)
-                results_df["Confidence Leves(%)"] = results_df["Confidence Leves(%)"].map(lambda x: f"{x:.2f}")
+                    confidence_levels = [0.8, 0.9, 0.95, 0.97, 0.99, 0.999, 0.9999]
+                    st.subheader("🧮 Sample Size at Different Confidence Levels")
+                    results = []
+                    for conf in confidence_levels:
+                        z_alpha = stats.norm.ppf(1-((1-conf)/2))
+                        n_pg, total_n = direct_anova_sample_size(means, sds, z_alpha, power_z, method_type, dropout, design_effect)
+                        results.append({"Confidence Leves(%)": round((conf*100),2), "Sample/Group": int(n_pg), "Total Sample": int(total_n)})  #"Z(alpha)": z_alpha, 
+                    results_df = pd.DataFrame(results)
+                    results_df["Confidence Leves(%)"] = results_df["Confidence Leves(%)"].map(lambda x: f"{x:.2f}")
 
-                def highlight_95(row):
-                    return ['background-color: lightgreen' if row['Confidence Leves(%)'] == "95.00" else '' for _ in row]
-                st.dataframe(results_df.style.apply(highlight_95, axis=1))
-                #st.dataframe(pd.DataFrame(results))
+                    def highlight_95(row):
+                        return ['background-color: lightgreen' if row['Confidence Leves(%)'] == "95.00" else '' for _ in row]
+                    st.dataframe(results_df.style.apply(highlight_95, axis=1))
+                    #st.dataframe(pd.DataFrame(results))
 
-                st.markdown("---")
-                st.subheader("🧾 Calculation Details")
-                st.write(f"**Means:** {means}")
-                st.write(f"**Standard Deviations:** {sds}")
-                st.write(f"**Grand Mean:** {round(np.mean(means), 2)}")
-                st.write(f"**Drop-out adjusted:** {round(dropout * 100, 1)}%")
-                st.write(f"**Z(beta):** {power_z}")
-                st.write(f"**Power (1 - β):** {round(power, 1)}%")
-                st.write(f"**Design Effect used:** {round(design_effect, 3)}")
+                    st.markdown("---")
+                    st.subheader("🧾 Calculation Details")
+                    st.write(f"**Means:** {means}")
+                    st.write(f"**Standard Deviations:** {sds}")
+                    st.write(f"**Grand Mean:** {round(np.mean(means), 2)}")
+                    st.write(f"**Drop-out adjusted:** {round(dropout * 100, 1)}%")
+                    st.write(f"**Z(beta):** {power_z}")
+                    st.write(f"**Power (1 - β):** {round(power, 1)}%")
+                    st.write(f"**Design Effect used:** {round(design_effect, 3)}")
+                with tabs[1]:
+                    # D efine power and confidence levels
+                    powers = [0.60, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97]
+                    conf_levels = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99]
+
+                    st.subheader("📈 Sample Size Cross Table for Different Powers and Confidence Levels")
+
+                    power_labels = [f"{int(p * 100)}%" for p in powers]
+                    conf_labels = [f"{int(c * 100)}%" for c in conf_levels]
+                    cross_table = pd.DataFrame(index=conf_labels, columns=power_labels)
+                    # Fill the cross table
+                    for i, conf in enumerate(conf_levels):
+                        for j, power_val in enumerate(powers):
+                            z_alpha = stats.norm.ppf(1-((1-conf)/2))
+                            power_z = stats.norm.ppf(power_val)
+                            nn,ss = direct_anova_sample_size(means, sds, z_alpha, power_z, method_type, dropout, design_effect)
+                            cross_table.iloc[i, j] = ss
+
+                    # Label table
+                    cross_table.index.name = "Confidence Level (%)"
+                    cross_table.columns.name = "Power (%)"
+
+                    st.dataframe(cross_table)
+                    st.write("**Rows are Confidence Levels; Columns are Powers**")
+                    #st.session_state["cross_table"] = cross_table
+                with tabs[2]:
+                    ##
+                    import matplotlib.pyplot as plt
+
+                    powers = [int(col.strip('%')) for col in cross_table.columns]
+                    conf_levels = [int(row.strip('%')) for row in cross_table.index]
+
+                    # Sort both for consistent plotting
+                    powers_sorted = sorted(powers)
+                    conf_levels_sorted = sorted(conf_levels)
+
+                    # Convert back to string labels
+                    power_labels = [f"{p}%" for p in powers_sorted]
+                    conf_labels = [f"{cl}%" for cl in conf_levels_sorted]
+
+                    # Plotting
+                    fig, ax1 = plt.subplots(figsize=(10, 6))
+
+                    # Power curves at selected Confidence Levels (primary y-axis)
+                    conf_levels_to_plot = [90, 95, 97, 99]
+                    for cl in conf_levels_to_plot:
+                        cl_label = f"{cl}%"
+                        if cl_label in cross_table.index:
+                            sample_sizes = cross_table.loc[cl_label, power_labels].astype(float).tolist()
+                            ax1.plot(sample_sizes, powers_sorted, marker='o', linestyle='-', label=f'Power at {cl_label} CL')
+
+                    ax1.set_xlabel("Sample Size")
+                    ax1.set_ylabel("Power (%)", color='blue')
+                    ax1.tick_params(axis='y', labelcolor='blue')
+                    ax1.set_ylim([60, 100])
+                    ax1.grid(True)
+
+                    # Alpha curves at selected Power Levels (secondary y-axis)
+                    power_levels_to_plot = [80, 85, 90, 95]
+                    ax2 = ax1.twinx()
+                    for pwr in power_levels_to_plot:
+                        pwr_label = f"{pwr}%"
+                        if pwr_label in cross_table.columns:
+                            sample_sizes = cross_table[pwr_label].astype(float).tolist()
+                            alpha_vals = [100 - int(idx.strip('%')) for idx in cross_table.index]
+                            ax2.plot(sample_sizes, alpha_vals, marker='s', linestyle='--', label=f'Alpha at {pwr_label} Power')
+
+                    ax2.set_ylabel("Alpha Level (%)", color='orange')
+                    ax2.tick_params(axis='y', labelcolor='orange')
+                    ax2.set_ylim([0, 30])
+
+                    # Combine legends
+                    lines1, labels1 = ax1.get_legend_handles_labels()
+                    lines2, labels2 = ax2.get_legend_handles_labels()
+                    #ax1.legend(lines1 + lines2, labels1 + labels2, loc='lower left', bbox_to_anchor=(1.05, 0.5), ncol=2)
+
+                    # Title and layout
+                    plt.title("Sample Size vs Power and Alpha Level (Multiple Lines)")
+                    lines1, labels1 = ax1.get_legend_handles_labels()
+                    lines2, labels2 = ax2.get_legend_handles_labels()
+                    fig.legend(lines1 + lines2, labels1 + labels2, loc='lower center', bbox_to_anchor=(0.5, -0.25), ncol=4)
+                    #plt.tight_layout(rect=[0, 0.1, 1, 1])
+                    # Show in Streamlit
+                    st.pyplot(fig)
+                    st.markdown("---")
+                    with st.expander("💡Show the Interpretation of the plot"):
+                        st.markdown("- This plot demonstrates **how sample size influences both statistical power and the risk of Type I error (alpha)**—two critical factors in designing reliable health research.")
+                        st.markdown("- The **Left Y-Axis (Blue)**, solid lines represent the probability of correctly detecting a true effect (power), which increases with larger sample sizes, improving the study's ability to identify meaningful (clinical) differences.")
+                        st.markdown("- On the other hand, the **Right Y-Axis (Orange/Yellow)**, dashed lines indicate the likelihood of a false positive result (alpha), which typically decreases with larger samples, reflecting a more conservative test. Conversely, increasing alpha reduces the required sample size to achieve a given power, but increases the risk of Type I error. For an example, if you want 80% power, increasing alpha (e.g., from 0.01 to 0.05) means you need fewer subjects.")
+                        st.markdown("- **Points where the power and alpha curves intersect** represent sample sizes where the chance of detecting a real effect (power) equals the chance of making a false claim (alpha)—an undesirable scenario. In health research, we strive for power to be much higher than alpha to ensure that findings are both valid and clinically trustworthy, in line with the principles of the most powerful statistical tests. ")
 
             except Exception as e:
                 st.error(f"Input error: {e}")
 
         st.markdown("---")
-        st.subheader("📌 Formula (Direct Method)")
-        st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times \frac{DE}{1 - \text{Dropout\%}}")
+        with st.expander("Show the formula and the references"):
+            st.subheader("📌 Formula (Direct Method)")
+            st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2} \times \frac{DE}{1 - \text{Dropout\%}}")
 
-        st.markdown("### **Design Effect Calculation (if clusters are used):**")
-        st.latex(r"""
-        DE = 1 + (m - 1) \times ICC
-        """)
+            st.markdown("### **Design Effect Calculation (if clusters are used):**")
+            st.latex(r"""
+            DE = 1 + (m - 1) \times ICC
+            """)
 
-        st.subheader("📌 Description of Parameters")
-        st.markdown("- k: number of groups")
-        st.markdown("- mu_i: group means")
-        st.markdown("- mu_bar: grand mean")
-        st.markdown("- sigma^2: average of group variances (equal/unequal)")
-        st.markdown("- (Z_{1-alpha/2}, Z_{1-beta}\): critical values for significance level and power")
-        st.markdown("- DE = Design Effect")
-        st.markdown("- Dropout%: Anticipated percentage of dropout in the study.")
+            st.subheader("📌 Description of Parameters")
+            st.markdown("- k: number of groups")
+            st.markdown("- mu_i: group means")
+            st.markdown("- mu_bar: grand mean")
+            st.markdown("- sigma^2: average of group variances (equal/unequal)")
+            st.markdown("- (Z_{1-alpha/2}, Z_{1-beta}\): critical values for significance level and power")
+            st.markdown("- DE = Design Effect")
+            st.markdown("- Dropout%: Anticipated percentage of dropout in the study.")
 
-        st.markdown("---")
-        st.subheader("📌 Notes")
-        st.markdown("- This calculator assumes a **balanced design** (equal n per group).")
-        st.markdown(""""
-        - <span style="font-weight: bold; font-size: 26px;">Note that</span>, when your terget is the multiple comparisons use  **Bonferroni correction**:           
-        """,unsafe_allow_html=True)
-        st.latex(r"""
-        \alpha_{\text{adjusted}}=\frac{\alpha}{\text{Number of Comparisons}}
-        """)
-        st.markdown("""  to adjust the significance level. This adjustment helps to control family-wise errow rate (FWER). Others are **Sidak Correction**,**Holm-Bonferroni**,**Benjamini-Hochberg**.""")
+            st.markdown("---")
+            st.subheader("📌 Notes")
+            st.markdown("- This calculator assumes a **balanced design** (equal n per group).")
+            st.markdown(""""
+            - <span style="font-weight: bold; font-size: 26px;">Note that</span>, when your terget is the multiple comparisons use  **Bonferroni correction**:           
+            """,unsafe_allow_html=True)
+            st.latex(r"""
+            \alpha_{\text{adjusted}}=\frac{\alpha}{\text{Number of Comparisons}}
+            """)
+            st.markdown("""  to adjust the significance level. This adjustment helps to control family-wise errow rate (FWER). Others are **Sidak Correction**,**Holm-Bonferroni**,**Benjamini-Hochberg**.""")
 
 
-        st.markdown("---")
-        st.subheader("📌 References")
-        st.markdown("""
-                    1. **Chow, S.C., Shao, J., & Wang, H. (2008).** Sample Size Calculations in Clinical Research (2nd Ed.) [Chapter: One-way ANOVA]
-                    2. **Machin, D., Campbell, M. J., Tan, S. B., & Tan, S. H. (2018).** Sample Size Tables for Clinical Studies (3rd Ed.)
-                    """)
+            st.markdown("---")
+            st.subheader("📌 References")
+            st.markdown("""
+                        1. **Chow, S.C., Shao, J., & Wang, H. (2008).** Sample Size Calculations in Clinical Research (2nd Ed.) [Chapter: One-way ANOVA]
+                        2. **Machin, D., Campbell, M. J., Tan, S. B., & Tan, S. H. (2018).** Sample Size Tables for Clinical Studies (3rd Ed.)
+                        """)
 
         st.markdown("---")
         st.subheader("Citation")
@@ -347,21 +440,10 @@ def main():
         )
         ## Functuion
         def calculate_anova_sample_size(effect_size, alpha, power, k,dpt):
-            """
-            Calculate the required sample size per group for one-way ANOVA using the noncentral F-distribution.
-        
-            Parameters:
-            effect_size (float): Cohen's f effect size
-            alpha (float): Significance level
-            power (float): Desired power
-            k (int): Number of groups
-        
-            Returns:
-            tuple: (sample size per group, total sample size)
-            """
+
             # Get Z-scores for alpha and power
-            z_alpha = stats.norm.ppf(1 - (1-alpha) / 2)  # Two-tailed test
-            z_beta = stats.norm.ppf(power)
+            #z_alpha = stats.norm.ppf(1 - (1-alpha) / 2)  # Two-tailed test
+            #z_beta = stats.norm.ppf(power)
         
             # Start with an initial guess for sample size
             n = 2
@@ -428,118 +510,205 @@ def main():
         else:
             hist_submit = False
 
-
         if go or hist_submit:
+            tabs = st.tabs(["Tabulate", "Power V/s Confidelce Table" ,"Visualisation"])
+            with tabs[0]:
+                if hist_submit and selected_history:
+                    # Use selected history
+                    esize= selected_history["esize"]
+                    KK= selected_history["KK"]
+                    power = selected_history["power"]
+                    drpt = selected_history["drpt"]
+                else:
+                    # Add current input to history
+                    new_entry = {
+                        "esize":esize,
+                        "KK":KK,
+                        "power":power,
+                        "drpt":drpt
+                    }
+                    st.session_state.anova_history.append(new_entry)
 
-            if hist_submit and selected_history:
-                # Use selected history
-                esize= selected_history["esize"]
-                KK= selected_history["KK"]
-                power = selected_history["power"]
-                drpt = selected_history["drpt"]
-            else:
-                # Add current input to history
-                new_entry = {
-                    "esize":esize,
-                    "KK":KK,
-                    "power":power,
-                    "drpt":drpt
-                }
-                st.session_state.anova_history.append(new_entry)
+                confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
+                out=[]
 
-            confidenceIntervals= [0.95,0.8,0.9,0.97,0.99,0.999,0.9999]
-            out=[]
+                for conf in confidenceIntervals:
+                    sample_size= calculate_anova_sample_size(effect_size=esize, alpha=conf, power=(power/100), k=KK,dpt=(drpt/100))
+                    out.append(sample_size)
 
-            for conf in confidenceIntervals:
-                sample_size= calculate_anova_sample_size(effect_size=esize, alpha=conf, power=(power/100), k=KK,dpt=(drpt/100))
-                out.append(sample_size)
+                df= pd.DataFrame({
+                    "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
+                    "Sample sise par group wise": [row[5] for row in out],
+                    "Total Sample sise": [row[6] for row in out],
+                    "No. of groups": [row[7] for row in out],
+                    "Noncentrality parameter": [row[0] for row in out],
+                    "F-critical value": [row[1] for row in out],
+                    "Upper df.": [row[2] for row in out],
+                    "Lower df.": [row[3] for row in out],
+                    "Calculated Power": [row[4] for row in out]
+                })
 
-            df= pd.DataFrame({
-                "Confidence Levels (%)": [cl *100 for cl in confidenceIntervals],
-                "No. of groups": [row[7] for row in out],
-                "Noncentrality parameter": [row[0] for row in out],
-                "F-critical value": [row[1] for row in out],
-                "Upper df.": [row[2] for row in out],
-                "Lower df.": [row[3] for row in out],
-                "Calculated Power": [row[4] for row in out],
-                "Sample sise par group wise": [row[5] for row in out],
-                "Total Sample sise": [row[6] for row in out]
-            })
-
-            dds= calculate_anova_sample_size(effect_size=esize, alpha=0.95, power=(power/100), k=KK,dpt=(drpt/100))
-        
-            st.write(f"The study would need a total sample size of:")
-            st.markdown(f"""
-            <div style="display: flex; justify-content: center;">
-                <div style="
-                    font-size: 36px;
-                    font-weight: bold;
-                    background-color: #48D1CC;
-                    padding: 10px;
-                    border-radius: 10px;
-                    text-align: center;">
-                    {int(dds[6])}
+                dds= calculate_anova_sample_size(effect_size=esize, alpha=0.95, power=(power/100), k=KK,dpt=(drpt/100))
+            
+                st.write(f"The study would need a total sample size of:")
+                st.markdown(f"""
+                <div style="display: flex; justify-content: center;">
+                    <div style="
+                        font-size: 36px;
+                        font-weight: bold;
+                        background-color: #48D1CC;
+                        padding: 10px;
+                        border-radius: 10px;
+                        text-align: center;">
+                        {int(dds[6])}
+                    </div>
                 </div>
-            </div>
-            """, unsafe_allow_html=True)
-            st.write(f"""participants(i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{int(dds[5])}</span> participants at each group) to achive a power of {(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, for comparing {KK} different group means, where the non-centrality parameter is {round(dds[0],4)}, F-test critical value is {round(dds[1],4)} with numerator and denominator dfs are {int(dds[2])} and {int(dds[3])} respectively  where drop-out sample percentage is **{(drpt)}%**.""",unsafe_allow_html=True)
-            st.subheader("List of Sample Sizes at other Confidence Levels")
-            st.dataframe(df)
+                """, unsafe_allow_html=True)
+                st.write(f"""participants(i.e. <span style="background-color: #48D1CC; font-weight: bold; font-size: 26px;">{int(dds[5])}</span> participants at each group) to achive a power of {(power)}% and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence level, for comparing {KK} different group means, where the non-centrality parameter is {round(dds[0],4)}, F-test critical value is {round(dds[1],4)} with numerator and denominator dfs are {int(dds[2])} and {int(dds[3])} respectively  where drop-out sample percentage is **{(drpt)}%**.""",unsafe_allow_html=True)
+                st.subheader("List of Sample Sizes at other Confidence Levels")
+                st.dataframe(df)
 
+            with tabs[1]:
+                # D efine power and confidence levels
+                powers = [0.60, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97]
+                conf_levels = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99]
+
+                st.subheader("📈 Sample Size Cross Table for Different Powers and Confidence Levels")
+
+                power_labels = [f"{int(p * 100)}%" for p in powers]
+                conf_labels = [f"{int(c * 100)}%" for c in conf_levels]
+                cross_table = pd.DataFrame(index=conf_labels, columns=power_labels)
+                # Fill the cross table
+                for i, conf in enumerate(conf_levels):
+                    for j, power_val in enumerate(powers):
+                        ss = calculate_anova_sample_size(effect_size=esize, alpha=conf, power=power_val, k=KK,dpt=(drpt/100))  
+                        cross_table.iloc[i, j] = ss[6]
+                # Label table
+                cross_table.index.name = "Confidence Level (%)"
+                cross_table.columns.name = "Power (%)"
+
+                st.dataframe(cross_table)
+                st.write("**Cell values are Total SSample size; Rows are Confidence Levels; Columns are Powers**")
+                #st.session_state["cross_table"] = cross_table
+            with tabs[2]:
+                ##
+                import matplotlib.pyplot as plt
+
+                powers = [int(col.strip('%')) for col in cross_table.columns]
+                conf_levels = [int(row.strip('%')) for row in cross_table.index]
+
+                # Sort both for consistent plotting
+                powers_sorted = sorted(powers)
+                conf_levels_sorted = sorted(conf_levels)
+
+                # Convert back to string labels
+                power_labels = [f"{p}%" for p in powers_sorted]
+                conf_labels = [f"{cl}%" for cl in conf_levels_sorted]
+
+                # Plotting
+                fig, ax1 = plt.subplots(figsize=(10, 6))
+
+                # Power curves at selected Confidence Levels (primary y-axis)
+                conf_levels_to_plot = [90, 95, 97, 99]
+                for cl in conf_levels_to_plot:
+                    cl_label = f"{cl}%"
+                    if cl_label in cross_table.index:
+                        sample_sizes = cross_table.loc[cl_label, power_labels].astype(float).tolist()
+                        ax1.plot(sample_sizes, powers_sorted, marker='o', linestyle='-', label=f'Power at {cl_label} CL')
+
+                ax1.set_xlabel("Sample Size")
+                ax1.set_ylabel("Power (%)", color='blue')
+                ax1.tick_params(axis='y', labelcolor='blue')
+                ax1.set_ylim([60, 100])
+                ax1.grid(True)
+
+                # Alpha curves at selected Power Levels (secondary y-axis)
+                power_levels_to_plot = [80, 85, 90, 95]
+                ax2 = ax1.twinx()
+                for pwr in power_levels_to_plot:
+                    pwr_label = f"{pwr}%"
+                    if pwr_label in cross_table.columns:
+                        sample_sizes = cross_table[pwr_label].astype(float).tolist()
+                        alpha_vals = [100 - int(idx.strip('%')) for idx in cross_table.index]
+                        ax2.plot(sample_sizes, alpha_vals, marker='s', linestyle='--', label=f'Alpha at {pwr_label} Power')
+
+                ax2.set_ylabel("Alpha Level (%)", color='orange')
+                ax2.tick_params(axis='y', labelcolor='orange')
+                ax2.set_ylim([0, 30])
+
+                # Combine legends
+                lines1, labels1 = ax1.get_legend_handles_labels()
+                lines2, labels2 = ax2.get_legend_handles_labels()
+                #ax1.legend(lines1 + lines2, labels1 + labels2, loc='lower left', bbox_to_anchor=(1.05, 0.5), ncol=2)
+
+                # Title and layout
+                plt.title("Total Sample Size vs Power and Alpha Level (Multiple Lines)")
+                lines1, labels1 = ax1.get_legend_handles_labels()
+                lines2, labels2 = ax2.get_legend_handles_labels()
+                fig.legend(lines1 + lines2, labels1 + labels2, loc='lower center', bbox_to_anchor=(0.5, -0.25), ncol=4)
+                #plt.tight_layout(rect=[0, 0.1, 1, 1])
+                # Show in Streamlit
+                st.pyplot(fig)
+                st.markdown("---")
+                with st.expander("💡Show the Interpretation of the plot"):
+                    st.markdown("- This plot demonstrates **how sample size influences both statistical power and the risk of Type I error (alpha)**—two critical factors in designing reliable health research.")
+                    st.markdown("- The **Left Y-Axis (Blue)**, solid lines represent the probability of correctly detecting a true effect (power), which increases with larger sample sizes, improving the study's ability to identify meaningful (clinical) differences.")
+                    st.markdown("- On the other hand, the **Right Y-Axis (Orange/Yellow)**, dashed lines indicate the likelihood of a false positive result (alpha), which typically decreases with larger samples, reflecting a more conservative test. Conversely, increasing alpha reduces the required sample size to achieve a given power, but increases the risk of Type I error. For an example, if you want 80% power, increasing alpha (e.g., from 0.01 to 0.05) means you need fewer subjects.")
+                    st.markdown("- **Points where the power and alpha curves intersect** represent sample sizes where the chance of detecting a real effect (power) equals the chance of making a false claim (alpha)—an undesirable scenario. In health research, we strive for power to be much higher than alpha to ensure that findings are both valid and clinically trustworthy, in line with the principles of the most powerful statistical tests. ")
 
         st.markdown("---")  # Adds a horizontal line for separation
+        with st.expander("Show the formula and the references"):
+            st.subheader("📌 Formula for Sample Size Calculation")
 
-        st.subheader("📌 Formula for Sample Size Calculation")
+            st.markdown("### **One-way ANOVA Test Sample Size Formula**")
 
-        st.markdown("### **One-way ANOVA Test Sample Size Formula**")
+            st.markdown("The sample size for One-way ANOVA is calculated using noncentral F-distribution:")
+            st.latex(r"""
+            \text{Power} = 1 - F_{\text{crit}, df_1, df_2}^{-1} (\alpha, \lambda)
+            """)
 
-        st.markdown("The sample size for One-way ANOVA is calculated using noncentral F-distribution:")
-        st.latex(r"""
-        \text{Power} = 1 - F_{\text{crit}, df_1, df_2}^{-1} (\alpha, \lambda)
-        """)
+            st.subheader("📌 Description of Parameters")
 
-        st.subheader("📌 Description of Parameters")
+            st.latex(r"""
+            F_{\text{crit}, df_1, df_2}^{-1}=\; \text{is the inverse cumulative distribution function (CDF) of the central F-distribution}
+            """)
+            st.latex(r"""
+            df_1 = k - 1=\; \text{degrees of freedom between groups}
+            """)
+            st.latex(r"""
+            df_2 = k(n - 1)=\; \text{degrees of freedom within groups}
+            """)
+            st.latex(r"""
+            \lambda = f \cdot k \cdot n=\; \text{is the noncentrality parameter}
+            """)
+            st.latex(r"""
+            n=\; \text{is the per-group sample size.}
+            """)
+            st.latex(r"""
+            k=\; \text{is the number of groups.}
+            """)
+            st.latex(r"""
+            f=\sqrt{\frac{\eta^2}{1-\eta^2}}=\; \text{is the Cohen's f : Effect size}
+            """)
+            st.latex(r"""
+            \eta=\frac{SS_{\text{Treatment}}}{SS_{\text{Total}}}
+            """)
 
-        st.latex(r"""
-        F_{\text{crit}, df_1, df_2}^{-1}=\; \text{is the inverse cumulative distribution function (CDF) of the central F-distribution}
-        """)
-        st.latex(r"""
-    df_1 = k - 1=\; \text{degrees of freedom between groups}
-    """)
-        st.latex(r"""
-        df_2 = k(n - 1)=\; \text{degrees of freedom within groups}
-        """)
-        st.latex(r"""
-        \lambda = f \cdot k \cdot n=\; \text{is the noncentrality parameter}
-        """)
-        st.latex(r"""
-        n=\; \text{is the per-group sample size.}
-        """)
-        st.latex(r"""
-        k=\; \text{is the number of groups.}
-        """)
-        st.latex(r"""
-        f=\sqrt{\frac{\eta^2}{1-\eta^2}}=\; \text{is the Cohen's f : Effect size}
-        """)
-        st.latex(r"""
-        \eta=\frac{SS_{\text{Treatment}}}{SS_{\text{Total}}}
-        """)
+            st.subheader("📌 References")
 
-        st.subheader("📌 References")
+            st.markdown("""
+            1. **Cohen, J.** A power primer. Psychological bulletin vol. 112,1 (1992): 155-9. doi:10.1037//0033-2909.112.1.155
+            2. **Jan, Show-Li, and Gwowen Shieh.** Sample size determinations for Welch's test in one-way heteroscedastic ANOVA. The British journal of mathematical and statistical psychology vol. 67,1 (2014): 72-93. doi:10.1111/bmsp.12006
+            3. **Bujang, Mohamad Adam.** A Step-by-Step Process on Sample Size Determination for Medical Research. The Malaysian journal of medical sciences : MJMS vol. 28,2 (2021): 15-27. doi:10.21315/mjms2021.28.2.2
+            """)
 
-        st.markdown("""
-        1. **Cohen, J.** A power primer. Psychological bulletin vol. 112,1 (1992): 155-9. doi:10.1037//0033-2909.112.1.155
-        2. **Jan, Show-Li, and Gwowen Shieh.** Sample size determinations for Welch's test in one-way heteroscedastic ANOVA. The British journal of mathematical and statistical psychology vol. 67,1 (2014): 72-93. doi:10.1111/bmsp.12006
-        3. **Bujang, Mohamad Adam.** A Step-by-Step Process on Sample Size Determination for Medical Research. The Malaysian journal of medical sciences : MJMS vol. 28,2 (2021): 15-27. doi:10.21315/mjms2021.28.2.2
-        """)
-
-        st.markdown(""""
-        <span style="font-weight: bold; font-size: 26px;">Note that</span>, when your terget is the multiple comparisons use  **Bonferroni correction**:           
-        """,unsafe_allow_html=True)
-        st.latex(r"""
-    \alpha_{\text{adjusted}}=\frac{\alpha}{\text{Number of Comparisons}}
-    """)
-        st.markdown("""to adjust the significance level. This adjustment helps to control family-wise errow rate (FWER). Others are **Sidak Correction**,**Holm-Bonferroni**,**Benjamini-Hochberg**.""")
+            st.markdown(""""
+            <span style="font-weight: bold; font-size: 26px;">Note that</span>, when your terget is the multiple comparisons use  **Bonferroni correction**:           
+            """,unsafe_allow_html=True)
+            st.latex(r"""
+            \alpha_{\text{adjusted}}=\frac{\alpha}{\text{Number of Comparisons}}
+            """)
+            st.markdown("""to adjust the significance level. This adjustment helps to control family-wise errow rate (FWER). Others are **Sidak Correction**,**Holm-Bonferroni**,**Benjamini-Hochberg**.""")
 
 
         st.markdown("---")

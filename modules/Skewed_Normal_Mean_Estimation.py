@@ -170,33 +170,33 @@ def main():
 
 
     st.markdown("---")  # Adds a horizontal line for separation
+    with st.expander("Show the formula and the references"):
+        st.subheader("📌 Formula for Sample Size Calculation")
+        st.markdown("""
+        The **minimum required sample size** for estimating a mean is given by:
+        """)
 
-    st.subheader("📌 Formula for Sample Size Calculation")
-    st.markdown("""
-    The **minimum required sample size** for estimating a mean is given by:
-    """)
+        st.latex(r"""
+        n = \left( \frac{Z_{1-\alpha/2}}{f} \right)^2 
+        """)
+        st.markdown("Where:")
+        st.latex(r"""
+        f= \frac{ d \bar{x} }{s} =\frac{d}{CV}
+                """)
 
-    st.latex(r"""
-    n = \left( \frac{Z_{1-\alpha/2}}{f} \right)^2 
-    """)
-    st.markdown("Where:")
-    st.latex(r"""
-     f= \frac{ d \bar{x} }{s} =\frac{d}{CV}
-             """)
+        st.markdown("""
+        Where:
+        - $d$ isrelative precision of the estimate.
+        - $CV$ is the coefficient of variation
+        """)
 
-    st.markdown("""
-    Where:
-    - $d$ isrelative precision of the estimate.
-    - $CV$ is the coefficient of variation
-    """)
+        st.markdown("---")
 
-    st.markdown("---")
+        st.subheader("References")
 
-    st.subheader("References")
-
-    st.markdown("""
-    **Trafimow D, Wang T, Wang C.** From a Sampling Precision Perspective, Skewness Is a Friend and Not an Enemy! Educ Psychol Meas. 2019 Feb;79(1):129-150. doi: 10.1177/0013164418764801. Epub 2018 Apr 3. PMID: 30636785; PMCID: PMC6318746.
-    """)
+        st.markdown("""
+        **Trafimow D, Wang T, Wang C.** From a Sampling Precision Perspective, Skewness Is a Friend and Not an Enemy! Educ Psychol Meas. 2019 Feb;79(1):129-150. doi: 10.1177/0013164418764801. Epub 2018 Apr 3. PMID: 30636785; PMCID: PMC6318746.
+        """)
 
 
     #st.markdown("""

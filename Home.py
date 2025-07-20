@@ -214,7 +214,8 @@ else:
     elif category == "Regression":
         method = st.sidebar.selectbox("Choose Model", [
             "Linear Regression",
-            "Logistic Regression"
+            "Logistic Regression",
+            "Test Module"
         ])
     elif category == "FAQ":
         from modules import FAQ
@@ -231,22 +232,41 @@ else:
         except AttributeError:
             st.error(f"⚠️ `{module_name}` is missing a `main()` function.")
 
-injection_code =  """
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6871795c3606072bf849ed1e/1ivtk457m'; // Replace with your real ID
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
-    """
-
-st.components.v1.html(injection_code,height=0)
 
 
+
+tawk_script = """
+<!-- Tawk.to Injection -->
+<div id="tawkto-container"></div>
+<script type="text/javascript">
+    setTimeout(function() {
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6871795c3606072bf849ed1e/1ivtk457m'; // Your full widget embed URL
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    }, 1000);  // Delayed to ensure DOM is ready
+</script>
+"""
+
+import streamlit as st
+st.markdown(tawk_script, unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
+iframe[src*="tawk.to"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 999999 !important;
+    position: fixed !important;
+    bottom: 0px !important;
+    right: 0px !important;
+}
+</style>
+""", unsafe_allow_html=True)
