@@ -27,8 +27,8 @@ def main():
     #st.audio(audio_bytes, format="audio/mp3")
 
     try:
-        audio_file = open("Audio/Mean Estimation.mp3", "rb")
-        audio_bytes = audio_file.read()
+        with open("Audio/Mean Estimation.mp3", "rb") as audio_file:
+            audio_bytes = audio_file.read()
         st.audio(audio_bytes, format="audio/mp3")
     except FileNotFoundError:
         st.warning("Audio file not found. Please make sure 'Audio/Mean Estimation.mp3' exists in the deployed project.")
