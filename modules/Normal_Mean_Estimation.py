@@ -23,7 +23,6 @@ def main():
     )
     st.subheader("🗣️ Know how to calculate sample size.")
     audio_file = open("Audio/Mean Estimation.mp3", "rb")
-    audio_file = open("Audio/Mean Estimation.mp3", "rb")
     audio_bytes = audio_file.read()
     st.audio(audio_bytes, format="audio/mp3")
 
