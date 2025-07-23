@@ -437,7 +437,13 @@ def main():
 
         st.markdown("---")
         st.subheader("Citation")
-        st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
+        from datetime import datetime
+        # Get current date and time
+        now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        # Citation with access timestamp
+        st.markdown(f"""
+        *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.netlify.app/](https://studysizer.netlify.app/). Accessed on {now}. [https://doi.org/10.5281/zenodo.16375937](https://doi.org/10.5281/zenodo.16375937).*
+        """)
 
         st.markdown("---")
         st.markdown("**Developed by [Rajesh Majumder]**")
@@ -707,17 +713,6 @@ def main():
                     st.markdown("- On the other hand, the **Right Y-Axis (Orange/Yellow)**, dashed lines indicate the likelihood of a false positive result (alpha), which typically decreases with larger samples, reflecting a more conservative test. Conversely, increasing alpha reduces the required sample size to achieve a given power, but increases the risk of Type I error. For an example, if you want 80% power, increasing alpha (e.g., from 0.01 to 0.05) means you need fewer subjects.")
                     st.markdown("- **Points where the power and alpha curves intersect** represent sample sizes where the chance of detecting a real effect (power) equals the chance of making a false claim (alpha)—an undesirable scenario. In health research, we strive for power to be much higher than alpha to ensure that findings are both valid and clinically trustworthy, in line with the principles of the most powerful statistical tests. ")
 
-
-
-
-
-
-
-
-
-
-
-
         st.markdown("### **GLM-based Sample Size Formula for Comparing Two Poisson Rates (Person-Time)- at overdispersion | Negative Binomial Rates**")
         st.latex(r"""
             n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \left( \frac{1}{Q_1} \left(\frac{1}{\mu_1} + \frac{1}{k_1}\right) + \frac{1}{Q_0} \left(\frac{1}{\mu_0} + \frac{1}{k_0}\right) \right)}{\left[\log\left(\frac{\mu_1 T_1}{\mu_0 T_0}\right)\right]^2} \cdot \frac{DE}{1 - \text{Dropout\%}}
@@ -779,8 +774,13 @@ def main():
 
         st.markdown("---")
         st.subheader("Citation")
-        st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
-
+        from datetime import datetime
+        # Get current date and time
+        now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        # Citation with access timestamp
+        st.markdown(f"""
+        *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.netlify.app/](https://studysizer.netlify.app/). Accessed on {now}. [https://doi.org/10.5281/zenodo.16375937](https://doi.org/10.5281/zenodo.16375937).*
+        """)
 
         st.markdown("---")
         st.markdown("**Developed by [Rajesh Majumder]**")

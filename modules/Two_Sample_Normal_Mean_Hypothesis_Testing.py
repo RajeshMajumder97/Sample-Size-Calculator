@@ -4,6 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 
+
 def main():
     #    st.set_page_config(page_title="StydySizer | Two Sample Normal Mean Hypothesis Testing",
     #                    page_icon="🧮")
@@ -260,13 +261,18 @@ def main():
         st.subheader("📌 References")
 
         st.markdown("""
-        1. **Naing, N. N. (2011).** A practical guide on determination of sample size in health sciences research. Kelantan: Pustaka Aman Press.
+        1. Chow, S. C., et al. (2008). Sample Size Calculations in Clinical Research. (Chapter 3)
         """)
 
     st.markdown("---")
     st.subheader("Citation")
-    st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
-
+    from datetime import datetime
+    # Get current date and time
+    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    # Citation with access timestamp
+    st.markdown(f"""
+    *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.netlify.app/](https://studysizer.netlify.app/). Accessed on {now}. [https://doi.org/10.5281/zenodo.16375937](https://doi.org/10.5281/zenodo.16375937).*
+    """)
 
     st.markdown("---")
     st.markdown("**Developed by [Rajesh Majumder]**")

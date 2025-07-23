@@ -291,12 +291,21 @@ def main():
         st.subheader("📌 References")
 
         st.markdown("""
-        1. **Naing, N. N. (2003).** Determination of Sample Size.The Malaysian Journal of Medical Sciences: MJMS,10(2), 84-86. Available at: [https://pubmed.ncbi.nlm.nih.gov/23386802/](https://pubmed.ncbi.nlm.nih.gov/23386802/)
+            1. Lwanga, S. K., & Lemeshow, S. (1991). Sample size determination in health studies: A practical manual. WHO.
+            2. Daniel, W. W. (1999). Biostatistics: A Foundation for Analysis in the Health Sciences. 7th ed. Wiley.
         """)
+
+
 
     st.markdown("---")
     st.subheader("Citation")
-    st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
+    from datetime import datetime
+    # Get current date and time
+    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    # Citation with access timestamp
+    st.markdown(f"""
+    *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.netlify.app/](https://studysizer.netlify.app/). Accessed on {now}. [https://doi.org/10.5281/zenodo.16375937](https://doi.org/10.5281/zenodo.16375937).*
+    """)
 
 
     st.markdown("---")

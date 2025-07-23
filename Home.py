@@ -5,6 +5,7 @@ import base64
 from io import BytesIO
 import streamlit.components.v1 as components
 
+
 st.set_page_config(page_title="Home | StudySizer", page_icon="🧮")
 st.sidebar.image("image.png", width=200)
 from modules.utils import inject_logo
@@ -88,7 +89,6 @@ elif category == "About":
 
     st.image("Sample size Explained.png")
     st.image("Sample size Explained_2.png")
-
 
     st.title("📘 Sample Size Calculation Scenarios")
 
@@ -231,42 +231,3 @@ else:
             st.error(f"⚠️ Module for `{module_name}` not found.")
         except AttributeError:
             st.error(f"⚠️ `{module_name}` is missing a `main()` function.")
-
-
-
-
-tawk_script = """
-<!-- Tawk.to Injection -->
-<div id="tawkto-container"></div>
-<script type="text/javascript">
-    setTimeout(function() {
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/6871795c3606072bf849ed1e/1ivtk457m'; // Your full widget embed URL
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    }, 1000);  // Delayed to ensure DOM is ready
-</script>
-"""
-
-import streamlit as st
-st.markdown(tawk_script, unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
-iframe[src*="tawk.to"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 999999 !important;
-    position: fixed !important;
-    bottom: 0px !important;
-    right: 0px !important;
-}
-</style>
-""", unsafe_allow_html=True)

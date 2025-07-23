@@ -314,7 +314,8 @@ def main():
         st.subheader("📌 References")
 
         st.markdown("""
-        1. **Naing, N. N. (2003).** Determination of Sample Size.The Malaysian Journal of Medical Sciences: MJMS,10(2), 84-86. Available at: [https://pubmed.ncbi.nlm.nih.gov/23386802/](https://pubmed.ncbi.nlm.nih.gov/23386802/)
+        1. Chow, S. C., Shao, J., & Wang, H. (2008). Sample Size Calculations in Clinical Research. 2nd ed. Chapman & Hall/CRC.
+        2. Hulley, S. B., Cummings, S. R., et al. (2013). Designing Clinical Research. 4th ed. Lippincott Williams & Wilkins.
         """)
 
     st.markdown("---")
