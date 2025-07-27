@@ -34,7 +34,7 @@ def main():
     st.sidebar.header("🔧 Input Parameters")
 
     p = st.sidebar.number_input("Expected Proportion (%)",value=50.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 50%)")
-    d = st.sidebar.number_input("Precision or Margin of Error (%)",min_value=0.0, value=10.0,max_value=50.0,help="Enter a percentage value (e.g., 10%). Note that, for absolute precision, convert the precision value into %.")
+    d = st.sidebar.number_input("Precision or Margin of Error (%)",min_value=0.0, value=10.0,max_value=50.0,help="Enter a percentage value (e.g., 10%).")
     ads= st.sidebar.radio("Choose Precision or Margin of Error Option",options=['Absolute Precision','Relative to the Proportion'],help="This represents how precisely you want to estimate the true proportion in the population. A smaller margin of error leads to a larger required sample size and a narrower confidence interval. For instance, suppose a clinical survey finds that 30% of patients report improvement after taking a new medication. If we use a 5% 'absolute precision', we can say with confidence that the true proportion of patients who benefit lies between 25% (30−5) and 35% (30+5). However, if we use a 5% 'relative precision', the confidence range becomes 28.5% (30−5% of 30) to 31.5% (30+5% of 30). The choice between absolute and relative precision affects how narrowly we can define the likely range of the true effect in the broader patient population.")
 
     if(ads=='Absolute Precision'):
@@ -172,7 +172,7 @@ def main():
             precision = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15]
             conf_levels = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99]
 
-            st.subheader("📈 Sample Size Cross Table for Different Powers and Confidence Levels")
+            st.subheader("📈 Sample Size Cross Table for Different Precisions and Confidence Levels")
 
             power_labels = [f"{int(p * 100)}%" for p in precision]
             conf_labels = [f"{int(c * 100)}%" for c in conf_levels]
@@ -247,7 +247,6 @@ def main():
                 st.markdown("### Plot 2: Sample Size vs Confidence Level")
                 st.markdown("- As **confidence level increases**, so does the **required sample size** to ensure the estimate remains within the desired precision.")
                 st.markdown("- At lower confidence (e.g., 70–80%), sample size requirements are modest, but they grow rapidly beyond 95%, especially at tighter precision levels.")
-
 
 
     st.markdown("---")  # Adds a horizontal line for separation

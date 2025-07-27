@@ -26,13 +26,13 @@ def main():
     #audio_bytes = audio_file.read()
     #st.audio(audio_bytes, format="audio/mp3")
 
-    try:
-        st.markdown("### Know how to use this tool to calculate sample size:")
-        with open("Audio/Mean Estimation.mp3", "rb") as audio_file:
-            audio_bytes = audio_file.read()
-        st.audio(audio_bytes, format="audio/mp3")
-    except FileNotFoundError:
-        st.warning("Audio file not found. Please make sure 'Audio/Mean Estimation.mp3' exists in the deployed project.")
+    #try:
+    #    st.markdown("### Know how to use this tool to calculate sample size:")
+    #    with open("Audio/Mean Estimation.mp3", "rb") as audio_file:
+    #        audio_bytes = audio_file.read()
+    #    st.audio(audio_bytes, format="audio/mp3")
+    #except FileNotFoundError:
+    #    st.warning("Audio file not found. Please make sure 'Audio/Mean Estimation.mp3' exists in the deployed project.")
 
 
 
@@ -202,14 +202,14 @@ def main():
 
         with tabs[1]:
             if(ads=='Absolute Precision'):
-                st.markdown("### For Absolute Precision, no cross table will be generated.")
+                st.markdown("### For Absolute Precision, no cross table is available.")
                 cross_table=None
             else:
                 # D efine power and confidence levels
                 precision = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15]
                 conf_levels = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99]
 
-                st.subheader("📈 Sample Size Cross Table for Different Powers and Confidence Levels")
+                st.subheader("📈 Sample Size Cross Table for Different Precisions and Confidence Levels")
 
                 power_labels = [f"{int(p * 100)}%" for p in precision]
                 conf_labels = [f"{int(c * 100)}%" for c in conf_levels]
@@ -228,7 +228,7 @@ def main():
                 #st.session_state["cross_table"] = cross_table
         with tabs[2]:
             if(ads=='Absolute Precision'):
-                st.markdown("### For Absolute Precision, no visualization will be available.")
+                st.markdown("### For Absolute Precision, no visualization is available.")
             else:
                 import matplotlib.pyplot as plt
 
