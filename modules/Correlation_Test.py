@@ -90,7 +90,7 @@ def main():
         recalc = False
 
     if go or recalc:
-        tabs = st.tabs(["Tabulate", "Power V/s Confidelce Table" ,"Visualisation"])
+        tabs = st.tabs(["Tabulate", "Power V/s Confidence Table" ,"Visualisation"])
         with tabs[0]:
             if recalc and selected_history:
                 rho0 = selected_history["rho0"]

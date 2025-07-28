@@ -96,7 +96,7 @@ def main():
         hist_submit = False
 
     if go or hist_submit:
-        tabs = st.tabs(["Tabulate", "Precision V/s Confidelce Table" ,"Visualisation"])
+        tabs = st.tabs(["Tabulate", "Precision V/s Confidence Table" ,"Visualisation"])
         with tabs[0]:
             if hist_submit and selected_history:
                 # Use selected history
