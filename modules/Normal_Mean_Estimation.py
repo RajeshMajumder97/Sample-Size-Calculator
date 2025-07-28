@@ -320,7 +320,7 @@ def main():
 
     st.markdown("---")
     st.subheader("Citation")
-    st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
+    st.markdown("*Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online:[https://studysizer.streamlit.app/](https://studysizer.streamlit.app/).  Accessed on {now}. [https://doi.org/10.5281/zenodo.16375937](https://doi.org/10.5281/zenodo.16375937).*")
 
 
     st.markdown("---")

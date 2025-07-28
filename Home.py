@@ -55,6 +55,10 @@ if category == "-- Select --":
         </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.image("PageButtonDiagram.jpeg")
+
 elif category == "About":
     # Load logo image (your uploaded icon)
     # Centered title and subtitle
