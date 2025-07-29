@@ -299,7 +299,7 @@ def tawk_to_component(property_id: str, widget_id: str):
     # Setting height=0 makes the component invisible.
     components.html(component_code, height=0)
 
-default_prop_id = st.secrets["auth_key"]#"6871795c3606072bf849ed1e"
-default_widget_id = st.secrets["bot_key"]#"1ivtk457m"
+default_prop_id = st.secrets["auth_key"]
+default_widget_id = st.secrets["bot_key"]
 
 tawk_to_component(property_id=default_prop_id, widget_id=default_widget_id)
