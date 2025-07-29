@@ -98,15 +98,7 @@ elif category == "About":
 
     st.write("This open-source and free web application allows researchers, students, and professionals to calculate"
     " the required sample size for their studies. It offers a user-friendly interface and supports a range of statistical"
-    " methods for different study designs. The advantage of this tool is, it also gives the required sample size calculation formulas along with the references.")
-
-    st.markdown("Hi, I am Rajesh, a Ph.D. student in Biostatistics. If you find this tool useful, please cite it as:")
-    st.markdown("*StudySizer: A Sample Size Calculator, developed by Rajesh Majumder ([https://studysizer.netlify.app/](https://studysizer.netlify.app/))*")
-
-    st.markdown("**If you want to reach me :**")
-    st.markdown("**Email:** rajeshnbp9051@gmail.com")
-    st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
-
+    " methods for different study designs. Here you will also find the required sample size calculation formulas along with the references.")
 
     # Inject CSS and image at the top of the sidebar
 
