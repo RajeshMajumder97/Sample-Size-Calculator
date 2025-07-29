@@ -7,7 +7,26 @@ import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="Home | StudySizer", page_icon="🧮")
-st.sidebar.image("image.png", width=200)
+#st.sidebar.image("image.png", width=200)
+
+# Convert the image to base64
+def get_image_base64(image_path):
+    with open(image_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+image_base64 = get_image_base64("image.png")
+
+st.sidebar.markdown(
+    f"""
+    <a href="https://studysizer.netlify.app/" target="_blank">
+        <img src="data:image/png;base64,{image_base64}" width="200">
+    </a>
+    """,
+    unsafe_allow_html=True
+)
+
+
 from modules.utils import inject_logo
 #inject_logo()
 #st.sidebar.title("StudySizer")
