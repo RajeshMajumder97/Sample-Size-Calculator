@@ -23,7 +23,7 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        st.title("Approaches to Sample Size Calculation for Nean Comparison Across more than Two Groups (One-way ANOVA)")
+        st.title("Approaches to Sample Size Calculation for Mean Comparison Across more than Two Groups (One-way ANOVA)")
         st.markdown("---")
         st.header("Approach 1: Using Cohen’s *f* (Effect Size)")
 

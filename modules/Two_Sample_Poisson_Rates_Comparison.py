@@ -713,56 +713,58 @@ def main():
                     st.markdown("- On the other hand, the **Right Y-Axis (Orange/Yellow)**, dashed lines indicate the likelihood of a false positive result (alpha), which typically decreases with larger samples, reflecting a more conservative test. Conversely, increasing alpha reduces the required sample size to achieve a given power, but increases the risk of Type I error. For an example, if you want 80% power, increasing alpha (e.g., from 0.01 to 0.05) means you need fewer subjects.")
                     st.markdown("- **Points where the power and alpha curves intersect** represent sample sizes where the chance of detecting a real effect (power) equals the chance of making a false claim (alpha)—an undesirable scenario. In health research, we strive for power to be much higher than alpha to ensure that findings are both valid and clinically trustworthy, in line with the principles of the most powerful statistical tests. ")
 
-        st.markdown("### **GLM-based Sample Size Formula for Comparing Two Poisson Rates (Person-Time)- at overdispersion | Negative Binomial Rates**")
-        st.latex(r"""
-            n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \left( \frac{1}{Q_1} \left(\frac{1}{\mu_1} + \frac{1}{k_1}\right) + \frac{1}{Q_0} \left(\frac{1}{\mu_0} + \frac{1}{k_0}\right) \right)}{\left[\log\left(\frac{\mu_1 T_1}{\mu_0 T_0}\right)\right]^2} \cdot \frac{DE}{1 - \text{Dropout\%}}
-        """)
-
-        st.markdown("### **Design Effect (if cluster sampling):**")
-        st.latex(r"""
-        DE = 1 + (m - 1) \times ICC
-        """)
-
-        st.subheader("📌 Description of Parameters")
-
-        st.markdown("""
-        - **\( Z_{1-alpha/2} \)**: Z-value corresponding to desired confidence level.
-        - **\( Z_{1-beta}\)**: Z-value corresponding to desired power.
-        - **\(mu0\)**: Event rate in the control group per person-time.
-        - **\(mu1 \)**: Event rate in the treatment group per person-time.
-        - **\( T0 \)**: Follow-up time for the control group.
-            -  (e.g, T0=1 : per year | T0=0.5 : 6 months follow-up | T0=2.0 : Each subject if followed for 2 years)
-        - **\( T1 \)**: Follow-up time for the treatment group.
-            -  (e.g, same as T0)
-        - **\(K0\)**: Control group dispersion parameter.
-        - **\(K1\)**: Treatment group dispersion parameter.
-        - **\( Q0 \)**: Proportion of participants in the control group.
-        - **\( Q1 \)**: Proportion of participants in the treatment group.
-        - **\( DE \)**: Design Effect to adjust for cluster sampling (if applicable).
-        - **\( m \)**: Average number of subjects per cluster.
-        - **\( ICC \)**: Intra-class correlation coefficient.
-        - **Dropout%**: Anticipated percentage of dropout in the study.
-        """)
         st.markdown("---")
-        dispersion_data = {
-            "k Value": ["∞", "10–20", "1–10", "0.1–1", "<0.1"],
-            "Description": [
-                "No overdispersion",
-                "Mild overdispersion",
-                "Moderate overdispersion",
-                "Strong overdispersion",
-                "Extreme overdispersion"
-            ],
-            "Use Case or Interpretation": [
-                "Reduces to Poisson",
-                "Often seen in moderately dispersed data",
-                "Many real-world health/clinical datasets",
-                "Epidemiological data, hospital visits, etc.",
-                "Clustered, zero-inflated or highly skewed data"
-            ]
-        }
+        with st.expander("Show the formula and the references"):
+            st.markdown("### **GLM-based Sample Size Formula for Comparing Two Poisson Rates (Person-Time)- at overdispersion | Negative Binomial Rates**")
+            st.latex(r"""
+                n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \left( \frac{1}{Q_1} \left(\frac{1}{\mu_1} + \frac{1}{k_1}\right) + \frac{1}{Q_0} \left(\frac{1}{\mu_0} + \frac{1}{k_0}\right) \right)}{\left[\log\left(\frac{\mu_1 T_1}{\mu_0 T_0}\right)\right]^2} \cdot \frac{DE}{1 - \text{Dropout\%}}
+            """)
 
-        df_dispersion = pd.DataFrame(dispersion_data)
+            st.markdown("### **Design Effect (if cluster sampling):**")
+            st.latex(r"""
+            DE = 1 + (m - 1) \times ICC
+            """)
+
+            st.subheader("📌 Description of Parameters")
+
+            st.markdown("""
+            - **\( Z_{1-alpha/2} \)**: Z-value corresponding to desired confidence level.
+            - **\( Z_{1-beta}\)**: Z-value corresponding to desired power.
+            - **\(mu0\)**: Event rate in the control group per person-time.
+            - **\(mu1 \)**: Event rate in the treatment group per person-time.
+            - **\( T0 \)**: Follow-up time for the control group.
+                -  (e.g, T0=1 : per year | T0=0.5 : 6 months follow-up | T0=2.0 : Each subject if followed for 2 years)
+            - **\( T1 \)**: Follow-up time for the treatment group.
+                -  (e.g, same as T0)
+            - **\(K0\)**: Control group dispersion parameter.
+            - **\(K1\)**: Treatment group dispersion parameter.
+            - **\( Q0 \)**: Proportion of participants in the control group.
+            - **\( Q1 \)**: Proportion of participants in the treatment group.
+            - **\( DE \)**: Design Effect to adjust for cluster sampling (if applicable).
+            - **\( m \)**: Average number of subjects per cluster.
+            - **\( ICC \)**: Intra-class correlation coefficient.
+            - **Dropout%**: Anticipated percentage of dropout in the study.
+            """)
+            st.markdown("---")
+            dispersion_data = {
+                "k Value": ["∞", "10–20", "1–10", "0.1–1", "<0.1"],
+                "Description": [
+                    "No overdispersion",
+                    "Mild overdispersion",
+                    "Moderate overdispersion",
+                    "Strong overdispersion",
+                    "Extreme overdispersion"
+                ],
+                "Use Case or Interpretation": [
+                    "Reduces to Poisson",
+                    "Often seen in moderately dispersed data",
+                    "Many real-world health/clinical datasets",
+                    "Epidemiological data, hospital visits, etc.",
+                    "Clustered, zero-inflated or highly skewed data"
+                ]
+            }
+
+            df_dispersion = pd.DataFrame(dispersion_data)
 
         st.subheader(" 📌Dispersion Parameter (k) Guidelines")
         st.table(df_dispersion) 

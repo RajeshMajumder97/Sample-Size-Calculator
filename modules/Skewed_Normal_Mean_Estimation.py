@@ -151,7 +151,7 @@ def main():
                 "Sample Size": out
             })
             dds= nsampleSN(cv=(cv/100), prec=(prec/100), conf=0.95, nmax=3000,nmin=25,designeffect=designEffect,dropOut=(drpt/100))
-            st.write(f"Asuming that with **{(cv)}%** coefficient of variation in a skewed normal distribution,the study would require a sample size of:")
+            st.write(f"Assuming that with **{(cv)}%** coefficient of variation in a skewed normal distribution,the study would require a sample size of:")
             st.markdown(f"""
             <div style="display: flex; justify-content: center;">
                 <div style="

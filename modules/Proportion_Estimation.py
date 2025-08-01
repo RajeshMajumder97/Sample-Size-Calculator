@@ -133,7 +133,7 @@ def main():
             })
             dds= nSampleProp(p=(p/100),d=(d1/100),Conf=0.95,designEf=designEffect,dropOut=(drpt/100))
             if(ads=='Absolute Precision'):
-                st.write(f"Asuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
+                st.write(f"Assuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
                 st.markdown(f"""
                 <div style="display: flex; justify-content: center;">
                     <div style="
@@ -149,7 +149,7 @@ def main():
                 """, unsafe_allow_html=True)
                 st.write(f"""participants to estimate the expected proportion with an absolute precision of **{(d1)}%** and <span style="font-weight: bold; font-size: 26px;">95%</span> confidence interval, considering a design effect of **{round(designEffect,1)}** and **{(drpt)}%** drop-out from the sample.""",unsafe_allow_html=True)
             else:
-                st.write(f"Asuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
+                st.write(f"Assuming that **{(p)}%** of the individuals in the population exhibit the characteristic of interest, the study would need a sample size of:")
                 st.markdown(f"""
                     <div style="display: flex; justify-content: center;">
                         <div style="

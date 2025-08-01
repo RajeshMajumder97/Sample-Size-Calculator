@@ -114,3 +114,8 @@ def main():
     # ------------------------
     st.markdown("---")
     st.success("I'll continue updating this page over time — feel free to share your thoughts or suggestions.")
+
+    st.markdown("---")
+    st.markdown("**Developed by [Rajesh Majumder]**")
+    st.markdown("**Email:** rajeshnbp9051@gmail.com")
+    st.markdown("**Website:** [https://rajeshmajumderblog.netlify.app/](https://rajeshmajumderblog.netlify.app/)")
