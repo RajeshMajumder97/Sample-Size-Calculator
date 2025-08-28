@@ -65,7 +65,7 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Parameters")
 
-    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "Enter a value >0")
+    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,format="%.6g",help= "Enter a value >0")
     ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative Precision'],help="This represents how precisely you want to estimate the true mean in the population. A smaller margin of error leads to a larger required sample size and a narrower confidence interval. For instance, suppose a nutritional study finds that the average systolic blood pressure among participants is 130 mmHg. If we use a 5-unit absolute precision, we can say with confidence that the true mean blood pressure lies between 125 mmHg (130−5) and 135 mmHg (130+5). However, if we use a 5% relative precision, the confidence range becomes 123.5 mmHg (130−5% of 130) to 136.5 mmHg (130+5% of 130). The choice between absolute and relative precision affects how narrowly we can define the likely range of the true average in the broader population.")
 
     if(ads=='Absolute Precision'):
