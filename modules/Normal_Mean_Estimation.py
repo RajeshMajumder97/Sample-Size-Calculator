@@ -34,20 +34,47 @@ def main():
     #except FileNotFoundError:
     #    st.warning("Audio file not found. Please make sure 'Audio/Mean Estimation.mp3' exists in the deployed project.")
 
+    # Inject CSS/JS override
     st.markdown(
         """
         <style>
-        /* Change width of all number_input fields */
-        div[data-testid="stNumberInput"] input {
-            width: 120px !important;
-            text-align: center;
+        /* Make all number inputs behave like free-text until blur */
+        input[type=number] {
+            -moz-appearance: textfield;   /* Firefox */
         }
-
-        /* Optional: adjust font size */
-        div[data-testid="stNumberInput"] input {
-            font-size: 14px !important;
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;     /* Chrome/Safari */
+            margin: 0;
         }
         </style>
+
+        <script>
+        // Attach a global handler once page loads
+        window.addEventListener("load", function() {
+            const inputs = document.querySelectorAll("input[type=number]");
+            inputs.forEach(inp => {
+                // Allow any typing, even if invalid intermediate values
+                inp.addEventListener("input", function(e) {
+                    // Don't sanitize while typing
+                });
+                // On blur (or Enter), normalize to float
+                inp.addEventListener("blur", function(e) {
+                    if (inp.value !== "") {
+                        let num = Number(inp.value);
+                        if (!isNaN(num)) {
+                            inp.value = num;  // Normalize (e.g., remove leading zeros, fix decimals)
+                        }
+                    }
+                });
+                inp.addEventListener("keydown", function(e) {
+                    if (e.key === "Enter") {
+                        inp.blur();  // Trigger normalization on Enter
+                    }
+                });
+            });
+        });
+        </script>
         """,
         unsafe_allow_html=True
     )
