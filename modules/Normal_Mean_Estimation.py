@@ -34,6 +34,23 @@ def main():
     #except FileNotFoundError:
     #    st.warning("Audio file not found. Please make sure 'Audio/Mean Estimation.mp3' exists in the deployed project.")
 
+    st.markdown(
+        """
+        <style>
+        /* Change width of all number_input fields */
+        div[data-testid="stNumberInput"] input {
+            width: 120px !important;
+            text-align: center;
+        }
+
+        /* Optional: adjust font size */
+        div[data-testid="stNumberInput"] input {
+            font-size: 14px !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 
     ## Functuion
