@@ -38,43 +38,16 @@ def main():
     st.markdown(
         """
         <style>
-        /* Make all number inputs behave like free-text until blur */
-        input[type=number] {
-            -moz-appearance: textfield;   /* Firefox */
-        }
-        input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;     /* Chrome/Safari */
+        /* Hide the up/down spin buttons on number_input */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
             margin: 0;
         }
+        input[type=number] {
+            -moz-appearance: textfield; /* Firefox */
+        }
         </style>
-
-        <script>
-        // Attach a global handler once page loads
-        window.addEventListener("load", function() {
-            const inputs = document.querySelectorAll("input[type=number]");
-            inputs.forEach(inp => {
-                // Allow any typing, even if invalid intermediate values
-                inp.addEventListener("input", function(e) {
-                    // Don't sanitize while typing
-                });
-                // On blur (or Enter), normalize to float
-                inp.addEventListener("blur", function(e) {
-                    if (inp.value !== "") {
-                        let num = Number(inp.value);
-                        if (!isNaN(num)) {
-                            inp.value = num;  // Normalize (e.g., remove leading zeros, fix decimals)
-                        }
-                    }
-                });
-                inp.addEventListener("keydown", function(e) {
-                    if (e.key === "Enter") {
-                        inp.blur();  // Trigger normalization on Enter
-                    }
-                });
-            });
-        });
-        </script>
         """,
         unsafe_allow_html=True
     )
