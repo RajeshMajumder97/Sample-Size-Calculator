@@ -45,11 +45,11 @@ def main():
         st.session_state.kappa_history = []
 
     method = st.sidebar.radio("Kappa Type:", options=["Two Raters", "Multiple Raters"])
-    kappa = st.sidebar.number_input("Anticipated Kappa (κ)", value=0.7, min_value=0.0, max_value=1.0 ,help="Enter a decimal value (e.g., 0.07)")
+    kappa = st.sidebar.number_input("Anticipated Kappa (κ)", value=0.7, min_value=0.0, max_value=1.0,format="%.6g" ,help="Enter a decimal value (e.g., 0.07)")
     se_method = st.sidebar.radio("Standard Error Input Method", ["Give SE directly", "Calculate from CI bounds"])
 
     if se_method == "Give SE directly":
-        se = st.sidebar.number_input("Standard Error (SE)", value=0.04, min_value=0.0001, max_value= 0.2,help="Enter a decimal value (e.g., 0.04)" )
+        se = st.sidebar.number_input("Standard Error (SE)", value=0.04, min_value=0.0001, max_value= 0.2,format="%.6g",help="Enter a decimal value (e.g., 0.04)" )
         ci=None
         upper=None
         lower=None
@@ -63,23 +63,23 @@ def main():
             st.stop()
 
     if method == "Two Raters":
-        p1 = st.sidebar.number_input("Rater 1: Positive Proportion (p₁)", value=70.0, min_value=0.0, max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
-        p2 = st.sidebar.number_input("Rater 2: Positive Proportion (p₂)", value=70.0, min_value=0.0, max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
+        p1 = st.sidebar.number_input("Rater 1: Positive Proportion (p₁)", value=70.0,format="%.6g", min_value=0.0, max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
+        p2 = st.sidebar.number_input("Rater 2: Positive Proportion (p₂)", value=70.0,format="%.6g", min_value=0.0, max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
         p, m = None, None
     else:
-        p = st.sidebar.number_input("Overall Positive Proportion (p)", value=70.0, min_value=0.0, max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
-        m = st.sidebar.number_input("Number of Raters (m)", value=3, min_value=2,help="Enter an integer value (e.g., 3)")
+        p = st.sidebar.number_input("Overall Positive Proportion (p)", value=70.0, min_value=0.0,format="%.6g", max_value=99.99,help="Enter a percentage value (e.g., 70%)") / 100
+        m = st.sidebar.number_input("Number of Raters (m)", value=3, min_value=2,format="%.6g",help="Enter an integer value (e.g., 3)")
         p1, p2 = None, None
 
-    dropout = st.sidebar.number_input("Dropout (%)", value=0.0, min_value=0.0, max_value=50.0,help="Enter a percentage value (e.g., 1%)") / 100
+    dropout = st.sidebar.number_input("Dropout (%)", value=0.0, min_value=0.0, max_value=50.0,format="%.6g",help="Enter a percentage value (e.g., 1%)") / 100
     design_type = st.sidebar.radio("Design Effect:", ["Given", "Calculate"])
 
     if design_type == "Given":
-        design_effect = st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter a decimal value (e.g., 1.5)")
+        design_effect = st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,format="%.6g",help= "Enter a decimal value (e.g., 1.5)")
         m_clust, ICC = None, None
     else:
-        m_clust = st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=4,help="Enter an integer value (e.g., 4)")
-        ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
+        m_clust = st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+        ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,format="%.6g",max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         design_effect = 1 + (m_clust - 1) * ICC
         col1, col2, col3 = st.columns(3)
         col1.metric("Cluster Size (m)", value=m_clust)

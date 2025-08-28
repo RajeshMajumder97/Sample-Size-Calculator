@@ -36,26 +36,26 @@ def main():
     #power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=100.0)
     #drpt= st.sidebar.number_input("Drop-Out",value=0.0,max_value=1.0,help="value in decimal")
 
-    p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=99.9,help="Enter a percentage value (e.g., 40%)")
-    R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.5,min_value=0.00001,help= "plausible range > or < 1.")
+    p2 = st.sidebar.number_input("Proportion of Exposed among controls (%)",value=40.0,min_value=0.0,max_value=99.9,format="%.6g",help="Enter a percentage value (e.g., 40%)")
+    R = st.sidebar.number_input("Anticipated odds ratio (OR)", value=1.5,min_value=0.00001,format="%.6g",help= "plausible range > or < 1.")
 
     if R == 1.0:
         st.sidebar.warning("OR should not be 1.0 under H₁. Change it to reflect a real difference.")
         st.stop()
 
-    power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9,help="Enter a percentage value (e.g., 80%)")
-    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
+    power= st.sidebar.number_input("Power (%)", value=80.00,min_value=50.0,max_value=99.9,format="%.6g",help="Enter a percentage value (e.g., 80%)")
+    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,format="%.6g",help="Enter a percentage value (e.g., 1%)")
 
 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter a decimal value (e.g., 1.5)")
+        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,format="%.6g",help= "Enter a decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
-        m= st.sidebar.number_input("Number of Clusters (m) ",min_value=2,value=4,help="Enter an integer value (e.g., 4)")
-        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
+        m= st.sidebar.number_input("Number of Clusters (m) ",min_value=2,value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,format="%.6g",max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         designEffect= 1+(m-1)*ICC
         col1,col2,col3=st.columns(3)
         col1.metric("Cluster Size (m)",value=m)

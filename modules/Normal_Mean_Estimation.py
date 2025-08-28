@@ -69,12 +69,12 @@ def main():
     ads= st.sidebar.radio("Choose Precision Option",options=['Absolute Precision','Relative Precision'],help="This represents how precisely you want to estimate the true mean in the population. A smaller margin of error leads to a larger required sample size and a narrower confidence interval. For instance, suppose a nutritional study finds that the average systolic blood pressure among participants is 130 mmHg. If we use a 5-unit absolute precision, we can say with confidence that the true mean blood pressure lies between 125 mmHg (130−5) and 135 mmHg (130+5). However, if we use a 5% relative precision, the confidence range becomes 123.5 mmHg (130−5% of 130) to 136.5 mmHg (130+5% of 130). The choice between absolute and relative precision affects how narrowly we can define the likely range of the true average in the broader population.")
 
     if(ads=='Absolute Precision'):
-        d = st.sidebar.number_input("Absoulte Precision (d)", value=1.5,min_value=0.00,max_value=100.0,help="Enter an integer value (e.g., 1.5)")
+        d = st.sidebar.number_input("Absoulte Precision (d)", value=1.5,min_value=0.00,format="%.6g",max_value=100.0,help="Enter an integer value (e.g., 1.5)")
         d1=d
         mu=None
     else:
-        d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,max_value=99.99,help="Enter a percentage value (e.g., 5%)")
-        mu= st.sidebar.number_input("Expected Mean", value=35.0,min_value=0.01,max_value=1e6,help="Enter the expected mean value of the outcome. Must be positive (e.g., average blood pressure, weight, score, etc.).")
+        d = st.sidebar.number_input("Relative Precision(%)", value=5.0,min_value=0.00,format="%.6g",max_value=99.99,help="Enter a percentage value (e.g., 5%)")
+        mu= st.sidebar.number_input("Expected Mean", value=35.0,min_value=0.01,format="%.6g",max_value=1e6,help="Enter the expected mean value of the outcome. Must be positive (e.g., average blood pressure, weight, score, etc.).")
         d1= (d/100)*mu
         col1,col2,col3=st.columns(3)
         col1.metric("Relative Precision(%)",value=d)
@@ -85,17 +85,17 @@ def main():
         st.error("Precision cannot be zero.")
         st.stop()
 
-    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
+    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,format="%.6g",max_value=50.0,help="Enter a percentage value (e.g., 1%)")
 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter a decimal value (e.g., 1.5)")
+        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,format="%.6g",min_value=1.0,help= "Enter a decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
-        m= st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=2,help="Enter an integer value (e.g., 4)")
-        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for Cstering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
+        m= st.sidebar.number_input("Number of Clusters (m)",min_value=2,format="%.6g",value=2,help="Enter an integer value (e.g., 4)")
+        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for Cstering",min_value=0.0,format="%.6g",max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
         designEffect= 1+(m-1)*ICC
         col1,col2,col3=st.columns(3)
         col1.metric("Cluster Size (m)",value=m)

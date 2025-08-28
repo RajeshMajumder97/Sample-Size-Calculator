@@ -30,30 +30,30 @@ def main():
 
     st.sidebar.header("🔧 Input Parameters")
 
-    rho = st.sidebar.number_input("Expected ICC (ρ)", value=0.8, min_value=0.01, max_value=0.99,help= "Enter a decimal value (e.g., 0.05)")
+    rho = st.sidebar.number_input("Expected ICC (ρ)", value=0.8, min_value=0.01, max_value=0.99,format="%.6g",help= "Enter a decimal value (e.g., 0.05)")
 
     prec_type = st.sidebar.radio("Choose Precision Option", options=['Absolute Precision', 'Relative Precision'])
     if prec_type == 'Absolute Precision':
-        d = st.sidebar.number_input("Absolute Precision (d)", value=0.05, min_value=0.001, max_value=0.50, help="Enter a decimal value (e.g., 0.05)")
+        d = st.sidebar.number_input("Absolute Precision (d)", value=0.05, min_value=0.001, max_value=0.50,format="%.6g", help="Enter a decimal value (e.g., 0.05)")
     else:
-        d_percent = st.sidebar.number_input("Relative Precision (%)", value=5.0, min_value=0.01, max_value=50.0, help="Enter a percentage value (e.g., 5%)")
+        d_percent = st.sidebar.number_input("Relative Precision (%)", value=5.0, min_value=0.01, max_value=50.0,format="%.6g", help="Enter a percentage value (e.g., 5%)")
         d = (d_percent / 100) * rho
         col1, col2 = st.columns(2)
         col1.metric("Relative Precision (%)", value=d_percent)
         col2.metric("Precision (d)", value=round(d, 4))
 
-    k = st.sidebar.number_input("Number of Raters / Repeated Measures (k)", min_value=2, value=3, help="Enter an integer value (e.g., 3)")
-    drpt = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=50.0,help="Enter a percentage value (e.g., 1%)") / 100
+    k = st.sidebar.number_input("Number of Raters / Repeated Measures (k)", min_value=2, value=3,format="%.6g", help="Enter an integer value (e.g., 3)")
+    drpt = st.sidebar.number_input("Drop-Out (%)", value=0.0, min_value=0.0, max_value=50.0,format="%.6g",help="Enter a percentage value (e.g., 1%)") / 100
 
     x = st.sidebar.radio("Choose Method for Design Effect:", options=['Given', 'Calculate'])
 
     if x == "Given":
-        designEffect = st.sidebar.number_input("Design Effect", value=1.0, min_value=1.0,help="Enter a decimal value (e.g., 1.5)")
+        designEffect = st.sidebar.number_input("Design Effect", value=1.0, min_value=1.0,format="%.6g",help="Enter a decimal value (e.g., 1.5)")
         m = None
         ICC = None
     else:
-        m = st.sidebar.number_input("Number of clusters", min_value=2, value=4,help="Enter an integer value (e.g., 4)")
-        ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering", value=0.05, min_value=0.0, max_value=1.0,help= "Enter a decimal value (e.g., 0.05)")
+        m = st.sidebar.number_input("Number of clusters", min_value=2, value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+        ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering", value=0.05, min_value=0.0, max_value=1.0,format="%.6g",help= "Enter a decimal value (e.g., 0.05)")
         designEffect = 1 + (m - 1) * ICC
         col1, col2, col3 = st.columns(3)
         col1.metric("Cluster Size (m)", value=m)
