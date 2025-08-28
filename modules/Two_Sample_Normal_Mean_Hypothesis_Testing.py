@@ -35,7 +35,7 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Parameters")
 
-    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,help= "Enter a value >0")
+    sigma = st.sidebar.number_input("Standard Deviation (SD)",value=15.0,min_value=0.01,step=0.1,format="%.2f",help= "Enter a value >0")
     delta = st.sidebar.number_input("Expected difference", value=10.0,min_value=0.0,help= "Enter a value >0")
     power= st.sidebar.number_input("Power (%)", value=80.0,min_value=0.0,max_value=99.99,help="Enter a percentage value (e.g., 80%)")
     drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)")
