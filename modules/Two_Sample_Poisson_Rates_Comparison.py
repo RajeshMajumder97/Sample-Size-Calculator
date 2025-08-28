@@ -180,10 +180,10 @@ def main():
         # Sidebar inputs
         st.sidebar.markdown("---")
         st.sidebar.header("🔧 Input Parameters")
-        mu0 = st.sidebar.number_input("Event Rate in Control Group (% per person-time)", value=50.0, min_value=0.1,max_value=99.99,help="Enter a percentage value (e.g., 50%)")/100.0
-        mu1 = st.sidebar.number_input("Event Rate in Treatment Group (% per person-time)", value=35.0, min_value=0.01,max_value=99.99,help="Enter a percentage value (e.g., 35%)")/100.0
-        T0 = st.sidebar.number_input("Follow-up Time (T0) (Control)", value=1.0, min_value=0.01,help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
-        T1 = st.sidebar.number_input("Follow-up Time (T1) (Treatment)", value=1.0, min_value=0.01,help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
+        mu0 = st.sidebar.number_input("Event Rate in Control Group (% per person-time)", value=50.0, min_value=0.1,max_value=99.99,format="%.6g",help="Enter a percentage value (e.g., 50%)")/100.0
+        mu1 = st.sidebar.number_input("Event Rate in Treatment Group (% per person-time)", value=35.0, min_value=0.01,max_value=99.99,format="%.6g",help="Enter a percentage value (e.g., 35%)")/100.0
+        T0 = st.sidebar.number_input("Follow-up Time (T0) (Control)", value=1.0, min_value=0.01,format="%.6g",help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
+        T1 = st.sidebar.number_input("Follow-up Time (T1) (Treatment)", value=1.0, min_value=0.01,format="%.6g",help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
 
         design=st.sidebar.radio("Choose Group proportion",["Equal proportion", "Unequal proportion"])
         st.sidebar.text("Choose Unequal proportion when the study groups are not equally sampled.")
@@ -194,24 +194,24 @@ def main():
             col1.metric("Control Group Q0",value=Q0)
             col2.metric("Treatement Group Q1",value=Q1)
         else:
-            Q0=st.sidebar._number_input("Enter the Control group proportion (Q0) (%)",min_value=0.0, max_value=99.99, value=55.0,help="Enter a percentage value (e.g., 55%)")/100
+            Q0=st.sidebar._number_input("Enter the Control group proportion (Q0) (%)",min_value=0.0, max_value=99.99, value=55.0,format="%.6g",help="Enter a percentage value (e.g., 55%)")/100
             Q1=1-Q0
             col1,col2=st.columns(2)
             col1.metric("Control Group Q0",value=round(Q0,2))
             col2.metric("Treatement Group Q1",value=round(Q1,2))
 
-        power = st.sidebar.number_input("Power (%)",  min_value=50.0, max_value=99.9, value=80.0,help="Enter a percentage value (e.g., 80%)") / 100
-        drpt = st.sidebar.number_input("Drop-Out (%)", value=0.0, max_value= 50.0, min_value=0.0,help="Enter a percentage value (e.g., 1%)") / 100
+        power = st.sidebar.number_input("Power (%)",  min_value=50.0, max_value=99.9, value=80.0,format="%.6g",help="Enter a percentage value (e.g., 80%)") / 100
+        drpt = st.sidebar.number_input("Drop-Out (%)", value=0.0, max_value= 50.0, min_value=0.0,format="%.6g",help="Enter a percentage value (e.g., 1%)") / 100
 
         # Design Effect
         design_method = st.sidebar.radio("Design Effect Option:", ["Given", "Calculate"])
         if design_method == "Given":
-            designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help="Enter an decimal value (e.g., 1.5)")
+            designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,format="%.6g",help="Enter an decimal value (e.g., 1.5)")
             m=None
             ICC=None
         else:
-            m = st.sidebar.number_input("Number of Clusters (m)", min_value=2,value=4,help="Enter an integer value (e.g., 4)")
-            ICC = st.sidebar.number_input("Intra-cluster Correlation (ICC) for clustering", min_value=0.0, max_value=1.0, value=0.05,help="Enter a decimal value (e.g., 0.05)")
+            m = st.sidebar.number_input("Number of Clusters (m)", min_value=2,value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+            ICC = st.sidebar.number_input("Intra-cluster Correlation (ICC) for clustering", min_value=0.0, max_value=1.0, value=0.05,format="%.6g",help="Enter a decimal value (e.g., 0.05)")
             designEffect = 1 + (m - 1) * ICC
             col1,col2,col3=st.columns(3)
             col1.metric("Cluster Size (m)",value=m)
@@ -488,12 +488,12 @@ def main():
         st.sidebar.header("🔧 Input Parameters")
 
         # Sidebar inputs
-        mu0 = st.sidebar.number_input("Event Rate in Control Group (% per person-time)", value=50.0, min_value=0.1, max_value=99.99,help="Enter a percentage value (e.g., 50%)") / 100
-        mu1 = st.sidebar.number_input("Event Rate in Treatment Group (% per person-time)", value=35.0, min_value=0.1, max_value=99.99,help="Enter a percentage value (e.g., 35%)") / 100
-        K0 = st.sidebar.number_input("Dispersion (k) for Control Group", min_value=0.01, value=10.0,help="Enter a any value >0")
-        K1 = st.sidebar.number_input("Dispersion (k) for Treatment Group", min_value=0.01, value=10.0,help="Enter a any value >0")
-        T0 = st.sidebar.number_input("Follow-up Time (T0) (Control)", value=1.0, min_value=0.01,help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
-        T1 = st.sidebar.number_input("Follow-up Time (T1) (Treatment)", value=1.0, min_value=0.01,help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
+        mu0 = st.sidebar.number_input("Event Rate in Control Group (% per person-time)", value=50.0, min_value=0.1, max_value=99.99,format="%.6g",help="Enter a percentage value (e.g., 50%)") / 100
+        mu1 = st.sidebar.number_input("Event Rate in Treatment Group (% per person-time)", value=35.0, min_value=0.1, max_value=99.99,format="%.6g",help="Enter a percentage value (e.g., 35%)") / 100
+        K0 = st.sidebar.number_input("Dispersion (k) for Control Group", min_value=0.01, value=10.0,format="%.6g",help="Enter a any value >0")
+        K1 = st.sidebar.number_input("Dispersion (k) for Treatment Group", min_value=0.01, value=10.0,format="%.6g",help="Enter a any value >0")
+        T0 = st.sidebar.number_input("Follow-up Time (T0) (Control)", value=1.0, min_value=0.01,format="%.6g",help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
+        T1 = st.sidebar.number_input("Follow-up Time (T1) (Treatment)", value=1.0, min_value=0.01,format="%.6g",help="Enter any positive value (e.g., 1= 1 Year, 2= 2 Years, 0.5= 6 months)")
 
         design = st.sidebar.radio("Choose Group proportion", ["Equal proportion", "Unequal proportion"])
         if design == "Equal proportion":
@@ -503,23 +503,23 @@ def main():
             col1.metric("Control Group Q0",value=round(Q0,2))
             col2.metric("Treatement Group Q1",value=round(Q1,2))
         else:
-            Q0 = st.sidebar.number_input("Control Group Proportion (Q0 %)", min_value=1.0, max_value=99.0, value=50.0,help="Enter a percentage value (e.g., 50%)") / 100
+            Q0 = st.sidebar.number_input("Control Group Proportion (Q0 %)", min_value=1.0, max_value=99.0, value=50.0,format="%.6g",help="Enter a percentage value (e.g., 50%)") / 100
             Q1 = 1 - Q0
             col1,col2=st.columns(2)
             col1.metric("Control Group Q0",value=round(Q0,2))
             col2.metric("Treatement Group Q1",value=round(Q1,2))
 
-        power = st.sidebar.number_input("Power (%)", min_value=50.0, max_value=99.9, value=80.0,help="Enter a percentage value (e.g., 80%)") / 100
-        drpt = st.sidebar.number_input("Dropout Rate (%)", value=0.0, max_value=50.0, min_value=0.0,help="Enter a percentage value (e.g., 1%)") / 100
+        power = st.sidebar.number_input("Power (%)", min_value=50.0, max_value=99.9, value=80.0,format="%.6g",help="Enter a percentage value (e.g., 80%)") / 100
+        drpt = st.sidebar.number_input("Dropout Rate (%)", value=0.0, max_value=50.0, min_value=0.0,format="%.6g",help="Enter a percentage value (e.g., 1%)") / 100
 
         design_method = st.sidebar.radio("Design Effect Option:", ["Given", "Calculate"])
         if design_method == "Given":
-            designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,help= "Enter an decimal value (e.g., 1.5)")
+            designEffect = st.sidebar.number_input("Design Effect (Given)", value=1.0, min_value=1.0,format="%.6g",help= "Enter an decimal value (e.g., 1.5)")
             m = None
             ICC = None
         else:
-            m = st.sidebar.number_input("Number of Clusters (m)", min_value=2,value=4,help="Enter an integer value (e.g., 4)")
-            ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering", min_value=0.0, max_value=1.0, value=0.05,help="Enter a decimal value (e.g., 0.05)")
+            m = st.sidebar.number_input("Number of Clusters (m)", min_value=2,value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+            ICC = st.sidebar.number_input("Intra-class Correlation (ICC) for clustering", min_value=0.0, max_value=1.0, value=0.05,format="%.6g",help="Enter a decimal value (e.g., 0.05)")
             designEffect = 1 + (m - 1) * ICC
             col1,col2,col3=st.columns(3)
             col1.metric("Cluster Size (m)",value=m)

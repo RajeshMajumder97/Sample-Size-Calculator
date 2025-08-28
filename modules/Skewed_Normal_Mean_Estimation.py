@@ -68,21 +68,21 @@ def main():
 
     st.sidebar.header("🔧 Input Parameters")
 
-    cv = st.sidebar.number_input("Coefficient of Variation (%)",max_value=100.0,value=5.00,min_value=1.00,help="Enter a percentage value (e.g., 5%)")
-    prec = st.sidebar.number_input("Precision (%)",value=10.00,min_value=0.00,max_value=100.00,help="Enter a percentage value (e.g., 10%)")
+    cv = st.sidebar.number_input("Coefficient of Variation (%)",max_value=100.0,value=5.00,min_value=1.00,format="%.6g",help="Enter a percentage value (e.g., 5%)")
+    prec = st.sidebar.number_input("Precision (%)",value=10.00,min_value=0.00,max_value=100.00,format="%.6g",help="Enter a percentage value (e.g., 10%)")
     #conf = st.sidebar.number_input("Confidence Level", max_value=0.99,value=0.95,help= "values in decimal")
     #nmax = st.sidebar.number_input("Maximum Sample Size", value=5000)
     #nmin = st.sidebar.number_input("Minumum Sample Size", value=25,min_value=25)
-    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,help="Enter a percentage value (e.g., 1%)") 
+    drpt= st.sidebar.number_input("Drop-Out (%)",value=0.0,min_value=0.0,max_value=50.0,format="%.6g",help="Enter a percentage value (e.g., 1%)") 
     x= st.sidebar.radio("Choose Method for Design Effect:",options=['Given','Calculate'])
 
     if(x== "Given"):
-        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,help= "Enter an decimal value (e.g., 1.5)")
+        designEffect= st.sidebar.number_input("Design Effect (Given)", value=1.0,min_value=1.0,format="%.6g",help= "Enter an decimal value (e.g., 1.5)")
         m=None
         ICC=None
     else:
-        m= st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=4,help="Enter an integer value (e.g., 4)")
-        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,max_value=1.0,value=0.05,help="Enter a decimal value (e.g., 0.05)")
+        m= st.sidebar.number_input("Number of Clusters (m)",min_value=2,value=4,format="%.6g",help="Enter an integer value (e.g., 4)")
+        ICC= st.sidebar.number_input("Intra-class Correlation (ICC) for clustering",min_value=0.0,max_value=1.0,value=0.05,format="%.6g",help="Enter a decimal value (e.g., 0.05)")
         designEffect= 1+(m-1)*ICC
         col1,col2,col3=st.columns(3)
         col1.metric("Cluster Size (m)",value=m)
