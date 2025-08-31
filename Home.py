@@ -189,13 +189,14 @@ else:
         ])
     elif category == "Testing":
         method = st.sidebar.selectbox("Choose Test", [
-            "Two Sample Normal Mean Hypothesis Testing",
+            "Two Sample Normal Mean Comparison",
             "One way ANOVA",
             "Paired t test",
-            "Two Sample Proportion Hypothesis Testing",
+            "Two Sample Proportion Comparison",
             "Paired proportion Mc Nemar test",
             "Two Sample Poisson Rates Comparison",
-            "Correlation Test",
+            "Two Sample Gamma Mean Comparison",
+            "Two Sample Correlation Comparison",
             "Case Control Design",
             "Cohort Design",
             "Survival Analysis Log rank Test for Two Groups"
@@ -207,14 +208,13 @@ else:
     elif category == "Reliability":
         method = st.sidebar.selectbox("Choose Method", [
             "Intraclass Correlation Estimation",
-            "Intraclass Correlation Hypothesis Testing",
+            "Two Sample Intraclass Correlation Comparison",
             "Cohen's Kappa Estimation"
         ])
     elif category == "Regression":
         method = st.sidebar.selectbox("Choose Model", [
             "Linear Regression",
-            "Logistic Regression",
-            "Test Module"
+            "Logistic Regression"
         ])
     elif category == "FAQ":
         from modules import FAQ
