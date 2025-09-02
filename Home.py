@@ -30,7 +30,7 @@ from modules.utils import inject_logo
 #st.sidebar.title("StudySizer")
 
 # Top-level dropdown
-category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Testing", "Diagnostic measures (Evaluation)", "Reliability", "Regression","FAQ"])
+category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Comparison", "Diagnostic measures (Evaluation)", "Reliability", "Regression","FAQ"])
 
 # 🌟 Show Home Page if nothing is selected
 if category == "-- Select --":
@@ -64,15 +64,15 @@ if category == "-- Select --":
     #if st.button("🚀 Get Started", use_container_width=True):
     #    st.switch_page("Home.py")
 
-    st.markdown("""
-        <div style='text-align: center;'>
-            <p style='font-size: 20px; max-width: 700px; margin: auto;'>
-                To get started, please select a category from the dropdown list.
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
+    #st.markdown("""
+    #    <div style='text-align: center;'>
+    #        <p style='font-size: 20px; max-width: 700px; margin: auto;'>
+    #            To get started, please select a category from the dropdown list.
+    #        </p>
+    #    </div>
+    #""", unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    #st.markdown("<br>", unsafe_allow_html=True)
     
     st.image("PageButtonDiagram.jpeg")
 
@@ -187,7 +187,7 @@ else:
             "Normal Mean Estimation", 
             "Skewed Normal Mean Estimation"
         ])
-    elif category == "Testing":
+    elif category == "Comparison":
         method = st.sidebar.selectbox("Choose Test", [
             "Two Sample Normal Mean Comparison",
             "One way ANOVA",
