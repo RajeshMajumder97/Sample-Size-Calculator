@@ -11,8 +11,8 @@ def main():
     st.sidebar.markdown("---")
     st.sidebar.header("🔧 Input Options")
 
-    chooseButton= st.sidebar.radio("Choose Method", options=["None", "Direct Method", "Non-central F-Distribution Method"],index=0)
-    if chooseButton == "None":
+    chooseButton= st.sidebar.radio("Choose Method", options=["Help", "Direct Method", "Non-central F-Distribution Method"],index=0)
+    if chooseButton == "Help":
         st.markdown(
             """
             <style>
@@ -25,35 +25,24 @@ def main():
         )
         st.title("Approaches to Sample Size Calculation for Mean Comparison Across more than Two Groups (One-way ANOVA)")
         st.markdown("---")
-        st.header("Approach 1: Using Cohen’s *f* (Effect Size)")
+
+        st.header("Summary Table")
 
         st.markdown("""
-        This method is used when you **don’t have actual group data**, but can assume a standardized effect size.
-        """)
-
-        st.subheader("Formula")
-        st.latex(r"N = \frac{(k - 1 + k(Z_{1 - \beta} + Z_{1 - \alpha})^2)}{f^2}")
-        st.latex(r"n = \frac{N}{k} \quad \text{(sample size per group)}")
-
-        st.subheader("Interpretation of Cohen’s *f*")
-        st.markdown("""
-        | Effect Size | *f* Value | Approx. η² |
-        |-------------|-----------|------------|
-        | Small       | 0.10      | 0.01       |
-        | Medium      | 0.25      | 0.06       |
-        | Large       | 0.40      | 0.14       |
-        """)
-
-        st.subheader("Use When")
-        st.markdown("""
-        - You do not have pilot data or actual estimates of means/SDs.  
-        - You're in the **planning stage** of study design.  
-        - Following **conventional effect size assumptions**.
-        """)
+        | Feature                        | Approach 1 (Direct Method)                   | Approach 2 (Non-central F)                                      |
+        |--------------------------------|----------------------------------------------|-----------------------------------------------------------------|
+        | **What input is needed?**      | Group means, SDs                             | Just effect size (f)                                            |
+        | **Pilot data needed?**         | Yes                                          | No                                                              |
+        | **When to use?**               | If you already have pilot or published data  | When no prior data is available                                 |
+        | **Ease of use**                | Moderate (some calculations needed)          | Simple (choose f)                                               |
+        | **Simplicity**                 | Simple (once inputs are known)               | Complex (needs F inverse calculations)                          |
+        | **Accuracy**                   | Data-driven, very precise                    | Accurate for ANOVA but depends on assumed effect size.          |
+        | **Example**                    | Comparing HbA1c means from 3 diet groups     | Comparing blood pressure in 4 drug groups without prior data.   |
+        """, unsafe_allow_html=True)
 
         st.markdown("---")
-
-        st.header("Approach 2: Direct Formula Using Group Means and Standard Deviations")
+        
+        st.header("Approach 1: Direct Formula Using Group Means and Standard Deviations")
 
         st.markdown("""
         This method calculates the sample size directly using the expected or observed **group means and standard deviations**.
@@ -62,13 +51,6 @@ def main():
         st.subheader("Formula")
         st.latex(r"n = \frac{(k - 1) + k(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \bar{\sigma}^2}{\sum_{i=1}^{k} (\mu_i - \bar{\mu})^2}")
 
-        st.subheader("Design Effect (for clustered designs)")
-        st.latex(r"DE = 1 + (m - 1) \cdot \rho")
-
-        st.markdown("""
-        If clusters are used, the adjusted sample size = ( n x DE )
-        """)
-
         st.subheader("Use When")
         st.markdown("""
         - You have **pilot study data** or previous study estimates of means and SDs.  
@@ -76,17 +58,27 @@ def main():
         - You are evaluating real effect magnitude, not generalized sizes.
         """)
 
+        st.subheader("Example")
+        st.markdown("""
+        Suppose you want to compare **3 diet interventions** on weight loss after 3 months. From a pilot study:
+
+        - Group means (kg): 2.0, 3.5, 5.0  
+        - Pooled SD: 1.2  
+        - Desired power: 80% (Z = 0.84), α = 0.05 (Z = 1.96)
+
+        By plugging values into the formula, you can calculate the per-group sample size.
+        """)
+
         st.markdown("---")
 
-        st.header("Approach 3: Non-central F-distribution Method")
+        st.header("Approach 2: Non-central F-distribution Method")
 
         st.markdown("""
-        This approach is **statistically rigorous** and uses the **non-central F-distribution** to estimate power and sample size.
+        This approach is **statistically rigorous** and matches the actual test used in ANOVA. It is especially useful if you **do not have pilot data**, but want to rely on a standardized measure of effect size.
         """)
 
         st.subheader("Power Formula")
         st.latex(r"\text{Power} = 1 - F^{-1}_{\text{crit}, df_1, df_2}(\alpha, \lambda)")
-
         st.markdown("""Where: """)
         st.latex(r"""F_{\text{crit}, df_1, df_2}^{-1}=\; \text{is the inverse cumulative distribution function (CDF) of the central F-distribution}""")
         st.latex(r"""df_1 = k - 1=\; \text{degrees of freedom between groups}""")
@@ -97,34 +89,47 @@ def main():
         st.latex(r"""f=\sqrt{\frac{\eta^2}{1-\eta^2}}=\; \text{is the Cohen's f : Effect size}""")
         st.latex(r"""\eta=\frac{SS_{\text{Treatment}}}{SS_{\text{Total}}}""")
 
+        st.subheader("Choosing Effect Size (Cohen’s f)")
 
-
+        st.markdown("Cohen’s f tells us how large the group differences are relative to the overall variability. It is related to a statistic called η² (eta squared), which measures the proportion of total variation explained by group differences:")
+        st.latex(r"""f=\sqrt{\frac{\eta^2}{1-\eta^2}}""")
+        st.markdown("""
+        - **Small effect (f = 0.10, η² ≈ 0.01):** Use when expecting subtle group differences.  
+        - **Medium effect (f = 0.25, η² ≈ 0.06):** Use when prior research or pilot data suggest moderate differences.  
+        - **Large effect (f = 0.40, η² ≈ 0.14):** Use when expecting strong differences between groups.  
+        
+        When pilot or prior data are available, compute η² directly:
+        - Calculate **SS(Treatment)** and **SS(Total)** from ANOVA.  
+        - Compute η² = SS(Treatment) / SS(Total).  
+        - Convert to f using f = sqrt(η² / (1 - η²)).
+        """)
 
         st.subheader("Use When")
         st.markdown("""
         - You want **high statistical accuracy**, particularly in small samples.  
-        - You are comparing with **software tools like G*Power**.  
+        - You want to base the calculation on **η² or Cohen’s f**.  
         - You are conducting **advanced planning or simulations**.
         """)
 
-
-        st.markdown("---")
-        st.header("Comparison Table")
-
+        st.subheader("Example")
         st.markdown("""
-        | Feature                        | Approach 1 (Cohen’s *f*)       | Approach 2 (Direct Formula)         | Approach 3 (Non-central F)                      |
-        |--------------------------------|--------------------------------|-------------------------------------|-------------------------------------------------|
-        | **Input Required**             | Effect size (*f*), SD          | Group means, SDs                    | Either *f* or means + SDs                       |
-        | **Group Mean Needed**          | No                             | Yes                                 | Optional (if using effect size)                 |
-        | **Unequal SDs Supported**      | Only via weighted *f*          | Fully supported                     | Supported                                       |
-        | **Uses Z or F**                | F                              | Z (Normal approximation)            | F (Non-central)                                 |
-        | **Suitable for Pilot Data**    | No                             | Yes                                 | Yes                                             |
-        | **Simplicity**                 | Simple                         | Simple (once inputs are known)      | Complex (needs F inverse calc)                  |
-        | **Accuracy**                   | Approximate                    | Direct                              | Accurate for ANOVA                              |
-        | **Tools/Software**             |  SAS, STATA                    | Manual, Excel, Python, R            | G*Power, R (`power.anova.test`), Python (`ncf`) |
-        """, unsafe_allow_html=True)
+        Suppose you are comparing **average systolic blood pressure in 4 drug groups.**
 
-        st.write("In this App, Approach 2 and 3 are covered.")
+        - You expect only small differences between drugs → use 𝑓 = 0.10. This will require a large sample size per group.
+        - If you believe differences will be clinically meaningful but moderate → use 𝑓 = 0.25. Sample size per group will be smaller.
+        - If you expect one drug to be much better than the others → use 𝑓 = 0.40. Only a modest sample per group will be needed.
+    
+        Using this effect size in the non-central F formula, the required per-group sample size is calculated.
+        """)
+
+        st.subheader("Practical Interpretation")
+        st.markdown("""
+        - Choosing the effect size depends on **clinical judgment** and **what difference is meaningful in practice.**
+        - For example, in diabetes research, a **0.5% HbA1c difference** may already be clinically important, so a **medium effect size** is often chosen.
+        - In blood pressure studies, a **5 mmHg reduction** may be considered meaningful.
+                    
+        This method is ideal when you want to plan a study **without exact pilot means**, but still want to account for the likely size of group differences.
+        """)
 
         st.markdown("---")
         st.markdown("**Developed by [Rajesh Majumder]**")

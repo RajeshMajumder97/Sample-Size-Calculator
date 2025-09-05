@@ -16,7 +16,7 @@ def main():
     #    """, unsafe_allow_html=True)
 
 
-    chooseButton= st.sidebar.radio("Choose Method", options=["Help","Poisson Distribution (No over dispersion)", "Negative Binomial Distribution (Overdisperdion in Poisson varianve)"],index=0)
+    chooseButton= st.sidebar.radio("Choose Method", options=["Help","Poisson Distribution (No over dispersion)", "Negative Binomial Distribution (Overdispersion in Poisson variance)"],index=0)
     if chooseButton=="Help":
         st.title("Approaches to Sample Size Calculation for Comparing Two Event Rates")
         st.markdown(
@@ -32,20 +32,35 @@ def main():
         st.markdown("""
         ## **Introduction**
 
-        In medical and epidemiological studies, comparing event rates between two groups is a common objective. When the outcome is measured as a count of events over person-time (e.g., infection rates per 1,000 person-years), selecting an appropriate method for calculating the sample size becomes crucial. Several statistical approaches exist to guide this process, with two predominant methodologies: the **Generalized Linear Model (GLM)-based approach** and the **Normal approximation method**. This blog explores these methods, their assumptions, formulas, use cases, and how to account for overdispersion when needed.
+        In many medical and public health studies, we are interested in comparing **event rates** between two groups.
 
-        ---
+        For example:
+
+        - Comparing **infection rates** between patients receiving two different antibiotics.
+
+        - Comparing **hospital readmission rates** between patients discharged with or without a care plan.
+
+        Here, outcomes are not just “yes/no,” but **how many times an event happens over a certain period of follow-up** (e.g., infections per 1,000 patient-days).
+        To design such studies, we must calculate the **sample size**—the number of participants needed to detect a meaningful difference between the two groups.
+
+        There are **two approaches** to do this:
+
+        1. **GLM-based (Poisson regression) method** – robust, flexible, handles different follow-up times.
+
+        2. **Negative binomial method** – best when data show overdispersion (events vary much more than expected).
+                    
+        Let’s go through each method with simple explanations and examples.
         """)
 
         st.header("1. GLM-Based Sample Size Calculation")
-        st.subheader("a. Theoretical Foundation")
+        st.subheader("Theoretical Foundation")
         st.markdown("""
         The GLM-based method relies on the Poisson regression model, a special case of the GLM family, which models count data under the assumption that the **variance equals the mean** (Poisson distribution). For comparing two Poisson rates (e.g., treatment vs. control), we evaluate the difference in log rates:
         """)
         st.latex(r"H_0: \log(\lambda_1) = \log(\lambda_2) \quad \text{vs} \quad H_1: \log(\lambda_1) \neq \log(\lambda_2)")
         st.latex(r"\text{where},\lambda_1 \text{ and } \lambda_2 \text{are the rates in the two groups.}")
 
-        st.subheader("b. Formula")
+        st.subheader("Formula")
         st.markdown("The GLM-based sample size formula for comparing two Poisson rates over person-time is:")
         st.latex(r"""
         n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \left( \frac{1}{Q_1 \mu_1 T_1} + \frac{1}{Q_0 \mu_0 T_0} \right)}{[\log(\mu_1 T_1 / \mu_0 T_0)]^2} \cdot \frac{DE}{1 - \text{Dropout\%}}
@@ -61,58 +76,58 @@ def main():
         - Dropout%: Anticipated dropout rate
         """)
 
-        st.subheader("c. Parameter Selection Example")
+        st.subheader("Example")
         st.markdown("""
-        Suppose:
-        - Control group rate (mu_0) = 0.5 events/person-year  
-        - Treatment group rate (mu_1) = 0.35  
-        - Follow-up time = 1 year  
-        - Power = 80%, Confidence Level = 95%  
-        - Equal allocation ( Q0 = Q1 = 0.5 )  
-        - No dropout, DE = 1  
+        Suppose you want to test a new **infection-prevention protocol.**
+
+        - Control group: 0.5 infections per patient-year.
+
+        - Treatment group: 0.35 infections per patient-year.
+
+        - Follow-up: 1 year per patient.
+
+        - Equal allocation (50% in each group).
+
+        - Desired power = 80%, confidence level = 95%.
+
+        When applying the GLM formula (with these inputs):
+
+        - Required sample size ≈ **300 patients per group.**
+
+        This means **600 patients total** would be enough to reliably detect a **30% reduction in infection rate.**
         """)
 
-        st.markdown("Then sample size per group:")
-        st.latex(r"""
-        n \approx \frac{(1.96 + 0.84)^2 \cdot \left(\frac{1}{0.5 \cdot 0.35} + \frac{1}{0.5 \cdot 0.5}\right)}{[\log(0.35 / 0.5)]^2} \approx 300 \text{ per group}
-        """)
-
-        st.header("2. Normal Approximation Method")
+        st.subheader("When to Use")
         st.markdown("""
-        This approach approximates the distribution of the difference in rates using the central limit theorem. It assumes the **rate difference** is approximately normally distributed when sample size is large.
+        - Different follow-up times per person.
+        - Want to adjust for clustering (e.g., patients in hospitals).
+        - Want to account for dropout.
         """)
 
-        st.subheader("a. Formula")
-        st.latex(r"""
-        n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot (\lambda_1 + \lambda_2)}{(\lambda_1 - \lambda_2)^2} \cdot T
-        """)
-
+        st.header("2. Overdispersion and the Negative Binomial Model")
         st.markdown("""
-        This formula is simpler and historically used for rough sample size estimation. It doesn't easily account for unequal follow-up, cluster design, or overdispersion.
+        In real life, data are often more variable than Poisson assumes.
+        For example:
+
+        - Some patients never get infections.
+
+        - A few patients get **multiple infections** in a short period.
+
+        This extra variation is called **overdispersion.**
+        If we ignore it, the sample size estimate will be **too small** (study underpowered).
+        
+        The **negative binomial model** corrects this by adding a “dispersion parameter” (k) that captures how much extra variability there is.
         """)
 
-        st.subheader("b. Limitations")
-        st.markdown("""
-        - Valid only when count data is not highly skewed  
-        - Assumes equal person-time per subject  
-        - Doesn't handle dropout or design effect elegantly  
-        """)
-
-        st.header("3. Overdispersion and the Negative Binomial Model")
-        st.markdown("""
-        In real-world data, the assumption that variance equals mean (Poisson) often fails. Overdispersion (variance > mean) leads to underestimated standard errors and inflated Type I error.
-        """)
-
-        st.subheader("a. Negative Binomial Approach")
+        st.subheader("Formula")
         st.markdown("The negative binomial distribution accounts for overdispersion by introducing a dispersion parameter \( k \), where:")
         st.latex(r"\text{Variance} = \mu + \mu^2/k")
 
-        st.markdown("Sample size formula for negative binomial comparison:")
         st.latex(r"""
         n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot \left( \frac{1}{Q_1}\left(\frac{1}{\mu_1} + \frac{1}{k_1}\right) + \frac{1}{Q_0}\left(\frac{1}{\mu_0} + \frac{1}{k_0}\right) \right)}{[\log(\mu_1 T_1 / \mu_0 T_0)]^2} \cdot \frac{DE}{1 - \text{Dropout\%}}
         """)
 
-        st.subheader("b. Choosing \( k \)")
+        st.subheader("Choosing \( k \)")
         st.markdown("""
         | k Value | Description              | Use Case                              |
         |---------|---------------------------|----------------------------------------|
@@ -123,16 +138,20 @@ def main():
         | <0.1    | Extreme overdispersion    | Clustered, zero-inflated outcomes      |
         """, unsafe_allow_html=True)
 
-        st.header("4. Comparison of Approaches")
+        st.subheader("Example")
         st.markdown("""
-        | Feature                 | GLM-Poisson              | Normal Approximation      | Negative Binomial (GLM)   |
-        |------------------------|--------------------------|----------------------------|----------------------------|
-        | Handles Unequal Time   | Yes                      | No                         | Yes                        |
-        | Cluster Design         | Yes (via DE)             | Limited                    | Yes                        |
-        | Dropout Adjustment     | Yes                      | No                         | Yes                        |
-        | Overdispersion Support | No                       | No                         | Yes                        |
-        | Complexity             | Moderate                 | Low                        | High                       |
-        """, unsafe_allow_html=True)
+            Suppose the same infection-prevention study, but pilot data show that some patients have multiple infections, creating **moderate overdispersion (k = 5).**
+                
+            Using the negative binomial formula, the required **sample size per group increases from 300 to about 350–370.**
+    
+            This is because the extra variability makes it harder to detect the difference—you need more patients.
+        """)
+
+        st.subheader("When to Use")
+        st.markdown("""
+        - When preliminary data or past studies show **variance > mean.**
+        - For outcomes like hospital admissions, infections, ER visits.
+        """)
 
         st.header("Conclusion")
         st.markdown("""
