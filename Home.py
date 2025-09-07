@@ -105,73 +105,177 @@ elif category == "About":
     with col2:
         st.image("Sample size Explained_2.png")
 
-    st.title("🔍 When to Use Which Sample Size Calculator — A Practical Guide")
+    st.title("🔍 Practical Guide to Choosing the Right Sample Size Calculator for Health Research")
 
-    st.markdown("Let’s break down **when and why** you’d use each of the sample size methods available in the app.")
+    st.markdown("Selecting the correct method for sample size estimation is crucial in ensuring your study is adequately powered and produces reliable, interpretable results. Below, we explain when to use each method, with real-world examples from healthcare, epidemiology, and clinical research.")
 
     st.markdown("""
-        ### Proportion Estimation:
-        Use this when you're trying to estimate a single proportion—like what percentage of people in a city have diabetes or how many support a health policy. It’s perfect for cross-sectional surveys or baseline assessments where your goal is just to understand “how much” or “how many.”
-        
-        ### Normal Mean Estimation:
-        Go for this when you're estimating an average—say, the average systolic blood pressure in a population. This works best if your outcome is normally distributed. You’ll commonly use this in clinical studies, nutrition research, or any setting where averages matter.
-        
-        ### Skewed Normal Mean Estimation:
-        Not everything follows a normal curve. Think of healthcare costs or lengths of hospital stay—these are usually skewed. If your variable is skewed but you still want to estimate a mean, use this method. It relies on the coefficient of variation (CV) instead of the standard deviation.
-        
-        ### Sensitivity & Specificity:
-        This is for those working on diagnostic accuracy. If you’ve built a new test or screening tool and want to validate its performance, this calculator helps you plan for estimating sensitivity and specificity with precision.
-        
-        ### Intraclass Correlation (ICC) Estimation:
-        Use this in reliability studies. For example, if multiple raters are evaluating X-rays or you're checking how consistent measurements are within clusters, ICC tells you how much of the variability is due to real differences vs. measurement noise.
-        
-        ### ICC Hypothesis Testing:
-        Similar to ICC estimation, but here you're testing a hypothesis—maybe you want to prove that your new tool has better reliability than a certain threshold (e.g., ICC > 0.70). Great for multi-site reliability checks or instrument validation.
-        
-        ### Chen’s Kappa Estimation:
-        Need to measure agreement between raters for categorical data? Kappa is your go-to. Use this when you're dealing with yes/no, present/absent kind of decisions—like whether two doctors agree on a diagnosis. Works with 2 or more raters.
-        
-        ### Two Sample Normal Mean Hypothesis:
-        You’ll use this in classic setups like comparing treatment vs. control groups. Say you want to know if a new diet reduces blood sugar more than the standard one. If your outcome is continuous and your groups are independent, this is your choice.
-        
-        ### One Way ANOVA:
-        Got three or more groups to compare? That’s where ANOVA comes in. Use this in multi-arm clinical trials, educational experiments, or policy evaluations where multiple interventions are being compared.
-        
-        ### Paired t-Test:
-        Perfect for before-after studies. If you’re giving the same group a treatment and measuring the difference in some continuous outcome, this is your test. Think pre- and post-intervention blood pressure, or step count after using a fitness app.
-        
-        ### Two Sample Proportion Hypothesis Testing:
-        Here, you’re comparing proportions—for example, the percentage of smokers in two different cities or success rates of two drugs. If your outcome is binary and your groups are independent, this is the tool.
-        
-        ### Paired Proportion (McNemar Test):
-        This is for comparing paired binary outcomes—think of it like a paired t-test but for yes/no outcomes. Example: Did smoking status change before and after an awareness campaign within the same group?
-        
-        ### Two Sample Poisson Rate Comparison:
-        If you’re comparing event rates (like infections per 1000 patient-days), and you expect count data over time or person-time, use this. Common in hospital-based studies or epidemiological surveillance.
-        
-        ### Correlation Test:
-        Trying to understand if two continuous variables move together? Correlation is what you want. Like checking the relationship between BMI and cholesterol. This helps you figure out if a linear relationship exists and how strong it is.
-        
-        ### Case Control Design: 
-        This is your tool for retrospective studies. You’ve got cases and controls, and you're looking backward to see if exposure rates differ. It's especially useful in rare disease research, where measuring odds is more practical than risk.
-        
-        ### Cohort Design:
-        Ideal for longitudinal studies. You follow two groups over time and compare risk or incidence rates. Use this when you're tracking outcomes like heart attacks, recovery, or vaccine breakthrough infections.
-        
-        ### Survival Analysis – Log-Rank Test:
-        When your outcome is time-to-event, this test is key. Say you're comparing how long patients survive under two treatments. Use this in oncology studies, clinical trials, or anywhere time plays a critical role.
-        
-        ### Linear Regression:
-        This one’s for predictive modeling with continuous outcomes. Want to see how education, income, and age affect blood pressure? Use linear regression—it tells you how much change you can expect in the outcome for each predictor.
-        
-        ### Logistic Regression:
-        When your outcome is binary—like disease or no disease—logistic regression helps you understand how different predictors influence the odds. Common in case-control and risk modeling studies.
-        
-        ### About:
-        Think of this as your starting point. It gives you a quick tour of the app, how things are organized, and what each section is about.
-        
-        ### FAQ:
-        Got doubts? Confused about what a dropdown means or why you’re being asked for alpha and beta? The FAQ section explains these, in plain language.
+        ## 📌 Proportion Estimation
+        #### When to use:
+        Use this when your main outcome is a proportion (percentage). It answers questions like “How many?” or “What fraction?”
+
+        #### Real Example:
+        A public health survey wants to estimate the prevalence of diabetes in an urban population. If prior data suggest ~12% prevalence, you would use proportion estimation to calculate how many participants you need to estimate this percentage with a desired precision (say, ±2%).
+                
+        ## 📌 Normal Mean Estimation
+
+        #### When to use:
+        Use this when your outcome is continuous and approximately normally distributed.
+
+        #### Real Example:
+        A nutritionist wants to estimate the average hemoglobin level in pregnant women attending a primary care clinic. Since hemoglobin levels typically follow a normal distribution, normal mean estimation is appropriate.
+
+        ## 📌 Skewed Normal Mean Estimation
+
+        #### When to use:
+        When data are continuous but skewed (not symmetric). Instead of SD, this method uses the coefficient of variation (CV).
+
+        #### Real Example:
+        Hospital stay lengths often have a long right tail (a few patients stay much longer). To estimate the average length of stay in an orthopedic ward, a skewed-normal approach (using CV) is more reliable than assuming normality.
+
+        ## 📌 Gamma Mean Estimation
+
+        #### When to use:
+        When outcomes follow a Gamma distribution, often used for positively skewed continuous data (e.g., costs, waiting times, lab measures that can’t be negative). Precision can be defined in absolute or relative terms.
+
+        #### Real Example:
+        A health economist wants to estimate the average cost of hospitalization for COVID-19 patients. Since costs are positive and right-skewed, the Gamma distribution provides a natural framework for sample size calculation.
+
+        ## 📌 Gamma Mean Comparison
+
+        #### When to use:
+        When comparing the means of two groups that follow a Gamma distribution.
+
+        #### Real Example:
+        Researchers want to compare the average treatment cost for patients receiving Drug A versus Drug B for hypertension. As costs are skewed, Gamma mean comparison ensures sample size planning is tailored to the data’s distribution.
+
+        ## 📌 Sensitivity & Specificity Estimation
+
+        #### When to use:
+        When validating a new diagnostic or screening tool.
+
+        #### Real Example:
+        A team develops a rapid antigen test for dengue. They need to estimate sensitivity (true positive rate) and specificity (true negative rate) with precision to confirm its reliability against PCR (the gold standard).
+
+        ## 📌 Intraclass Correlation (ICC) Estimation
+
+        #### When to use:
+        For reliability and agreement studies where multiple raters or repeated measures are involved.
+
+        #### Real Example:
+        Three radiologists independently interpret the same set of X-rays to assess bone fractures. ICC tells how consistent their ratings are across patients.
+
+        ## 📌 ICC Hypothesis Testing
+
+        #### When to use:
+        When testing if ICC meets a required threshold (e.g., acceptable reliability).
+
+        #### Real Example:
+        In a new telemedicine platform, you may want to test if ICC > 0.80 for blood pressure readings compared to manual sphygmomanometer readings.
+
+        ## 📌 Chen’s Kappa Estimation
+
+        #### When to use:
+        When assessing agreement between two or more raters on categorical data.
+
+        #### Real Example:
+        Two pathologists independently classify biopsy slides as malignant or benign. Kappa measures the degree of agreement beyond chance.
+
+        ## 📌 Two Sample Normal Mean Hypothesis
+
+        #### When to use:
+        When comparing average outcomes between two independent groups.
+
+        #### Real Example:
+        A randomized controlled trial (RCT) compares average systolic blood pressure between patients on a new antihypertensive vs. standard care.
+
+        ## 📌 One-Way ANOVA
+
+        #### When to use:
+        When comparing means across three or more groups.
+
+        #### Real Example:
+        A clinical trial with three arms: Drug A, Drug B, and placebo, comparing mean reduction in HbA1c after 12 weeks.
+
+        ## 📌 Paired t-Test
+
+        #### When to use:
+        For before-after studies with the same subjects.
+
+        #### Real Example:
+        Measuring cholesterol levels in patients before and after starting a statin. Since the same patients are measured twice, a paired test is used.
+
+        ## 📌 Two Sample Proportion Hypothesis Testing
+
+        #### When to use:
+        When comparing two independent proportions.
+
+        #### Real Example:
+        Comparing smoking prevalence between rural and urban adolescents. The outcome (smoker/non-smoker) is binary.
+
+        ## 📌 Paired Proportion (McNemar Test)
+
+        #### When to use:
+        For paired binary outcomes.
+
+        #### Real Example:
+        An awareness campaign is conducted in a factory. Workers’ smoking status (Yes/No) is measured before and after the campaign. McNemar’s test helps assess change.
+
+        ## 📌 Poisson Rate Comparison
+
+        #### When to use:
+        When comparing event rates (counts per unit time/person-time).
+
+        #### Real Example:
+        Comparing infection rates per 1,000 catheter days between two hospital ICUs. Since data are event counts over exposure time, Poisson models apply.
+
+        ## 📌 Correlation Test
+
+        #### When to use:
+        When assessing linear association between two continuous variables.
+
+        #### Real Example:
+        Checking whether BMI correlates with total cholesterol among adults in a health check-up camp.
+
+        ## 📌 Case-Control Design
+
+        #### When to use:
+        When studying rare outcomes retrospectively.
+
+        #### Real Example:
+        A case-control study on lung cancer identifies patients (cases) and compares their smoking exposure with matched controls.
+
+        ## 📌 Cohort Design
+
+        #### When to use:
+        For prospective studies comparing risks between groups.
+
+        #### Real Example:
+        A 5-year cohort study compares incidence of heart attack in diabetics vs. non-diabetics.
+
+        ## 📌 Survival Analysis – Log-Rank Test
+
+        #### When to use:
+        For comparing survival curves across groups.
+
+        #### Real Example:
+        In an oncology trial, patients are randomized to chemotherapy vs. immunotherapy. The log-rank test compares time to progression.
+
+        ## 📌 Linear Regression
+
+        #### When to use:
+        When predicting a continuous outcome from predictors.
+
+        #### Real Example:
+        A regression model predicts systolic BP from age, BMI, and salt intake.
+
+        ## 📌 Logistic Regression
+
+        #### When to use:
+        When the outcome is binary.
+
+        #### Real Example:
+        A logistic regression model predicts the odds of gestational diabetes based on maternal age, BMI, and family history.
     """)
     st.markdown("---")
     st.markdown("**Developed by [Rajesh Majumder]**")
@@ -185,7 +289,8 @@ else:
         method = st.sidebar.selectbox("Choose Method", [
             "Proportion Estimation", 
             "Normal Mean Estimation", 
-            "Skewed Normal Mean Estimation"
+            "Skewed Normal Mean Estimation",
+            "Gamma Mean Estimation"
         ])
     elif category == "Comparison":
         method = st.sidebar.selectbox("Choose Test", [
