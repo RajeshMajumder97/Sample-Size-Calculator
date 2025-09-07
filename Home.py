@@ -99,11 +99,11 @@ elif category == "About":
     " methods for different study designs. Here, you will also be able to find the required sample size calculation formulas, along with the corresponding references.")
 
     # Inject CSS and image at the top of the sidebar
-    col1,col2=st.columns(2)
-    with col1:
-        st.image("Sample size Explained.png")
-    with col2:
-        st.image("Sample size Explained_2.png")
+    #col1,col2=st.columns(2)
+    #with col1:
+    #    st.image("Sample size Explained.png")
+    #with col2:
+    #    st.image("Sample size Explained_2.png")
 
     st.title("🔍 Practical Guide to Choosing the Right Sample Size Calculator for Health Research")
 
