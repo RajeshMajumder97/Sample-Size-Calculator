@@ -105,7 +105,7 @@ elif category == "About":
     #with col2:
     #    st.image("Sample size Explained_2.png")
 
-    st.title("🔍 Practical Guide to Choosing the Right Sample Size Calculator for Health Research")
+    st.title("🔍 Choosing the Right Sample Size Method: A Practical Guide")
 
     st.markdown("Selecting the correct method for sample size estimation is crucial in ensuring your study is adequately powered and produces reliable, interpretable results. Below, we explain when to use each method, with real-world examples from healthcare, epidemiology, and clinical research.")
 
