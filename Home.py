@@ -30,7 +30,7 @@ from modules.utils import inject_logo
 #st.sidebar.title("StudySizer")
 
 # Top-level dropdown
-category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Comparison", "Diagnostic measures (Evaluation)", "Reliability", "Regression","FAQ"])
+category = st.sidebar.selectbox("Select Category", ["-- Select --","About", "Estimation", "Comparison", "Diagnostic measures (Evaluation)", "Reliability", "Regression","Simulation","FAQ"])
 
 # 🌟 Show Home Page if nothing is selected
 if category == "-- Select --":
@@ -276,6 +276,31 @@ elif category == "About":
 
         #### Real Example:
         A logistic regression model predicts the odds of gestational diabetes based on maternal age, BMI, and family history.
+
+        ## 📌 Simulation-Based Sample Size Calculation
+
+        ### When to use:
+        When analytical sample size formulas are difficult, unrealistic, or unavailable due to complex data structures, skewed predictors, non-normal distributions, nonlinear relationships, or regression-based designs. This approach repeatedly simulates datasets under assumed conditions and estimates empirical power directly.
+
+        It is especially useful for:
+
+        - Logistic regression with binary outcomes
+        - Relative Risk estimation using modified Poisson regression
+        - Skewed exposure distributions (lognormal, gamma)
+        - Complex exposure-response relationships
+        - Situations where traditional closed-form formulas may fail
+
+        ### Real Example:
+        An environmental epidemiology study wants to estimate the required sample size to detect the association between long-term PM2.5 exposure and hypertension risk. Since PM2.5 concentrations are highly right-skewed and the outcome is binary (hypertension: Yes/No), standard normal-theory formulas may not accurately represent the study design.
+        Using simulation-based sample size estimation, researchers can:
+
+        Simulate realistic PM2.5 exposure distributions,
+        Generate binary disease outcomes under assumed Odds Ratios or Relative Risks,
+        Fit regression models repeatedly,
+        Estimate empirical statistical power across different sample sizes,
+        Identify the minimum sample size needed to achieve the target power.
+
+        This approach provides a more realistic and flexible framework for modern epidemiological and clinical studies where assumptions of classical formulas may not hold.
     """)
     st.markdown("---")
     st.markdown("**Developed by [Rajesh Majumder]**")
@@ -321,6 +346,9 @@ else:
             "Linear Regression",
             "Logistic Regression"
         ])
+    elif category == "Simulation":
+        from modules import Simulation
+        Simulation.main()
     elif category == "FAQ":
         from modules import FAQ
         FAQ.main()
