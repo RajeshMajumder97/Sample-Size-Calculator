@@ -10,6 +10,7 @@ from scipy.optimize import brentq
 # =========================================================
 
 def main():
+
     #st.set_page_config(page_title="StudySizer | Simulation Sample Size",page_icon="🧮",layout="centered")
 
     st.title("Simulation-Based Sample Size Calculator")
@@ -24,8 +25,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
-
 
     st.markdown("""
     This module estimates sample size using:
@@ -95,28 +94,28 @@ def main():
 
     effect_unit = st.sidebar.number_input(
         "Effect Per Unit Increase",
-        value=10.0,
+        value=1.0,
         min_value=0.01,
         format="%.6g",
         help="""
-    Specify the unit increase in exposure for which the effect size is defined.
+Specify the unit increase in exposure for which the effect size is defined.
 
-    Examples:
+Examples:
 
-    • OR = 1.20 per 10 µg/m³ PM2.5 increase
-    → Effect Size = 1.20
-    → Effect Unit = 10
+• OR = 1.20 per 10 µg/m³ PM2.5 increase
+→ Effect Size = 1.20
+→ Effect Unit = 10
 
-    • RR = 1.05 per 1 year increase in age
-    → Effect Unit = 1
+• RR = 1.05 per 1 year increase in age
+→ Effect Unit = 1
 
-    • OR = 1.30 per 5 kg/m² BMI increase
-    → Effect Unit = 5
+• OR = 1.30 per 5 kg/m² BMI increase
+→ Effect Unit = 5
 
-    Internally:
+Internally:
 
-    β = log(Effect Size) / Effect Unit
-    """
+β = log(Effect Size) / Effect Unit
+"""
     )
 
     # ---------------------------------------------------------
@@ -124,13 +123,13 @@ def main():
 
     exposure_dist = st.sidebar.selectbox(
         "Exposure Distribution",
-        ["normal", "lognormal", "gamma", "median_iqr"]
+        ["normal", "lognormal", "gamma"]
     )
 
     # ---------------------------------------------------------
-    # DISTRIBUTION PARAMETERS
+    # NORMAL DISTRIBUTION
 
-    if exposure_dist in ["normal", "lognormal", "gamma"]:
+    if exposure_dist == "normal":
 
         mean_x = st.sidebar.number_input(
             "Exposure Mean",
@@ -141,6 +140,7 @@ def main():
         sd_x = st.sidebar.number_input(
             "Exposure SD",
             value=15.0,
+            min_value=0.0001,
             format="%.6g"
         )
 
@@ -148,28 +148,74 @@ def main():
         q1 = None
         q3 = None
 
+        input_method = "Mean & SD"
+
+    # ---------------------------------------------------------
+    # LOGNORMAL / GAMMA
+
     else:
 
-        median_x = st.sidebar.number_input(
-            "Median",
-            value=40.0,
-            format="%.6g"
+        input_method = st.sidebar.radio(
+            "Input Method",
+            ["Mean & SD", "Median & IQR"],
+            help="""
+Choose how the exposure distribution is specified.
+
+Mean & SD:
+Use arithmetic mean and SD.
+
+Median & IQR:
+Use when studies report median and quartiles.
+"""
         )
 
-        q1 = st.sidebar.number_input(
-            "Q1",
-            value=30.0,
-            format="%.6g"
-        )
+        # -----------------------------------------------------
+        # MEAN + SD
 
-        q3 = st.sidebar.number_input(
-            "Q3",
-            value=60.0,
-            format="%.6g"
-        )
+        if input_method == "Mean & SD":
 
-        mean_x = None
-        sd_x = None
+            mean_x = st.sidebar.number_input(
+                "Exposure Mean",
+                value=50.0,
+                format="%.6g"
+            )
+
+            sd_x = st.sidebar.number_input(
+                "Exposure SD",
+                value=15.0,
+                min_value=0.0001,
+                format="%.6g"
+            )
+
+            median_x = None
+            q1 = None
+            q3 = None
+
+        # -----------------------------------------------------
+        # MEDIAN + IQR
+
+        else:
+
+            median_x = st.sidebar.number_input(
+                "Exposure Median",
+                value=40.0,
+                format="%.6g"
+            )
+
+            q1 = st.sidebar.number_input(
+                "Q1",
+                value=30.0,
+                format="%.6g"
+            )
+
+            q3 = st.sidebar.number_input(
+                "Q3",
+                value=60.0,
+                format="%.6g"
+            )
+
+            sd_x = (q3 - q1) / 1.35
+            mean_x = median_x
 
     # ---------------------------------------------------------
     # TRANSFORMATION
@@ -179,7 +225,7 @@ def main():
     )
 
     # ---------------------------------------------------------
-    # BASELINE RISK
+    # BASELINE PROBABILITY
 
     p0 = st.sidebar.number_input(
         "Baseline Probability",
@@ -190,7 +236,7 @@ def main():
     )
 
     # ---------------------------------------------------------
-    # SAMPLE SIZE RANGE
+    # SAMPLE SIZE SETTINGS
 
     st.sidebar.markdown("---")
 
@@ -221,7 +267,7 @@ def main():
         "Target Power (%)",
         value=80.0,
         format="%.6g"
-    )/100
+    ) / 100
 
     alpha = st.sidebar.number_input(
         "Alpha",
@@ -255,13 +301,35 @@ def main():
 
     def make_history_label(entry):
 
-        return (
+        label = (
             f"{entry['effect_type']} | "
-            f"Effect={entry['effect']} per {entry['effect_unit']} unit | "
+            f"Effect={entry['effect']} per "
+            f"{entry['effect_unit']} unit | "
             f"Dist={entry['exposure_dist']} | "
+            f"Method={entry['input_method']} | "
             f"p0={entry['p0']} | "
             f"Power={entry['target_power']}"
         )
+
+        if entry["input_method"] == "Mean & SD":
+
+            label += (
+                f" | Mean={entry['mean_x']} "
+                f"| SD={entry['sd_x']}"
+            )
+
+        else:
+
+            label += (
+                f" | Median={entry['median_x']} "
+                f"| Q1={entry['q1']} "
+                f"| Q3={entry['q3']}"
+            )
+
+        if entry["log_transform"]:
+            label += " | Log=Yes"
+
+        return label
 
     # =========================================================
     # HISTORY SELECTOR
@@ -313,18 +381,24 @@ def main():
 
         def gen_X(n):
 
+            # =================================================
+            # NORMAL DISTRIBUTION
+
             if exposure_dist == "normal":
 
                 X = np.random.normal(
-                    mean_x,
-                    sd_x,
-                    n
+                    loc=mean_x,
+                    scale=sd_x,
+                    size=n
                 )
+
+            # =================================================
+            # LOGNORMAL DISTRIBUTION
 
             elif exposure_dist == "lognormal":
 
                 meanlog = np.log(
-                    mean_x**2 /
+                    (mean_x**2) /
                     np.sqrt(sd_x**2 + mean_x**2)
                 )
 
@@ -335,32 +409,28 @@ def main():
                 )
 
                 X = np.random.lognormal(
-                    meanlog,
-                    sdlog,
-                    n
+                    mean=meanlog,
+                    sigma=sdlog,
+                    size=n
                 )
+
+            # =================================================
+            # GAMMA DISTRIBUTION
 
             elif exposure_dist == "gamma":
 
-                shape = (mean_x / sd_x)**2
+                shape = (mean_x / sd_x) ** 2
 
                 scale = (sd_x**2) / mean_x
 
                 X = np.random.gamma(
-                    shape,
-                    scale,
-                    n
+                    shape=shape,
+                    scale=scale,
+                    size=n
                 )
 
-            else:
-
-                sd_est = (q3 - q1) / 1.35
-
-                X = np.random.normal(
-                    median_x,
-                    sd_est,
-                    n
-                )
+            # =================================================
+            # OPTIONAL LOG TRANSFORMATION
 
             if log_transform:
 
@@ -583,6 +653,8 @@ def main():
 
             exposure_dist = selected_history["exposure_dist"]
 
+            input_method = selected_history["input_method"]
+
             mean_x = selected_history["mean_x"]
             sd_x = selected_history["sd_x"]
 
@@ -620,6 +692,7 @@ def main():
                 "effect_unit": effect_unit,
 
                 "exposure_dist": exposure_dist,
+                "input_method": input_method,
 
                 "mean_x": mean_x,
                 "sd_x": sd_x,
@@ -682,14 +755,17 @@ def main():
 
         st.subheader("Power Table")
 
-        st.dataframe(results,use_container_width=True)
+        st.dataframe(
+            results,
+            use_container_width=True
+        )
 
         # -----------------------------------------------------
         # POWER CURVE
 
         st.subheader("Power Curve")
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(8, 5))
 
         ax.plot(
             results["Sample Size"],
@@ -825,14 +901,14 @@ def main():
 
     st.markdown("---")
     st.subheader("Citation")
+
     from datetime import datetime
-    # Get current date and time
+
     now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-    # Citation with access timestamp
+
     st.markdown(f"""
     *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.streamlit.app/](https://studysizer.streamlit.app/). Accessed on {now}.*
     """)
-
 
     st.markdown("---")
     st.markdown("**Developed by [Rajesh Majumder]**")
