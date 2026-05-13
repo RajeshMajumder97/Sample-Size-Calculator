@@ -242,17 +242,17 @@ Use when studies report median and quartiles.
 
     n_min = st.sidebar.number_input(
         "Minimum Sample Size",
-        value=100
+        value=10
     )
 
     n_max = st.sidebar.number_input(
         "Maximum Sample Size",
-        value=2000
+        value=300
     )
 
     step = st.sidebar.number_input(
         "Step Size",
-        value=100
+        value=10
     )
 
     # ---------------------------------------------------------
