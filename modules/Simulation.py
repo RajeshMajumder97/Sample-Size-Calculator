@@ -798,7 +798,7 @@ Use when studies report median and quartiles.
         # EXPOSURE + OUTCOME DISTRIBUTION
 
         st.subheader(
-            "Distribution of Exposure Variable (X)"
+            "Distribution of Exposure (X) and Outcome (Y) Variables"
         )
 
         col1, col2 = st.columns(2)
