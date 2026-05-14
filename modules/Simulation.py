@@ -628,7 +628,7 @@ Use when studies report median and quartiles.
 
         x_example = gen_X(10000)
 
-        return results, base_n, adjusted_n, x_example
+        return results, base_n, adjusted_n, x_example, alpha0, beta
 
     # =========================================================
     # BUTTONS
@@ -729,7 +729,7 @@ Use when studies report median and quartiles.
 
         with st.spinner("Running simulations..."):
 
-            results, base_n, adjusted_n, x_example = \
+            results, base_n, adjusted_n, x_example, alpha0, beta = \
                 simulate_sample_size()
 
         # =====================================================
@@ -795,7 +795,7 @@ Use when studies report median and quartiles.
         st.pyplot(fig)
 
         # -----------------------------------------------------
-        # EXPOSURE DISTRIBUTION
+        # EXPOSURE + OUTCOME DISTRIBUTION
 
         st.subheader(
             "Distribution of Exposure Variable (X)"
@@ -803,7 +803,9 @@ Use when studies report median and quartiles.
 
         col1, col2 = st.columns(2)
 
-        # Histogram
+        # =====================================================
+        # HISTOGRAM OF EXPOSURE
+        # =====================================================
 
         with col1:
 
@@ -826,46 +828,76 @@ Use when studies report median and quartiles.
                 "Frequency"
             )
 
+            ax1.grid(True)
+
             st.pyplot(fig1)
 
-        # Boxplot
+        # =====================================================
+        # BARPLOT OF OUTCOME
+        # =====================================================
 
         with col2:
 
+            # ---------------------------------------------
+            # Generate outcome using same model settings
+
+            X_demo = x_example - np.mean(x_example)
+
+            if effect_type == "OR":
+
+                p_demo = 1 / (
+                    1 + np.exp(
+                        -(alpha0 + beta * X_demo)
+                    )
+                )
+
+            else:
+
+                p_demo = np.exp(
+                    alpha0 + beta * X_demo
+                )
+
+                p_demo[p_demo > 0.999] = 0.999
+                p_demo[p_demo < 0.0001] = 0.0001
+
+            Y_demo = np.random.binomial(
+                1,
+                p_demo
+            )
+
+            outcome_counts = pd.Series(
+                Y_demo
+            ).value_counts().sort_index()
+
             fig2, ax2 = plt.subplots()
 
-            ax2.boxplot(x_example)
+            ax2.bar(
+                outcome_counts.index.astype(str),
+                outcome_counts.values
+            )
 
             ax2.set_title(
-                "Boxplot of Exposure"
+                "Outcome Distribution"
+            )
+
+            ax2.set_xlabel(
+                "Outcome Category"
             )
 
             ax2.set_ylabel(
-                "Exposure"
+                "Count"
             )
 
+            ax2.set_xticks([0, 1])
+
+            ax2.set_xticklabels([
+                "0",
+                "1"
+            ])
+
+            ax2.grid(False)
+
             st.pyplot(fig2)
-
-        # -----------------------------------------------------
-        # INTERPRETATION
-
-        st.markdown("---")
-
-        if np.isnan(adjusted_n):
-
-            st.warning("""
-            Target power was not achieved
-            within the selected sample size range.
-            """)
-
-        else:
-
-            st.markdown(f"""
-            Required adjusted sample size:
-
-            # {int(adjusted_n)}
-            """)
-
     # =========================================================
     # METHODOLOGY
     # =========================================================
@@ -898,7 +930,25 @@ Use when studies report median and quartiles.
         - Handles nonlinear distributions
         - More realistic than closed-form methods
         """)
+        st.markdown("---")
+        st.subheader("📌 References")
 
+        st.markdown("""
+        1. Bush, S. (2015). *Sample Size Determination for Logistic Regression: A Simulation Study*. Communications in Statistics - Simulation and Computation, 44(2), 360–373.  
+        https://doi.org/10.1080/03610918.2013.777458
+
+        2. Moineddin, R., Matheson, F. I., & Glazier, R. H. (2007). *A simulation study of sample size for multilevel logistic regression models*. BMC Medical Research Methodology, 7, 34.  
+        https://doi.org/10.1186/1471-2288-7-34
+
+        3. Hsieh, F. Y. (1989). *Sample size tables for logistic regression*. Statistics in Medicine, 8(7), 795–802.  
+        https://doi.org/10.1002/sim.4780080704
+
+        4. Kumagai, N., Akazawa, K., Kataoka, H., Hatakeyama, Y., & Okuhara, Y. (2014). *Simulation Program to Determine Sample Size and Power for a Multiple Logistic Regression Model with Unspecified Covariate Distributions*. Health.
+
+        5. Demidenko, E. (2007). *Sample size determination for logistic regression revisited*. Statistics in Medicine, 26(18), 3385–3397.
+
+        6. Knofczynski, G. T., & Mundfrom, D. (2008). *Sample Sizes When Using Multiple Linear Regression for Prediction*. Educational and Psychological Measurement, 68(3), 431–442.
+        """)
     st.markdown("---")
     st.subheader("Citation")
 
