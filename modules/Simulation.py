@@ -4,6 +4,7 @@ import streamlit as st
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from scipy.optimize import brentq
+from zoneinfo import ZoneInfo
 
 # =========================================================
 # PAGE CONFIG
@@ -954,7 +955,7 @@ Use when studies report median and quartiles.
 
     from datetime import datetime
 
-    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%B %d, %Y at %I:%M %p")#datetime.now().strftime("%B %d, %Y at %I:%M %p")
 
     st.markdown(f"""
     *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.streamlit.app/](https://studysizer.streamlit.app/). Accessed on {now}.*
