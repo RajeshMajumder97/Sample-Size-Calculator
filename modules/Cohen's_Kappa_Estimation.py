@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
+from zoneinfo import ZoneInfo
 
 def main():
     # Sample size calculation functions
@@ -286,7 +287,7 @@ def main():
     st.subheader("Citation")
     from datetime import datetime
     # Get current date and time
-    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%B %d, %Y at %I:%M %p")#datetime.now().strftime("%B %d, %Y at %I:%M %p")
     # Citation with access timestamp
     st.markdown(f"""
     *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.streamlit.app/](https://studysizer.streamlit.app/). Accessed on {now}.*
