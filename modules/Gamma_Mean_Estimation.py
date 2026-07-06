@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 def main():
     # st.set_page_config(page_title="StudySizer | Gamma Mean Estimation", page_icon="🧮")
@@ -352,7 +353,7 @@ def main():
 
     # Citation
     st.markdown("---")
-    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%B %d, %Y at %I:%M %p")#datetime.now().strftime("%B %d, %Y at %I:%M %p")
     st.markdown(f""" *Majumder, R. (2025). StudySizer: A sample size calculator (Gamma Mean Estimation, Version 0.1.0). 
     Available online: [https://studysizer.streamlit.app/](https://studysizer.streamlit.app/). Accessed on {now}.* """)
     st.markdown("---")
