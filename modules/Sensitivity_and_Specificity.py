@@ -4,6 +4,7 @@ import streamlit as st
 from scipy.stats import norm
 from scipy.special import erf
 import math
+from zoneinfo import ZoneInfo
 
 def main():
     #    st.set_page_config(page_title="StydySizer | Sensitivity and Specificity",
@@ -339,7 +340,7 @@ def main():
     st.subheader("Citation")
     from datetime import datetime
     # Get current date and time
-    now = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%B %d, %Y at %I:%M %p")#datetime.now().strftime("%B %d, %Y at %I:%M %p")
     # Citation with access timestamp
     st.markdown(f"""
     *Majumder, R. (2025). StudySizer: A sample size calculator (Version 0.1.0). Available online: [https://studysizer.streamlit.app/](https://studysizer.streamlit.app/). Accessed on {now}.*
